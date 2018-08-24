@@ -11,7 +11,7 @@ layout: page
     <div class="card text-center">
       <div class="card-body">
       <a href="{{ entry.url | relative_url }}">
-        <i class="nav-icon fa fa-{{ entry.icon | default: item.icon | default: "file" }}" style="font-size:64px;"></i>
+        <i class="nav-icon fa fa-{{ entry.icon | default: item.icon | default: 'file' }}" style="font-size:64px;"></i>
         <br>
         {{ entry.name }}
       </a>
