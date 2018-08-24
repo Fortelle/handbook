@@ -1,0 +1,42 @@
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <base href="{{ site.baseurl }}/">
+  
+  {% assign headJS = site.data.config.js %}
+  {% if page.js %}{% assign headJS = headJS | concat: page.js %}{% endif %}
+  {% assign headCSS = site.data.config.css %}
+  {% if page.css %}{% assign headCSS = headCSS | concat: page.css %}{% endif %}
+  {% assign headModule = site.data.config.modules %}
+  {% if page.modules %}{% assign headModule = headModule | concat: page.modules %}{% endif %}
+  
+
+  {% for s in headJS %}
+  <script src="{{s}}" type="text/javascript" ></script>{% endfor %}
+  {% for s in headCSS %}
+  <link href="{{s}}" type="text/css" rel="stylesheet">{% endfor %}
+  {% for s in headModule %}
+  <script src="{{s}}" type="module" ></script>{% endfor %}
+  
+  {% if page.withjs %}
+    {% assign gameKey = page.url | split: "/" | shift | first %}
+    {% if page.withjs == true %}
+      {% assign pageName = page.url | split: "/" | last %}
+      <script src="/{{gameKey}}/{{pageName}}.js" type="module" ></script>
+    {% else %}
+      <script src="/{{gameKey}}/{{page.withjs}}" type="module" ></script>
+    {% endif %}
+  {% endif %}
+  
+  <script type="text/javascript" >
+    var site = {
+      title : "{{ site.title }}",
+      baseurl : "{{ site.baseurl }}",
+      url : "{{ site.url }}"
+    };
+  </script>
+
+  {%- include google-analytics.html -%}
+  {%- include baidu-analytics.html -%}
+</head>

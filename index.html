@@ -1,0 +1,26 @@
+---
+layout: home
+items: 
+  -
+    key: pktl
+    title: Poketoru
+  -
+    key: quest
+    title: Quest
+---
+
+<div class="row m-3">
+{% for game in site.data.nav %}
+  <div class="col-12 col-sm-3 col-lg-2">
+    <div class="card text-center">
+      <div class="card-body">
+        <a href="{{ site.baseurl }}/{{game[0]}}/">
+          <i class="nav-icon fa fa-book-open" style="font-size:64px;"></i>
+          <br>
+          {{game[1].title}}
+        </a>
+      </div>
+    </div>
+  </div>
+{% endfor %}
+</div>

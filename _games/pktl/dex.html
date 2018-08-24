@@ -1,0 +1,51 @@
+---
+title:  敌方宝可梦
+withjs: true
+---
+
+<div class="row">
+  <div class="col-12 col-md-3">
+    <div class="card card-primary">
+      <div class="card-header with-border">宝可梦选择</div>
+      <div class="card-body card-profile text-center">
+        
+      <div class="form-group row">
+        <label class="col-4 control-label">排序方式</label>
+        <div class="col-8">
+          <select class="form-control c-pktl-sort">
+            <option value="0">编号</option>
+            <option value="1">等级</option>
+            <option value="2">满级攻击力</option>
+            <option value="3">属性</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-group row">
+        <label class="col-4 control-label">属性</label>
+        <div class="col-8">
+          <select class="form-control c-pktl-type">
+          </select>
+        </div>
+      </div>
+      <div class="form-group row">
+        <label class="col-4 control-label">能力</label>
+        <div class="col-8">
+          <select class="form-control c-pktl-skill">
+          </select>
+        </div>
+      </div>
+    </div>
+  </div>
+  </div>
+  <div class="col-12 col-md-9">
+    <div class="card card-primary">
+      <div class="card-header with-border">敌人数据</div>
+			<table class="card-body table text-center c-pktl-result">
+			  <thead>
+				  <tr><th>编号</th><th>图标</th><th>宝可梦</th><th>属性</th><th>攻击力</th><th>最大等级提升</th><th>初始能力</th></tr>
+				</thead>
+				<tbody></tbody>
+	    </table>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,63 @@
+---
+title: 宝可梦
+withjs: true
+---
+
+<div class="row">
+  <div class="col-12 col-md-3">
+    <div class="card card-primary">
+      <div class="card-header with-border">宝可梦选择</div>
+      <div class="card-body card-profile text-center">
+				<select class="c-pkmnSelector btn-group form-control">
+		    </select>
+      </div>
+     </div>
+  </div>
+  <div class="col-12 col-md-9">
+    <div class="card card-primary">
+      <div class="card-header with-border">宝可梦数据</div>
+			<table class="card-body c-pkmnData table text-center">
+				<tr><th>图标</th><th>宝可梦</th><th>HP</th><th>ATK</th></tr>
+				<tr>
+					<td class="c-pkmnData__icon"></td>
+					<td class="c-pkmnData__name"></td>
+					<td class="c-pkmnData__hp"></td>
+					<td class="c-pkmnData__atk"></td>
+				</tr>
+	    </table>
+     </div>
+    <div class="card card-primary">
+      <div class="card-header with-border">招式</div>
+      <table class="card-body table text-center c-pkmnData__skills">
+      	<thead>
+					<tr>
+						<th style="width:10%;">图标</th>
+						<th style="width:10%;">招式</th>
+						<th style="">说明</th>
+						<th style="width:10%;">ATK</th>
+						<th style="width:10%;">等待时间</th>
+					</tr>
+      	</thead>
+      	<tbody>
+      		<tr>
+      		</tr>
+      	</tbody>
+			</table>
+    </div>
+    <div class="card card-primary">
+      <div class="card-header with-border">强身石</div>
+      <table class="card-body table text-center c-pkmnData__passive" style="table-layout:fixed;">
+      	<thead>
+					<tr>
+						<th>1</th>
+						<th>2</th>
+						<th>3</th>
+						<th>4</th>
+					</tr>
+      	</thead>
+      	<tbody>
+      	</tbody>
+			</table>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,13 @@
+js:
+  - https://unpkg.zhimg.com/jquery/dist/jquery.min.js
+  - https://unpkg.zhimg.com/@coreui/coreui/dist/js/coreui.min.js
+  - https://unpkg.zhimg.com/popper.js/dist/umd/popper.min.js
+  - https://unpkg.zhimg.com/tablesorter/dist/js/jquery.tablesorter.min.js
+
+css:
+  - https://unpkg.zhimg.com/@coreui/coreui/dist/css/coreui.min.css
+  - https://use.fontawesome.com/releases/v5.2.0/css/all.css
+  - assets/css/common.css
+
+modules:
+  - assets/js/common.js

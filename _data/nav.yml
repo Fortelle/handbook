@@ -1,0 +1,41 @@
+pktl:
+  title: Poketoru
+  home: /pktl/
+  nav:
+    - group: 资料
+      nav:
+        - name: 图鉴
+          url: /pktl/dex/
+          icon: search
+        - name: 超级进化
+          url: /pktl/mega/
+    - group: 工具
+      icon: calculator
+      nav:
+        - name: 打击面计算器
+          url: /pktl/te/
+
+quest:
+  title: P-Quest
+  home: /quest/
+  nav:
+    - group: 资料
+      nav:
+        - name: 宝可梦
+          url: /quest/pokemon/
+        - name: 关卡（1-11）
+          url: /quest/stage/
+        - name: 关卡（12）
+          url: /quest/stage12/
+        - name: 敌人
+          url: /quest/enemy/
+    - group: 工具
+      icon: calculator
+      nav:
+        - name: 个体值计算器
+          url: /quest/ivcalc/
+    - group: 测试
+      icon: vial
+      nav:
+        - name: 招式石
+          url: /quest/stone/

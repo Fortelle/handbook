@@ -1,0 +1,23 @@
+---
+layout: page
+---
+{% assign gameKey = page.url | split: "/" | shift | first %}
+
+{% for item in site.data.nav[gameKey].nav %}
+	<h2>{{ item.group }}</h2>
+	<div class="row">
+  {% for entry in item.nav %}
+    <div class="col-12 col-md-2">
+    <div class="card text-center">
+      <div class="card-body">
+      <a href="{{ entry.url | relative_url }}">
+        <i class="nav-icon fa fa-{{ entry.icon | default: item.icon | default: "file" }}" style="font-size:64px;"></i>
+        <br>
+        {{ entry.name }}
+      </a>
+      </div>
+    </div>
+    </div>
+  {% endfor %}
+	</div>
+{% endfor %}

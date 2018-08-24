@@ -1,0 +1,32 @@
+---
+layout: default
+---
+
+		<div class="app-body">
+    {%- include sidebar.html -%}
+    
+    <main class="main" aria-label="Content">
+    
+    <ol class="breadcrumb">
+    {% if page.breadcrumb %}
+			{% for entry in page.breadcrumb %}
+				{% if page.url == entry.url %}
+        	<li class="breadcrumb-item active">{{ entry.page }}</li>
+        {% else %}
+        	<li class="breadcrumb-item">
+          	<a href="{{ entry.url | relative_url }}">{{ entry.page }}</a>
+        	</li>
+    		{% endif %}
+			{% endfor %}
+    {% endif %}
+		</ol>
+    
+      <div class="content container-fluid">
+      	<div class="row">
+      		<div class="col-12">
+      			<div class="page-content">{{ content }}</div>
+      		</div>
+      	</div>
+      </div>
+    </main>
+    </div>

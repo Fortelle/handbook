@@ -1,0 +1,25 @@
+<header class="app-header navbar" role="banner">
+	<button class="navbar-toggler sidebar-toggler d-lg-none mr-auto" type="button" data-toggle="sidebar-show">
+		<span class="navbar-toggler-icon"></span>
+	</button>
+  <a class="navbar-brand" href="{{ "/" | relative_url }}">
+		<img class="navbar-brand-full" src="{{ site.logo | relative_url }}" width="48" height="48" alt="Logo">
+		<img class="navbar-brand-minimized" src="{{ site.logo | relative_url }}" width="32" height="32" alt="Logo">
+	</a>
+	<button class="navbar-toggler sidebar-toggler d-md-down-none" type="button" data-toggle="sidebar-lg-show">
+		<span class="navbar-toggler-icon"></span>
+	</button>
+	<ul class="nav navbar-nav d-md-down-none">
+		<li class="nav-item px-3">
+		<a class="nav-link" href="#">Dashboard</a>
+		</li>
+		<li class="nav-item px-3">
+		<a class="nav-link" href="#">Users</a>
+		</li>
+		<li class="nav-item px-3">
+		<a class="nav-link" href="#">Settings</a>
+		</li>
+	</ul>
+	<ul class="nav navbar-nav ml-auto">
+	</ul>
+</header>
