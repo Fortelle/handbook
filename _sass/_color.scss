@@ -1,4 +1,4 @@
-:root {
+ï»¿:root {
 	--tint-1: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8LwkAAh0BGumlBj4AAAAASUVORK5CYII=);
 	--tint-2: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8bwwAAjcBNBRvLA0AAAAASUVORK5CYII=);
 	--tint-3: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP87wMAAlABTQluYBcAAAAASUVORK5CYII=);
@@ -38,57 +38,57 @@
 	}
 	
 	&type--{
-		&normal,   &Ò»°ã   { --light: #BBBBAA; --dark: #8A8A7B; }
-		&fighting, &¸ñ¶·   { --light: #BB5544; --dark: #912E1E; }
-		&flying,   &·ÉĞĞ   { --light: #6699FF; --dark: #3678FF; }
-		&poison,   &¶¾     { --light: #AA5599; --dark: #792F6A; }
-		&ground,   &µØÃæ   { --light: #DDBB55; --dark: #B59226; }
-		&rock,     &ÑÒÊ¯   { --light: #BBAA66; --dark: #88762C; }
-		&bug,      &³æ     { --light: #AABB22; --dark: #849400; }
-		&ghost,    &ÓÄÁé   { --light: #6666BB; --dark: #42428E; }
-		&steel,    &¸Ö     { --light: #AAAABB; --dark: #74747B; }
-		&fire,     &»ğ     { --light: #FF4422; --dark: #BA1F00; }
-		&water,    &Ë®     { --light: #3399FF; --dark: #0D6AC8; }
-		&grass,    &²İ     { --light: #77CC55; --dark: #40C60A; }
-		&electric, &µç     { --light: #FFCC33; --dark: #BD8E00; }
-		&psychic,  &³¬ÄÜÁ¦ { --light: #FF5599; --dark: #D00053; }
-		&ice,      &±ù     { --light: #77DDFF; --dark: #13A8D9; }
-		&dragon,   &Áú     { --light: #7766EE; --dark: #31229D; }
-		&dark,     &¶ñ     { --light: #775544; --dark: #442C21; }
-		&fairy,    &Ñı¾«   { --light: #FFAAFF; --dark: #EC67EA; }
+		&normal,   &ä¸€èˆ¬   { --light: #BBBBAA; --dark: #8A8A7B; }
+		&fighting, &æ ¼æ–—   { --light: #BB5544; --dark: #912E1E; }
+		&flying,   &é£è¡Œ   { --light: #6699FF; --dark: #3678FF; }
+		&poison,   &æ¯’     { --light: #AA5599; --dark: #792F6A; }
+		&ground,   &åœ°é¢   { --light: #DDBB55; --dark: #B59226; }
+		&rock,     &å²©çŸ³   { --light: #BBAA66; --dark: #88762C; }
+		&bug,      &è™«     { --light: #AABB22; --dark: #849400; }
+		&ghost,    &å¹½çµ   { --light: #6666BB; --dark: #42428E; }
+		&steel,    &é’¢     { --light: #AAAABB; --dark: #74747B; }
+		&fire,     &ç«     { --light: #FF4422; --dark: #BA1F00; }
+		&water,    &æ°´     { --light: #3399FF; --dark: #0D6AC8; }
+		&grass,    &è‰     { --light: #77CC55; --dark: #40C60A; }
+		&electric, &ç”µ     { --light: #FFCC33; --dark: #BD8E00; }
+		&psychic,  &è¶…èƒ½åŠ› { --light: #FF5599; --dark: #D00053; }
+		&ice,      &å†°     { --light: #77DDFF; --dark: #13A8D9; }
+		&dragon,   &é¾™     { --light: #7766EE; --dark: #31229D; }
+		&dark,     &æ¶     { --light: #775544; --dark: #442C21; }
+		&fairy,    &å¦–ç²¾   { --light: #FFAAFF; --dark: #EC67EA; }
 	}
 
 	&game--{
-		&ºì         { --dark: #d04830; --light: #f8c058; --color: #d04830; }
-		&ÂÌ         { --dark: #68a878; --light: #c0e090; --color: #68a878; }
-		&À¶         { --dark: #38c0e0; --light: #bddcf5; --color: #38c0e0; }
-		&»Æ,&Æ¤¿¨Çğ { --dark: #e0b848; --light: #f8f898; --color: #e0b848; }
-		&½ğ         { --dark: #c87818; --light: #f8a818; --color: #904830; }
-		&Òø         { --dark: #6283a4; --light: #bdcdff; --color: #101010; }
-		&Ë®¾§       { --dark: #4a83b4; --light: #5abdd5; --color: #294a7b; }
-		&ºì±¦Ê¯     { --dark: #a82838; --light: #f87880; --color: #782028; }
-		&À¶±¦Ê¯     { --dark: #3860b0; --light: #58a0f8; --color: #303870; }
-		&»ğºì       { --dark: #d06850; --light: #f89040; --color: #a84000; }
-		&Ò¶ÂÌ       { --dark: #40a018; --light: #68c840; --color: #206030; }
-		&ÂÌ±¦Ê¯     { --dark: #488070; --light: #58b888; --color: #385038; }
+		&çº¢         { --dark: #d04830; --light: #f8c058; --color: #d04830; }
+		&ç»¿         { --dark: #68a878; --light: #c0e090; --color: #68a878; }
+		&è“         { --dark: #38c0e0; --light: #bddcf5; --color: #38c0e0; }
+		&é»„,&çš®å¡ä¸˜ { --dark: #e0b848; --light: #f8f898; --color: #e0b848; }
+		&é‡‘         { --dark: #c87818; --light: #f8a818; --color: #904830; }
+		&é“¶         { --dark: #6283a4; --light: #bdcdff; --color: #101010; }
+		&æ°´æ™¶       { --dark: #4a83b4; --light: #5abdd5; --color: #294a7b; }
+		&çº¢å®çŸ³     { --dark: #a82838; --light: #f87880; --color: #782028; }
+		&è“å®çŸ³     { --dark: #3860b0; --light: #58a0f8; --color: #303870; }
+		&ç«çº¢       { --dark: #d06850; --light: #f89040; --color: #a84000; }
+		&å¶ç»¿       { --dark: #40a018; --light: #68c840; --color: #206030; }
+		&ç»¿å®çŸ³     { --dark: #488070; --light: #58b888; --color: #385038; }
 		&XD         { --dark: #d21e2a; --light: #21181b; --color: #d7eff9; }
-		&×êÊ¯       { --dark: #1f5993; --light: #69a3e6; --color: #1f4069; }
-		&ÕäÖé       { --dark: #9b619b; --light: #eedeff; --color: #cd8ac4; }
-		&°×½ğ       { --dark: #3a3a4a; --light: #c5ced6; --color: #4a4a5a; }
-		&ĞÄ½ğ       { --dark: #734120; --light: #ffb410; --color: #ac6220; }
-		&»êÒø       { --dark: #0062bd; --light: #bdcdff; --color: #6283a4; }
-		&ºÚ         { --dark: #101010; --light: #484848; --color: #c8c8d8; }
-		&°×         { --dark: #686890; --light: #e8e8f8; --color: #181818; }
-		&ºÚ2        { --dark: #101010; --light: #484848; --color: #20a0f0; }
-		&°×2        { --dark: #686890; --light: #e8e8f8; --color: #c03848; }
+		&é’»çŸ³       { --dark: #1f5993; --light: #69a3e6; --color: #1f4069; }
+		&çç        { --dark: #9b619b; --light: #eedeff; --color: #cd8ac4; }
+		&ç™½é‡‘       { --dark: #3a3a4a; --light: #c5ced6; --color: #4a4a5a; }
+		&å¿ƒé‡‘       { --dark: #734120; --light: #ffb410; --color: #ac6220; }
+		&é­‚é“¶       { --dark: #0062bd; --light: #bdcdff; --color: #6283a4; }
+		&é»‘         { --dark: #101010; --light: #484848; --color: #c8c8d8; }
+		&ç™½         { --dark: #686890; --light: #e8e8f8; --color: #181818; }
+		&é»‘2        { --dark: #101010; --light: #484848; --color: #20a0f0; }
+		&ç™½2        { --dark: #686890; --light: #e8e8f8; --color: #c03848; }
 		&X          { --dark: #434EA6; --light: #6A7EF4; --color: #1B1F42; }
 		&Y          { --dark: #894149; --light: #FF4239; --color: #391B1E; }
-		&ÖÕ¼«ºì±¦Ê¯ { --dark: #5d1230; --light: #e9202a; --color: #fef8bc; }
-		&Ê¼Ô´À¶±¦Ê¯ { --dark: #08142c; --light: #006bb1; --color: #cfe9ea; }
-		&Ì«Ñô       { --dark: #EE5324; --light: #FAE35B; --color: #EE5324; }
-		&ÔÂÁÁ       { --dark: #574188; --light: #35BCE8; --color: #47357E; }
-		&¾¿¼«Ö®ÈÕ   { --dark: #630;    --light: #FAE35B; --color: #630; }
-		&¾¿¼«Ö®ÔÂ   { --dark: #036;    --light: #35BCE8; --color: #036; }
+		&ç»ˆæçº¢å®çŸ³ { --dark: #5d1230; --light: #e9202a; --color: #fef8bc; }
+		&å§‹æºè“å®çŸ³ { --dark: #08142c; --light: #006bb1; --color: #cfe9ea; }
+		&å¤ªé˜³       { --dark: #EE5324; --light: #FAE35B; --color: #EE5324; }
+		&æœˆäº®       { --dark: #574188; --light: #35BCE8; --color: #47357E; }
+		&ç©¶æä¹‹æ—¥   { --dark: #630;    --light: #FAE35B; --color: #630; }
+		&ç©¶æä¹‹æœˆ   { --dark: #036;    --light: #35BCE8; --color: #036; }
 		&LGP        { --dark: #d8a82c; --light: #eac12b; --color: #f8871f; }
 		&LGE        { --dark: #b3580f; --light: #d9842a; --color: #ad6125; }
 	}
@@ -104,9 +104,9 @@
 	}
 	
 	&mc--{
-		&physical, &ÎïÀí { --light: #f05030; --dark: #702008; --color:#f8c030; }
-		&special,  &ÌØÊâ { --light: #5070a8; --dark: #483850; --color:#c0d8f8; }
-		&other,    &±ä»¯ { --light: #a8a090; --dark: #505050; --color:#f8f8f8; }
+		&physical, &ç‰©ç† { --light: #f05030; --dark: #702008; --color:#f8c030; }
+		&special,  &ç‰¹æ®Š { --light: #5070a8; --dark: #483850; --color:#c0d8f8; }
+		&other,    &å˜åŒ– { --light: #a8a090; --dark: #505050; --color:#f8f8f8; }
 	}
 	
 	&stat--{
@@ -116,7 +116,6 @@
 		&sa  { --dark:#07b3b7; --light: #14f1f6; }
 		&sd  { --dark:#0236bb; --light: #0d50fc; }
 		&sp  { --dark:#a403b3; --light: #e608fb; }
-		&sum { --dark:#d463a1;  }
+		&sum { --dark:#d463a1; }
 	}
-
 }
