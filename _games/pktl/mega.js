@@ -1,31 +1,32 @@
 import poketoru from './core.js';
+import popover from './popover.js';
 
-function filter() {
+function init() {
 	let tbody = '';
 	
 	$.each( poketoru.megaList, function( pkmnID, pkmn ) {
-		
 		var pkmnID = pkmn.id;
 		var pkmnNumber = pkmnID.split('.')[0];
 		var pkmnSkill = '';
 		var maxPower = 0;
-		var a = pmBase.url.createAnchor( 'pktl-pokemon', pkmnID, pkmn.name );
+		var url = pmBase.url.createUrlHash( 'pokemon', pkmnID );
 		tbody += `
       <tr>
-			  <td>${pmBase.sprite.get('pktl-pokemon',pkmn.icon,48)}</td>
+			  <td>${poketoru.getPokemonIcon(pkmn)}</td>
 			  <td>${pkmn.dex}</td>
-			  <td>${a}</td>
-			  <td data-text="${pkmn.type}">${pmBase.builder.create('type',pkmn.type)}</td>
+        <td><a href="${url}">${pkmn.info.fullname}</a></td>
+			  <td data-text="${pkmn.type}">${pmBase.page.create('type',pkmn.type)}</td>
 			  <td>${pkmn.power}</td>
 			  <td data-text="${pkmn.mb-pkmn.msu}">${pkmn.mb} - ${pkmn.msu} = ${pkmn.mb - pkmn.msu}</td>
 			  <td></td>
       </tr>
     `;
-	});	
-	$(".c-pktl-result tbody").html(tbody);
-	$(".c-pktl-result").tablesorter();
+	});
+	$(".p-result tbody").html(tbody);
+	$(".p-result").tablesorter();
+	popover.apply();
 };
 
 pmBase.hook.on( 'init', function(){
-	filter();
+	init();
 });

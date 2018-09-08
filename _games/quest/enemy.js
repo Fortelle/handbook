@@ -1,35 +1,20 @@
 import './core.js';
 import {stoneData, enemyData, moveData} from './enemy.loader.js';
 
-function fillSelector(){
+function init(){
 	let html = '';
 	$.each( enemyData, function( key, data ){
 		var name = pmBase.util.getPokemonName(data.monsterNo);
 		html += `<option value="${key}">${data.monsterNo} ${name} (${data.hpBasis})</option>`;
 	});
-	$('.c-enemySelector').html(html);
-	$('.c-enemySelector').change(function(){
-		selectenemy( $(this).val() )
-	});
-	
+	pmBase.page.createSelector(html);
 }
-
-function parseHash(){
-	let key = pmBase.hash.get();
-	if ( key.length > 0 ) {
-		$('.c-enemySelector').val(key);
-		$('.c-enemySelector').trigger('change');
-	}
-}
-
-window.addEventListener("popstate", parseHash);
 
 function selectenemy( key ){
-	pmBase.hash.set(key);
 	let data = enemyData[key];
 	let name = pmBase.util.getPokemonName(data.monsterNo);
 	
-	$('.c-enemyData__icon').html( pmBase.sprite.get('quest-pokemon',data.monsterNo) );
+	$('.c-enemyData__icon').html( pmBase.sprite.get('pokemon',data.monsterNo) );
 	$('.c-enemyData__name').html( name );
 	$('.c-enemyData__hp').html( data.hpBasis );
 	$('.c-enemyData__atk').html( data.attackBasis );
@@ -40,7 +25,7 @@ function selectenemy( key ){
 		let sData = moveData[skillID];
 		html += `
 				<tr>
-					<td>${pmBase.sprite.get('quest-skill',sData.icon)}</td>
+					<td>${pmBase.sprite.get('skill',sData.icon)}</td>
 					<td>${sData.name}</td>
 					<td>${sData.desc}</td>
 					<td>${Math.round(sData.damage * 100)}</td>
@@ -73,6 +58,6 @@ function selectenemy( key ){
 }
 
 pmBase.hook.on( 'init', function(){
-	fillSelector();
-	parseHash();
+	init();
+	pmBase.page.listen(selectenemy);
 });

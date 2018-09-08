@@ -1,14 +1,16 @@
 <!DOCTYPE html>
-<html lang="{{ page.lang | default: site.lang | default: "en" }}">
-
+<html lang="zh">
   {%- include head.html -%}
-
-  <body class="app header-fixed sidebar-fixed aside-menu-fixed sidebar-lg-show" data-a="">
-			
-    {%- include header.html -%}
-    {{ content }}
-    {%- include footer.html -%}
-    
+  <body>
+		<div class="l-layout">
+      {%- include header.html -%}
+      <div class="l-layout__body">
+        <div class="l-layout__spacing"></div>
+        <div class="l-layout__main">{{ content }}</div>
+        
+        <div class="l-layout__spacing"></div>
+      </div>
+      {%- include footer.html -%}
+    </div>
   </body>
-
 </html>

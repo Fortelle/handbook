@@ -4,8 +4,8 @@ import { maxPower, maxExp } from './data/misc.js';
 
 function fillSelector(){
   let html = '';
-  $.each( poketoru.pokemonListByDex, function( i, data ) {
-    html += `<option value="${data.id}">${data.name}</option>`;
+  $.each( poketoru.pokemonListByDex, function( i, pData ) {
+    html += `<option value="${pData.id}">#${pData.dex} ${pData.info.fullname}</option>`;
   });
   
   $('.c-pktl-pokemon').html( html );
@@ -13,9 +13,10 @@ function fillSelector(){
 }
 
 function parseHash(){
-  let key = pmBase.hash.get();
+  let key = pmBase.url.getHash();
   if ( key.length > 0 ) {
-    $('.c-pktl-pokemon').val(key);
+    let mega = poketoru.getMegaData(key);
+    $('.c-pktl-pokemon').val( mega ? mega.originID : key );
     $('.c-pktl-pokemon').trigger('change');
   }
 }
@@ -31,13 +32,14 @@ function changePokemon( pkmnID ) {
     let growthRate   = '<td></td><td></td><td></td><td></td>',
         growthDamage = '<td></td><td></td><td></td><td></td>';
     if ( sData.type == 1 ) {
-      growthRate = sData.growth.map( x => `<td>+${x}%</td>` );
+      growthRate = sData.growth.map( x => `<td>+${x}%</td>` ).join('');
     } else {
-      growthDamage = sData.growth.map( x => `<td>×${x}</td>` );
+      growthDamage = sData.growth.map( x => `<td>×${x}</td>` ).join('');
     };
+		let url = pmBase.url.createUrlSearch( 'pktl-dex', 'skill', skillID );
     html += `<table class="table text-center">
       <thead>
-        <th>${sData.name}</th>
+        <th><a href="${url}">${sData.name}</a></th>
         <th colspan="5">${sData.desc}</th>
       </thead>
       <tbody>

@@ -2,7 +2,6 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <base href="{{ site.baseurl }}/">
   
   {% assign headJS = site.data.config.js %}
   {% if page.js %}{% assign headJS = headJS | concat: page.js %}{% endif %}
@@ -11,7 +10,6 @@
   {% assign headModule = site.data.config.modules %}
   {% if page.modules %}{% assign headModule = headModule | concat: page.modules %}{% endif %}
   
-
   {% for s in headJS %}
   <script src="{{s}}" type="text/javascript" ></script>{% endfor %}
   {% for s in headCSS %}
@@ -19,8 +17,17 @@
   {% for s in headModule %}
   <script src="{{s}}" type="module" ></script>{% endfor %}
   
+{% if page.layout == 'home' %}
+  <title>{{site.title}}</title>
+{% elsif page.layout == 'gamehome' %}
+  {% assign gameKey = page.url | split: "/" | shift | first %}
+  {% assign gameName = site.data.nav[gameKey].title %}
+  <title>{{gameName}}{{ site.separater }}{{site.title}}</title>
+{% else %}
+  {% assign gameKey = page.url | split: "/" | shift | first %}
+  {% assign gameName = site.data.nav[gameKey].title %}
+  <title>{{page.title}}{{ site.separater }}{{gameName}}{{ site.separater }}{{site.title}}</title>
   {% if page.withjs %}
-    {% assign gameKey = page.url | split: "/" | shift | first %}
     {% if page.withjs == true %}
       {% assign pageName = page.url | split: "/" | last %}
       <script src="/{{gameKey}}/{{pageName}}.js" type="module" ></script>
@@ -28,12 +35,23 @@
       <script src="/{{gameKey}}/{{page.withjs}}" type="module" ></script>
     {% endif %}
   {% endif %}
+{% endif %}
   
   <script type="text/javascript" >
-    var site = {
+    var siteInfo = {
       title : "{{ site.title }}",
       baseurl : "{{ site.baseurl }}",
-      url : "{{ site.url }}"
+      url : "{{ site.url }}",
+      separater : "{{ site.separater }}",
+    };
+    var pageInfo = {
+      title : "{{page.title}}",
+      {% if page.collection %}
+      isGame : true,
+      gameKey : "{{gameKey}}",
+      gameName : "{{gameName}}",
+      pageMode : "{{site.data.config.layoutVars[page.layout].pageMode| default: 0}}",
+      {% endif %}
     };
   </script>
 

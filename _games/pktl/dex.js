@@ -42,35 +42,6 @@ function fillSelector(){
 	}
 }
 
-function parseHash(){
-  let key = pmBase.hash.get();
-  if ( key.length > 0 ) {
-    $('.c-pkmnSelector').val(key);
-    $('.c-pkmnSelector').trigger('change');
-  }
-}
-
-function selectPokemon( pi ){
-  pmBase.hash.set(pi);
-  let data = pokemonData[pi];
-  let name = pmBase.util.getPokemonName(pi);
-  let html = '';
-  $.each( data.skillIDs, function( i, skillID ) {
-    let sData = moveData[skillID];
-    html += `
-        <tr>
-          <td>${pmBase.sprite.get('quest-skill',sData.icon)}</td>
-          <td><a href="move/#!/${skillID}">${sData.name}</a></td>
-          <td>${sData.desc}</td>
-          <td>${Math.round(sData.damage * 100)}</td>
-          <td>${sData.charge}</td>
-        </tr>
-    `;
-  });
-  $('.c-pkmnData__skills tbody').html( html );
-  
-}
-
 function filter() {
   let sort = parseInt($('.c-pktl-sort').val(),10);
 
@@ -117,12 +88,12 @@ function filter() {
     let pkmnSkill = '';
     let maxPower = 0;
     let skills = pkmn.skills.map( s => skillData[s].name ).join('<br>');
-		let name = pmBase.url.createAnchor( 'pktl-pokemon', pkmnID, pkmn.name );
+		let url = pmBase.url.createUrlHash( 'pktl-pokemon', pkmnID );
     tbody += `
       <tr>
         <td>${pmBase.sprite.get('pktl-pokemon',pkmn.icon,48)}</td>
         <td>${pkmn.dex}</td>
-        <td>${name}</td>
+        <td><a href="${url}">${pkmn.info.name}</a></td>
         <td>${pmBase.builder.create('type',pkmn.type)}</td>
         <td>${pkmn.power} - ${pkmn.maxPower}</td>
         <td>${pkmn.rml}</td>
@@ -134,7 +105,17 @@ function filter() {
 
 };
 
+function parseHash(){
+  let params = pmBase.url.getSearch();
+  let b = false;
+  if ( params.skill ) {
+    $('.c-pktl-skill').val( ~~params.skill );
+    b = true;
+  }
+  if ( b ) filter();
+}
+
 pmBase.hook.on( 'init', function(){
   fillSelector();
-  filter();
+  parseHash();
 });

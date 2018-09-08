@@ -1,5 +1,5 @@
 pktl:
-  title: Poketoru
+  title: 消消乐
   home: /pktl/
   nav:
     - group: 资料
@@ -9,6 +9,8 @@ pktl:
           icon: search
         - name: 超级进化
           url: /pktl/mega/
+        - name: 关卡
+          url: /pktl/stage/
     - group: 工具
       icon: calculator
       nav:
@@ -16,7 +18,7 @@ pktl:
           url: /pktl/te/
 
 quest:
-  title: P-Quest
+  title: 探险寻宝
   home: /quest/
   nav:
     - group: 资料
@@ -29,6 +31,8 @@ quest:
           url: /quest/stage12/
         - name: 敌人
           url: /quest/enemy/
+        - name: 招式
+          url: /quest/move/
     - group: 工具
       icon: calculator
       nav:
@@ -39,3 +43,35 @@ quest:
       nav:
         - name: 招式石
           url: /quest/stone/
+          
+nbng:
+  title: 信长之野望
+  home: /nbng/
+  nav:
+    - group: 资料
+      nav:
+        - name: 武将
+          url: /nbng/busho/
+        - name: 宝可梦
+          url: /nbng/pokemon/
+        - name: 招式
+          url: /nbng/moves/
+        - name: 特性
+          url: /nbng/abilities/
+        - name: 道具
+          url: /nbng/items/
+        - name: 设施
+          url: /nbng/buildings/
+        - name: 剧情
+          url: /nbng/scenario/
+          
+usum:
+  title: 究极之日·究极之月
+  home: /usum/
+  nav:
+    - group: 资料
+      nav:
+        - name: 训练家
+          url: /usum/trainer/
+        - name: 代理人对战
+          url: /usum/agency/

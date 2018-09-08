@@ -1,4 +1,4 @@
-let pokemonData = [
+let pokemonDataArray = [
 [],
 [1,0,1,11,2,[4,51],20,0,0],
 [2,0,2,11,3,[19],5,1,11],
@@ -1161,4 +1161,4 @@ let pokemonData = [
 
 ];
 
-export default pokemonData;
+export default pokemonDataArray;

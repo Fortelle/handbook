@@ -1,4 +1,4 @@
-let skillData = [
+let skillDataArray = [
 ["","",0,[0,0,0],0,[0,0,0,0],[5,20,40,100],0],
 ["攻击要害","偶尔提高伤害。",1.5,[5,10,10],2,[1.4,1.8,2,3.4],[3,10,25,50],7],
 ["强力拳","有时能提高伤害。",1.5,[20,50,80],2,[1.5,2,2.2,2.7],[5,15,40,70],8],
@@ -167,8 +167,8 @@ let skillData = [
 ];
 
 pmBase.util.arr2obj(
-	skillData,
+	skillDataArray,
 	["name","desc","damage","rate","type","growth","exp","order"]
 );
 
-export default skillData;
+export default skillDataArray;

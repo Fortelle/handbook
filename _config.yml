@@ -1,14 +1,18 @@
-title:       P-Handbook
+title:       "数据手册"
 email:       your-email@example.com
 description: A handbook to game data.
 baseurl:     ""
 url:         ""
 logo:        "assets/logo.png" 
+separater:   " - "
 
 collections:
   games:
     output: true
     permalink: :path/
+  common:
+    output: true
+    permalink: common/:path/
     
 defaults:
   -
@@ -17,7 +21,14 @@ defaults:
       type: "games"
     values:
       layout: "page"
+  -
+    scope:
+      path: ""
+      type: "common"
+    values:
+      layout: "page"
 
+  
 # Build settings
 markdown: kramdown
 #theme: minima

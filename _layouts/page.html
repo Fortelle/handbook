@@ -2,31 +2,22 @@
 layout: default
 ---
 
-		<div class="app-body">
-    {%- include sidebar.html -%}
-    
-    <main class="main" aria-label="Content">
-    
-    <ol class="breadcrumb">
-    {% if page.breadcrumb %}
-			{% for entry in page.breadcrumb %}
-				{% if page.url == entry.url %}
-        	<li class="breadcrumb-item active">{{ entry.page }}</li>
-        {% else %}
-        	<li class="breadcrumb-item">
-          	<a href="{{ entry.url | relative_url }}">{{ entry.page }}</a>
-        	</li>
-    		{% endif %}
-			{% endfor %}
-    {% endif %}
-		</ol>
-    
-      <div class="content container-fluid">
-      	<div class="row">
-      		<div class="col-12">
-      			<div class="page-content">{{ content }}</div>
-      		</div>
-      	</div>
+<div class="card" style="flex: 1;">
+  <div class="card-body">
+    <div class="l-content p-4">
+      <div class="c-breadcrumb">
+        <div class="c-breadcrumb__item"><a href="{{ "/" | relative_url }}">首页</a></div>
+{% if page.collection == "games" %}
+{% assign gameKey = page.url | split: "/" | shift | first %}
+{% assign gameHome = "/" | append: gameKey | append: "/" %}
+{% if page.url != gameHome %}
+        <div class="c-breadcrumb__item"><a href="{{gameHome| relative_url}}">{{site.data.nav[gameKey].title}}</a></div>
+{% endif %}
+{% endif %}
       </div>
-    </main>
+      <h1 class="mb-3 mt-1">{{ page.title}}</h1>
+      <hr>
+      {{ content }}
     </div>
+  </div>
+</div>

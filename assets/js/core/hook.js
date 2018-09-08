@@ -1,7 +1,7 @@
-var funcPool = {};
-var alivePool = {};
+let funcPool = {};
+let alivePool = {};
 
-var on = function ( name, func ) {
+const on = function ( name, func ) {
 	if ( name in alivePool ) {
 		func();
 	} else {
@@ -10,7 +10,7 @@ var on = function ( name, func ) {
 	}
 };
 
-var trigger = function ( name ) {
+const trigger = function ( name ) {
 	if ( name in funcPool ) {
 		var l = funcPool[name]
 		delete funcPool[name];
@@ -18,7 +18,7 @@ var trigger = function ( name ) {
 	}
 };
 
-var keepAlive = function ( name ) {
+const keepAlive = function ( name ) {
 	if ( name in funcPool ) {
 		funcPool[name].map( x => x() );
 		delete funcPool[name];

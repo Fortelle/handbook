@@ -1,25 +1,31 @@
-<header class="app-header navbar" role="banner">
-	<button class="navbar-toggler sidebar-toggler d-lg-none mr-auto" type="button" data-toggle="sidebar-show">
-		<span class="navbar-toggler-icon"></span>
-	</button>
-  <a class="navbar-brand" href="{{ "/" | relative_url }}">
-		<img class="navbar-brand-full" src="{{ site.logo | relative_url }}" width="48" height="48" alt="Logo">
-		<img class="navbar-brand-minimized" src="{{ site.logo | relative_url }}" width="32" height="32" alt="Logo">
-	</a>
-	<button class="navbar-toggler sidebar-toggler d-md-down-none" type="button" data-toggle="sidebar-lg-show">
-		<span class="navbar-toggler-icon"></span>
-	</button>
-	<ul class="nav navbar-nav d-md-down-none">
-		<li class="nav-item px-3">
-		<a class="nav-link" href="#">Dashboard</a>
-		</li>
-		<li class="nav-item px-3">
-		<a class="nav-link" href="#">Users</a>
-		</li>
-		<li class="nav-item px-3">
-		<a class="nav-link" href="#">Settings</a>
-		</li>
-	</ul>
-	<ul class="nav navbar-nav ml-auto">
-	</ul>
+<header class="l-layout__header l-header">
+  <div class="l-header__logo">
+    <a href="{{ "/" | relative_url }}">
+		  <img src="{{ site.logo | relative_url }}" alt="Logo">
+		</a>
+  </div>
+  <nav>
+    <ul class="l-navbar">
+{% if page.collection == "games" %}
+{% assign gameKey = page.url | split: "/" | shift | first %}
+{% assign gameHome = "/" | append: gameKey | append: "/" %}
+      <li class="l-navbar__item">
+        <a href="{{ gameHome | relative_url }}">{{site.data.nav[gameKey].title}}</a>
+        <ul class="l-navbar__dropdown">
+  			{% for item in site.data.nav[gameKey].nav %}
+          <!--<li class="l-navbar__dropdown_title">{{ item.group }}</li>-->
+          <hr>
+  		    {% for entry in item.nav %}
+            <li class="l-navbar__dropdown_item">
+              <a href="{{ entry.url | relative_url }}">
+                <i class="fas fa-{{ entry.icon | default: item.icon | default: "file" }}"></i> {{ entry.name }}
+              </a>
+            </li>
+  		    {% endfor %}
+  			{% endfor %}
+        </ul>
+      </li>
+{% endif %}
+    </ul>
+  </nav>
 </header>

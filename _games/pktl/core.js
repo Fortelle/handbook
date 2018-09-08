@@ -1,18 +1,17 @@
-import pokemonRawData from './data/pokemon.js';
-import { maxPower, megaMap} from './data/misc.js';
+import pokemonDataArray from './data/pokemon.js';
+import { maxPowerArray, megaEvolutionDict, extendFormNames } from './data/misc.js';
 
 let pokemonList = {};
 let megaList = {};
 let pokemonListByDex = [];
+let formNames = {};
 
 let parsePokemon = function ( raw ) {
-  var pkmnID = pmBase.util.getPokemonKey( raw[0], raw[1] );
-  let pkmnName = pmBase.util.getPokemonName(pkmnID);
+  var pkmnID = pmBase.util.getPokemonID( raw[0], raw[1] );
   let pkmnData = {
   	id     : pkmnID,
-  	name   : pkmnName.name,
-  	form   : pkmnName.form,
-  	dex    : String('00' + raw[2]).slice(-3),
+  	info   : pmBase.util.getPokemonInfo(pkmnID),
+  	dex    : raw[2].toString().padStart(3,'0'),
   	type   : raw[3],
   	group  : raw[4],
   	skills : raw[5],
@@ -20,10 +19,9 @@ let parsePokemon = function ( raw ) {
   	rank   : raw[7],
   	icon   : raw[8],
   };
-  pkmnData.hasMega = ( pkmnID in megaMap );
   pkmnData.maxLevel = 10 + pkmnData.rml;
-  pkmnData.power = getPower( pkmnData.group, 1);
-  pkmnData.maxPower = getPower( pkmnData.group, pkmnData.maxLevel);
+  pkmnData.power = maxPowerArray[pkmnData.group][1];
+  pkmnData.maxPower = maxPowerArray[pkmnData.group][pkmnData.maxLevel];
   
   if ( raw[9] ) {
     pkmnData.isMega = true;
@@ -32,16 +30,14 @@ let parsePokemon = function ( raw ) {
   } else {
     pkmnData.isMega = false;
   }
-  
   return pkmnData;
 };
 
-let getPower = function ( group, level ) {
-  return maxPower[group][level];
-};
 
 let init = function () {
-  $.each( pokemonRawData, function( index, raw ) {
+  $.extend( true, pmBase.data.formnames, extendFormNames );
+  
+  $.each( pokemonDataArray, function( index, raw ) {
     if ( raw.length == 0 ) return true;
     var pkmnData = parsePokemon(raw);
     if ( pkmnData.isMega ) {
@@ -51,32 +47,80 @@ let init = function () {
     }
   });
   
-  pokemonListByDex = $.map( pokemonList, function(data, pkmnID){ return data; }).sort(function(pkmn1, pkmn2) {
-  	return pkmn1.dex - pkmn2.dex;
+  $.each( megaEvolutionDict, function( pkmnID, pkmnMegas ) {
+    pokemonList[ pkmnID ].hasMega = true;
+    $.each( pkmnMegas, function( i, megaID ) {
+      megaList[ megaID ].originID = pkmnID;
+    });
+  });
+  
+  pokemonListByDex = Object.values(pokemonList).sort(function(pkmn1, pkmn2) {
+  	return pkmn1.dex - pkmn2.dex || pkmn1.id - pkmn2.id;
   });
 };
 
 let getPokemonData = function ( pkmnID ) {
-  if ( !(pkmnID in pokemonList) ) return false;
-  return pokemonList[pkmnID];
+  let data = pokemonList[pkmnID];
+  if ( !data ) data = megaList[pkmnID];
+  if ( !data ) return false;
+  return data;
+  
+  //if ( ! ( pkmnID in pokemonList ) ) return false;
+  //return pokemonList[pkmnID];
 };
+
+let getPokemonDataByIndex = function ( index ) {
+  let pkmnID = getPokemonIDByIndex(index);
+  return getPokemonData(pkmnID);
+  //return pokemonList[getPokemonIDByIndex(index)];
+};
+
+let getMegaData = function ( pkmnID ) {
+  return megaList[pkmnID];
+};
+
+let getPokemonIDByIndex = function ( index ) {
+  let raw = pokemonDataArray[index];
+  let pkmnID = pmBase.util.getPokemonID( raw[0], raw[1] );
+  return pkmnID;
+};
+
+const getPokemonIcon = function (pkmnData) {
+  if ( typeof pkmnData === 'string' ) pkmnData = getPokemonData(pkmnData);
+  let icon = pmBase.sprite.get('pokemon',pkmnData.icon,48);
+  return `<div class="p-pkmn" data-pid="${pkmnData.id}">${icon}</div>`;
+}
 
 init();
 
-pmBase.sprite.add( 'pktl-pokemon', {
-	url : 'pktl/images/pokemon.png',
+pmBase.sprite.add( 'pokemon', {
+	url : '/pktl/images/pokemon.min.png',
 	width: 60,
 	height:60,
 	col: 30
 });
 
-pmBase.url.add( 'pktl-pokemon', 'pktl/pokemon/' );
+pmBase.sprite.add( 'ojama', {
+	url : '/pktl/images/ojama.min.png',
+	width: 64,
+	height:64,
+	col: 1
+});
 
+pmBase.util.addCSS(`
+  .popover {
+    max-width: none;
+  }
+`);
 
 export default {
 	getPokemonData,
+	getPokemonDataByIndex,
+	getMegaData,
 	pokemonList,
-	megaList,
-	getPower,
+	megaEvolutionDict,
 	pokemonListByDex,
+	getPokemonIDByIndex,
+	megaList,
+	getPokemonIcon
 }

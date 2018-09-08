@@ -7,6 +7,9 @@ let createFunctions = {
     return `<span class="o-badge o-badge--type t-type--${name}">${name}</span>`;
   },
   
+  'select' : function( html ) {
+    return `<select class="form-control p-selector">${html}</select>`;
+  },
 }
 
 let create = function( key, ...args) {

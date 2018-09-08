@@ -1,0 +1,34 @@
+﻿.l-layout {
+  background: #f2f2f2 url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 3 1.7320508076"><path d="M0 0.8660254038h1L1.5 0h1L3 0.8660254038L2.5 1.7320508076h-1L1 0.8660254038" stroke="#fff" stroke-width="0.0555555556" fill="none"/></svg>');
+  background-size: 108px 62.3538290725px;
+  
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  
+  &__spacing {
+    width: 15%;
+  }
+  
+  &__body {
+    flex: 1;
+    display: flex;
+    flex-direction: row;
+    padding: 40px 0;
+  }
+  
+  &__main {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    margin: 0 10px;
+  }
+  
+  &__aside {
+    display: flex;
+    flex-direction: column;
+    width: 20%;
+    margin: 0 10px;
+  }
+}

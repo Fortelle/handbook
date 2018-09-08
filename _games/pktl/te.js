@@ -1,31 +1,45 @@
 import poketoru from './core.js';
+import { typeEffects } from './data/misc.js';
 
-function filter() {
-	let tbody = '';
-	
-	$.each( poketoru.megaList, function( pkmnID, pkmn ) {
-		
-		var pkmnID = pkmn.id;
-		var pkmnNumber = pkmnID.split('.')[0];
-		var pkmnSkill = '';
-		var maxPower = 0;
-		var a = pmBase.url.createAnchor( 'pktl-pokemon', pkmnID, pkmn.name );
-		tbody += `
-      <tr>
-			  <td>${pmBase.sprite.get('pktl-pokemon',pkmn.icon,48)}</td>
-			  <td>${pkmn.dex}</td>
-			  <td>${a}</td>
-			  <td data-text="${pkmn.type}">${pmBase.builder.create('type',pkmn.type)}</td>
-			  <td>${pkmn.power}</td>
-			  <td data-text="${pkmn.mb-pkmn.msu}">${pkmn.mb} - ${pkmn.msu} = ${pkmn.mb - pkmn.msu}</td>
-			  <td></td>
-      </tr>
-    `;
-	});	
-	$(".c-pktl-result tbody").html(tbody);
-	$(".c-pktl-result").tablesorter();
-};
+function init(){
+  let html = '';
+  
+  html = '';
+  html += `<option value="-1">-</option>`;
+  $.each( pmBase.data.typenames, function( i, t ) {
+    html += `<option value="${i}">${t}</option>`;
+  });
+  $('.c-pktl-type').html(html);
+  $('.c-pktl-type').change( change );
+}
+
+function change(){
+  let atkTypes = $('.c-pktl-type').map(function() {
+      if(this.value>-1) return this.value;
+    }).get();
+  let defTypes = new Array(18).fill(-1);
+  
+  $.each( atkTypes,function( i, t ) {
+    $.each( typeEffects[t],function( j, u ) {
+      if( u==2 ) defTypes[j] = u;
+      else if ( u < 1 && defTypes[j] < 1 ) defTypes[j] = u;
+      else if ( defTypes[j] == -1 ) defTypes[j] = 1;
+    });
+  });
+  
+  let a='',b='',c='';
+  
+  $.each( defTypes,function( t, v ) {
+    let s = pmBase.builder.create('type',t);
+    if ( v == 2 ) a += s;
+    else if ( v == 1 ) b += s;
+    else if ( v == 0.5 ) c += s;
+  });
+  $('.c-pktl-te1').html(a);
+  $('.c-pktl-te2').html(b);
+  $('.c-pktl-te3').html(c);
+}
 
 pmBase.hook.on( 'init', function(){
-	filter();
+	init();
 });

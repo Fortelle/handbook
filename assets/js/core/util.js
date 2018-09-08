@@ -1,62 +1,75 @@
 ﻿var arr2obj = function( arr, names, func ) {
-	for ( var i in arr ) {
-		var obj = { index: i };
-		var a = arr[i];
-		for ( var j in names ) {
-			obj[names[j]] = a[j];
-		}
-		if ( func ) obj = func( i, obj );
-		arr[i] = obj;
-	}
+  for ( var i in arr ) {
+    var obj = { index: i };
+    var a = arr[i];
+    for ( var j in names ) {
+      obj[names[j]] = a[j];
+    }
+    if ( func ) obj = func( i, obj );
+    arr[i] = obj;
+  }
+  return arr;
 };
 
-var getPokemonKey = function ( dexNumber, formIndex ) {
-	if ( dexNumber.length == 6 ) {
-		return dexNumber;
-	} else {
-		formIndex = formIndex || 0;
-		dexNumber = String('00').concat(dexNumber).slice(-3);
-		formIndex = String('00').concat(formIndex).slice(-2);
-		return dexNumber + "." + formIndex;
-	}
+var getPokemonID = function ( num, form = null ) {
+  let numPart  = Math.floor(num).toString().padStart(3,'0');
+  let formPart = ( ( form === null ) ? ( Number(num) - Math.floor(num) ).toFixed(2).split('.')[1] : form.toString() ).padStart(2,'0');
+  return numPart + "." + formPart;
 };
-		
-var getPokemonName = function ( key, format ) {
-	format = format || '{0}（{1}）';
-	if ( key.length == 6 ) {
-		var name = "", formname = "", fullname = "";
-		name = pmBase.data.pokemonnames[parseInt(key.split('.')[0],10)];
-		/*
-		if ( key in pokeWiki.database.pokemon.forms[lang] ) {
-			var form = pokeWiki.database.pokemon.forms[lang][key];
-			if ( Array.isArray(form) ) {
-				formname = form[0];
-				format = form[1];
-			} else {
-				formname = form;
-			}
-			if ( !formname ) {
-				fullname = name;
-			} else if ( formname.indexOf(name) > -1 ) {
-				fullname = formname;
-			} else {
-				fullname = format.replace('{0}',name).replace('{1}',formname);
-			}
-		} else {
-			fullname = name;
-		}*/
-		return {
-			name: name,
-			form: formname,
-			fullname: fullname
-		};
-	} else {
-		return pmBase.data.pokemonnames[parseInt(key,10)];
-	}
+
+var getPokemonName = function ( key ) {
+  return pmBase.data.pokemonnames[ Math.floor(key) ];
 };
+
+var getPokemonInfo = function ( dexNumber, formIndex = 0 ) {
+  let pkmnID = getPokemonID( dexNumber, formIndex );
+  [ dexNumber, formIndex ] = pkmnID.split('.');
+  let pkmnName = pmBase.data.pokemonnames[ ~~dexNumber ];
+  let formName = "", fullName = "";
+  let nameFormat = '{0}（{1}）';
+  
+  if ( pkmnID in pmBase.data.formnames ) {
+    let form = pmBase.data.formnames[pkmnID];
+    if ( Array.isArray(form) ) {
+      formName = form[1].replace( '{0}', pkmnName ).replace( '{1}', form[0] );
+    } else {
+      formName = form;
+    }
+  }
+  
+  if ( !formName ) {
+    fullName = pkmnName;
+  } else if ( formName.includes(pkmnName) ) {
+    fullName = formName;
+  } else {
+    fullName = `${pkmnName}（${formName}）`;
+  }
+  
+  return {
+    id: pkmnID,
+    number: dexNumber,
+    name: pkmnName,
+    form: formName,
+    fullname: fullName
+  };
+};
+
+let sheet,styleEl;
+
+function addCSS(rule) {
+  if ( !sheet ) {
+    styleEl = document.createElement("style");
+    document.head.appendChild(styleEl);
+    sheet = styleEl.sheet;
+  }
+  //sheet.insertRule(rule, sheet.cssRules.length);
+  styleEl.textContent += rule;
+}
 
 export default {
-	arr2obj,
-	getPokemonKey,
-	getPokemonName,
+  arr2obj,
+  getPokemonID,
+  getPokemonName,
+  getPokemonInfo,
+  addCSS
 }
