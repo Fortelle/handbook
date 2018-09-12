@@ -3,21 +3,7 @@ layout: default
 ---
 
 <div class="card" style="flex: 1;">
-  <div class="card-body">
-    <div class="l-content p-4">
-      <div class="c-breadcrumb">
-        <div class="c-breadcrumb__item"><a href="{{ "/" | relative_url }}">首页</a></div>
-{% if page.collection == "games" %}
-{% assign gameKey = page.url | split: "/" | shift | first %}
-{% assign gameHome = "/" | append: gameKey | append: "/" %}
-{% if page.url != gameHome %}
-        <div class="c-breadcrumb__item"><a href="{{gameHome| relative_url}}">{{site.data.nav[gameKey].title}}</a></div>
-{% endif %}
-{% endif %}
-      </div>
-      <h1 class="mb-3 mt-1">{{ page.title}}</h1>
-      <hr>
+  <div class="card-body d-flex flex-column">
       {{ content }}
-    </div>
   </div>
 </div>

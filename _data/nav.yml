@@ -1,3 +1,20 @@
+usum:
+  title: 究极之日·究极之月
+  home: /usum/
+  nav:
+    - group: 资料
+      nav:
+        - name: 道具
+          url: /usum/items/
+        - name: 训练家
+          url: /usum/trainers/
+        - name: 对战树的训练家
+          url: /usum/tree/
+        - name: 皇家对战的训练家
+          url: /usum/royal/
+        - name: 代理人对战的宝可梦
+          url: /usum/agency/
+
 pktl:
   title: 消消乐
   home: /pktl/
@@ -65,13 +82,3 @@ nbng:
         - name: 剧情
           url: /nbng/scenario/
           
-usum:
-  title: 究极之日·究极之月
-  home: /usum/
-  nav:
-    - group: 资料
-      nav:
-        - name: 训练家
-          url: /usum/trainer/
-        - name: 代理人对战
-          url: /usum/agency/

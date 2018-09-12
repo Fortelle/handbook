@@ -1,0 +1,30 @@
+---
+layout: page
+---
+{% assign gameKey = page.url | split: "/" | shift | first %}
+{% assign gameHome = "/" | append: gameKey | append: "/" %}
+
+<div class="l-content p-4 d-flex flex-column " style="flex:1;">
+  
+  <div class="l-content__header">
+      <div class="c-breadcrumb">
+        <div class="c-breadcrumb__item"><a href="{{ "/" | relative_url }}">首页</a></div>
+{% if page.url != gameHome %}
+        <div class="c-breadcrumb__item"><a href="{{gameHome| relative_url}}">{{site.data.nav[gameKey].title}}</a></div>
+{% endif %}
+      </div>
+      <h1 class="mb-3 mt-1">{{ page.title}}</h1>
+      <hr>
+  </div>
+  
+  <div class="l-content__body" style="flex:1;">
+    {{ content }}
+  </div>
+  <div class="l-content__footer">
+{% if page.wiki %}
+    <div class="alert alert-primary" role="alert">
+      在百科中查看<a href="http://www.pokemon.name/wiki/{{page.wiki}}">{{page.wiki}}</a>。
+    </div>
+{% endif %}
+  </div>
+</div>

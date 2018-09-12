@@ -1,27 +1,39 @@
 import core from './core.js';
-import classDataArray from './data/trainer.class.js';
+import classDataArray from './data/trainer.classes.js';
 import trainerDataArray from './data/trainer.data.js';
 import trainerPokemonDataArray from './data/trainer.pokemon.js';
 
 import moveDataArray from './data/moves.js';
 import textDict from './data/text.js';
-import textDict2 from './data/text2.js';
 import {ballIndexArray} from './data/misc.js';
 
 const genderText = ['<i class="fas fa-genderless"></i>','<i class="fas fa-mars"></i>','<i class="fas fa-venus"></i>'];
 
 function init(){
-  let html = trainerDataArray
-    .map( function( data, i ) {
-      let name = textDict2.trainernames[i];
-      if ( name ) return `<option value="${i}">${i} ${textDict2.trainerclasses[data.class]} ${textDict2.trainernames[i]||i}</option>`;
-    })
-    .join('');
-  pmBase.page.setControl( html );
-  pmBase.page.listen( parseHash );
+  let list=[],htmlSelect='';
+  trainerDataArray.forEach( function( data, i ) {
+    if ( data.name.length === 0 ) return;
+    let clData = classDataArray[data.class];
+    let id = i.toString().padStart(3,0);
+    let pokemon = trainerPokemonDataArray[i].map( bmData=>pmBase.sprite.get('pi7',pmBase.util.getPokemonID( bmData.number, bmData.form ) )).join('');
+    htmlSelect += `<option value="${i}">${id}　${clData.name.padEnd(7,'　')} ${data.name}</option>`;
+    list.push( [
+      pmBase.sprite.get('class',clData.icon,32 ),
+      `#${id}`,
+      clData.name,
+      `<a href="${pmBase.url.getHref(i)}">${data.name}</a>`,
+      data.nameja,
+      data.nameen,
+      pokemon,
+    ] );
+  })
+  pmBase.content.setControl( htmlSelect, 1 );
+  pmBase.content.setContent( pmBase.content.create('list',list), 0 );
+  pmBase.url.listen( parseHash );
 }
 
 function parseHash( hash ) {
+  hash = ~~hash;
   if ( hash in trainerDataArray ) {
     change(hash);
     return true;
@@ -35,15 +47,15 @@ function change( trIndex ) {
   
   let html = '';
   let gold = trData.bonus * pmList[pmList.length-1].level * 4;
-  let clName = textDict2.trainerclasses[trData.class];
-  let trName = textDict2.trainernames[trIndex];
+  let clName = clData.name;
+  let trName = `${trData.name}（${trData.nameja}，${trData.nameen}）`;
   let trItems = trData.items ? trData.items.filter(x=>x>0).map(x=>pmBase.sprite.get('item7',x)).join(''):'';
   let trGender = genderText[clData.gender+1];
   let trBall = pmBase.sprite.get('item7',ballIndexArray[clData.ball]);
   
   let infoData =[
     ['训练家类型', clName],
-    ['名字', trName],
+    ['名字', `${trName}`],
     ['性别', trGender],
     ['零花钱', gold],
     ['精灵球', trBall],
@@ -51,7 +63,7 @@ function change( trIndex ) {
   ];
   
   html += '<h3>训练家</h3>';
-  html += pmBase.page.create('info', infoData);
+  html += pmBase.content.create('info', infoData);
   
 
   html += '<h3>宝可梦</h3><table class="table">';
@@ -82,7 +94,7 @@ function change( trIndex ) {
   });
   html += '</table>';
   
-  pmBase.page.setContent( html );
+  pmBase.content.setContent( html, 1 );
 }
 
 pmBase.hook.on( 'init', init );

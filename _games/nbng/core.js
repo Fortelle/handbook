@@ -63,7 +63,7 @@ bushoDataArray.forEach(function(x,i){
   if (x.rank===1 && x.id !==0 ) specialBushoList[x.id-1]=i;
 });
 
-let NBNG = pmBase.extension.NBNG = {
+let NBNG = pmBase.NBNG = {
   typeConverter,
   getStatStar,
   hex2bln,

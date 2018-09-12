@@ -1,4 +1,6 @@
-﻿var arr2obj = function( arr, names, func ) {
+﻿import text from './text.js';
+
+var arr2obj = function( arr, names, func ) {
   for ( var i in arr ) {
     var obj = { index: i };
     var a = arr[i];
@@ -18,17 +20,17 @@ var getPokemonID = function ( num, form = null ) {
 };
 
 var getPokemonName = function ( key ) {
-  return pmBase.data.pokemonnames[ Math.floor(key) ];
+  return text.pokemon[ Math.floor(key) ];
 };
 
 var getPokemonInfo = function ( dexNumber, formIndex = 0 ) {
   let pkmnID = getPokemonID( dexNumber, formIndex );
   [ dexNumber, formIndex ] = pkmnID.split('.');
-  let pkmnName = pmBase.data.pokemonnames[ ~~dexNumber ];
+  let pkmnName = text.pokemon[ ~~dexNumber ];
   let formName = "", fullName = "";
   let nameFormat = '{0}（{1}）';
   
-  if ( pkmnID in pmBase.data.formnames ) {
+  if ( false && pkmnID in pmBase.data.formnames ) {
     let form = pmBase.data.formnames[pkmnID];
     if ( Array.isArray(form) ) {
       formName = form[1].replace( '{0}', pkmnName ).replace( '{1}', form[0] );
@@ -54,16 +56,17 @@ var getPokemonInfo = function ( dexNumber, formIndex = 0 ) {
   };
 };
 
-let sheet,styleEl;
-
+let sheet;
 function addCSS(rule) {
   if ( !sheet ) {
-    styleEl = document.createElement("style");
-    document.head.appendChild(styleEl);
-    sheet = styleEl.sheet;
+    sheet = document.createElement("style");
+    document.head.appendChild(sheet);
   }
-  //sheet.insertRule(rule, sheet.cssRules.length);
-  styleEl.textContent += rule;
+  sheet.textContent += rule;
+}
+
+function decompress(text) {
+  return JSON.parse(LZString.decompressFromBase64(text));
 }
 
 export default {
@@ -71,5 +74,6 @@ export default {
   getPokemonID,
   getPokemonName,
   getPokemonInfo,
-  addCSS
+  addCSS,
+  decompress
 }

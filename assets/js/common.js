@@ -1,32 +1,28 @@
 import hook from './core/hook.js';
 import util from './core/util.js';
-import data from './core/data.js';
+//import data from './core/data.js';
 import sprite from './core/sprite.js';
 import url from './core/url.js';
-import page from './core/page.js';
+import content from './core/content.js';
 import config from './core/config.js';
+import text from './core/text.js';
 
-const debug = {
-	log : function(obj){
-		console.log( JSON.stringify(obj) );
-	},
-	alert : function(obj){
-		alert( JSON.stringify(obj) );
-	},
+let loader = {
+  using : function (arr,callback){
+    let gkey = `/${config.get( 'gameKey')}/`;
+    Promise.all(arr.map(x=>import(x.replace('./',gkey)))).then(x=>callback(x.map(y=>y.default)));
+  }
 };
 
-let extension = {};
-
 window.pmBase = {
+  config,
   hook,
-  util,
-  data,
+  content,
   sprite,
-  debug,
   url,
-  page,
-  extension,
-  config
+  util,
+  loader,
+  text,
 };
 
 
@@ -36,11 +32,20 @@ if ( pageInfo.isGame ) {
   config.set( 'isGame', true );
   config.set( 'gameKey', pageInfo.gameKey ); //location.pathname.split('/')[1]
   config.set( 'gameName', pageInfo.gameName );
-  //document.title = pageInfo.gameName + siteInfo.separater + siteInfo.title;
 }
+
+
+sprite.add( 'type7', {
+	url : '/assets/images/types7.min.png',
+	width: 48,
+	height: 48,
+	col: 1,
+});
 
 window.onload = function() {
   hook.keepAlive('init');
 };
 
-window.debug = debug.log;
+window.debug = function( obj ) {
+  console.log( JSON.stringify(obj) );
+};

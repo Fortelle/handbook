@@ -27,12 +27,19 @@ pmBase.sprite.add( 'pi7', {
 });
 
 pmBase.sprite.add( 'item7', {
-	url : '/usum/images/items.png',
+	url : '/usum/images/items.reindexed.png',
 	width: 32,
 	height: 32,
 	col: 30
 });
 
+pmBase.sprite.add( 'class', {
+	url : '/usum/images/classes.min.png',
+	width: 64,
+	height: 64,
+	col: 10
+});
+
 export default {
-  getPokemonData
+  getPokemonData,
 }
