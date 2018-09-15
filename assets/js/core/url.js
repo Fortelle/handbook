@@ -27,7 +27,7 @@ const getHref = function ( ...args ) {
   } else if ( args.length === 1 ) {
     return createHashPart(args[0]);
   } else if ( args.length === 2 ) {
-    return `/${config.get('gameKey')}/${args[0]}#!/${createHashPart(args[1])}`;
+    return `/${config.get('gameKey')}/${args[0]}/${createHashPart(args[1])}`;
   }
 };
 
@@ -51,6 +51,8 @@ const listen = function ( _callback, _selector = '.p-selector' ) {
   onHashChange();
   window.addEventListener("hashchange", onHashChange);
 	$(selector).change( function(){ setHash(this.value); });
+	$('.p-select-prev').click( function(){ setHash($('.p-selector option:selected').prev().val()); });
+	$('.p-select-next').click( function(){ setHash($('.p-selector option:selected').next().val()); });
 };
 
 const onHashChange = function (){

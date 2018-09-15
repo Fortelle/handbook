@@ -5,15 +5,15 @@ import sprite from './core/sprite.js';
 import url from './core/url.js';
 import content from './core/content.js';
 import config from './core/config.js';
-import text from './core/text.js';
-
+import loader from './core/loader.js';
+/*
 let loader = {
   using : function (arr,callback){
     let gkey = `/${config.get( 'gameKey')}/`;
     Promise.all(arr.map(x=>import(x.replace('./',gkey)))).then(x=>callback(x.map(y=>y.default)));
   }
 };
-
+*/
 window.pmBase = {
   config,
   hook,
@@ -22,7 +22,7 @@ window.pmBase = {
   url,
   util,
   loader,
-  text,
+  text:{},
 };
 
 
@@ -43,7 +43,12 @@ sprite.add( 'type7', {
 });
 
 window.onload = function() {
+  $('.c-loading:not(.c-loading--step-9)').addClass('c-loading--step-2');
   hook.keepAlive('init');
+};
+
+window.onerror = function() {
+  $('.c-loading').addClass('c-loading--step-9').find('.fa').removeClass('fa-spin');
 };
 
 window.debug = function( obj ) {

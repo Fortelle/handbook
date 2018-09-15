@@ -15,7 +15,7 @@ function init(){
     partymonGroup[num] += 1;
   });
   partymonGroup.forEach( function( data, i ) {
-    let name = pmBase.util.getPokemonName( i );
+    let name = pmBase.common.getPokemonName( i );
     htmlSelect += `<option value="${i}">${i}　${name}</option>`;
   });
   pmBase.content.setControl( htmlSelect, 0 );
@@ -31,9 +31,9 @@ function change( hash ) {
   partymonDataArray
   .filter(x=>x.number===number)
   .forEach( function(data) {
-    let pkmnID = pmBase.util.getPokemonID( data.number, data.form );
+    let pkmnID = pmBase.common.getPokemonID( data.number, data.form );
     let icon = pmBase.sprite.get('pi7',pkmnID );
-    let name = pmBase.util.getPokemonName( pkmnID );
+    let name = pmBase.common.getPokemonName( pkmnID );
     let moves = '';
     data.moves.forEach(function(mi){
       if ( mi ) {
@@ -64,4 +64,4 @@ function change( hash ) {
   return true;
 }
 
-pmBase.hook.on( 'init', init );
+pmBase.hook.on( 'load', init );

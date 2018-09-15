@@ -10,22 +10,14 @@ const stars = ['','★','★★','★★★','★★★★','★★★★★'];
 const rankText = ['','I','II','III'];
 const typeText = ['武将首领','武将','自由武将','','稀有武将'];
 
-
-function getBuilding ( kuniIndex, encIndex ) {
-  let buildingIndex = encounterBuildings[kuniIndex][encIndex];
-  let buildingData = buildingDataArray[buildingIndex];
-  let icon = pmBase.sprite.get( 'building', buildingData.icon1 );
-  let name = textDict.buildings[buildingIndex];
-  return `${icon}<br><small>${name}</small>`;
-}
 function init(){
   let html_table = '', html_select = '';
   
-  $.each( bushoDataArray, function( bushoIndex, bushoData ) {
+  bushoDataArray.forEach( function( bushoData, bushoIndex ) {
     let icon = pmBase.sprite.get('busho_o',bushoData.icon);
     let name = textDict.warriors[bushoIndex];
-    let link = pmBase.url.createUrlHash( bushoIndex );
-    let types = pmBase.page.create('type',bushoData.types[0], bushoData.types[1] );
+    let link = pmBase.url.getHref( bushoIndex );
+    let types = pmBase.content.create('type',bushoData.types[0], bushoData.types[1] );
     let power = textDict.powers[bushoData.power];
     
     html_table += `<tr>
@@ -40,17 +32,27 @@ function init(){
     </tr>`;
     html_select += `<option value="${bushoIndex}">${name}</option>`;
   });
-  $('.p-result tbody').html(html_table);
+  
+  pmBase.content.setContent( pmBase.content.create('list',html_table), 0 );
+  pmBase.content.setControl( html_select, 1 );
+  pmBase.url.listen( showBusho );
   $('.p-result').tablesorter();
-  $('.p-page--2 .p-page__control').html(`<select class="form-control p-selector">${html_select}</select>`);
 }
 
+
+function getBuilding ( kuniIndex, encIndex ) {
+  let buildingIndex = encounterBuildings[kuniIndex][encIndex];
+  let buildingData = buildingDataArray[buildingIndex];
+  let icon = pmBase.sprite.get( 'building', buildingData.icon1 );
+  let name = textDict.buildings[buildingIndex];
+  return `${icon}<br><small>${name}</small>`;
+}
 
 function showBusho( bushoIndex ){
   let bushoData = bushoDataArray[bushoIndex];
   let icon = pmBase.sprite.get('busho_o',bushoData.icon);
   let name = textDict.warriors[bushoIndex];
-  let types = pmBase.page.create('type',bushoData.types[0],bushoData.types[1] );
+  let types = pmBase.content.create('type',bushoData.types[0],bushoData.types[1] );
   let power = textDict.powers[bushoData.power];
   let link = bushoLinkDataArray[bushoIndex];
   
@@ -129,7 +131,7 @@ function showBusho( bushoIndex ){
     
     let icon = pmBase.sprite.get('pokemon',pkmnIndex);
     let name = textDict.pokemon[pkmnIndex];
-    let types = pmBase.page.create('type',pkmnData.types[0],pkmnData.types[1] );
+    let types = pmBase.content.create('type',pkmnData.types[0],pkmnData.types[1] );
     let abilities = pkmnData.abilities.filter(a=>a>-1).map( a=> textDict.abilities[a] ).join('/');
     let move = textDict.moves[pkmnData.move];
     let movement = pkmnData.movement;
@@ -172,13 +174,9 @@ function showBusho( bushoIndex ){
     </table>
   `;
   
-  $('.p-page--2 .p-page__body').html(html);
-  $('.p-selector').val(bushoIndex);
+  pmBase.content.setContent( html, 1 );
   
   return true;
 } 
 
-pmBase.hook.on( 'init', function(){
-  init();
-  pmBase.page.listen( showBusho );
-});
+pmBase.hook.on( 'init', init );

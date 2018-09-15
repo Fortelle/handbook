@@ -26,8 +26,12 @@ pktl:
           icon: search
         - name: 超级进化
           url: /pktl/mega/
-        - name: 关卡
-          url: /pktl/stage/
+        - name: 主线关卡
+          url: /pktl/mainstage/
+        - name: 额外关卡
+          url: /pktl/extrastage/
+        - name: 活动关卡
+          url: /pktl/eventstage/
     - group: 工具
       icon: calculator
       nav:

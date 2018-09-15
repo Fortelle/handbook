@@ -1,4 +1,4 @@
-﻿import text from './text.js';
+﻿//import text from './text.js';
 
 var arr2obj = function( arr, names, func ) {
   for ( var i in arr ) {
@@ -12,7 +12,7 @@ var arr2obj = function( arr, names, func ) {
   }
   return arr;
 };
-
+/*
 var getPokemonID = function ( num, form = null ) {
   let numPart  = Math.floor(num).toString().padStart(3,'0');
   let formPart = ( ( form === null ) ? ( Number(num) - Math.floor(num) ).toFixed(2).split('.')[1] : form.toString() ).padStart(2,'0');
@@ -55,7 +55,10 @@ var getPokemonInfo = function ( dexNumber, formIndex = 0 ) {
     fullname: fullName
   };
 };
-
+  getPokemonID,
+  getPokemonName,
+  getPokemonInfo,
+*/
 let sheet;
 function addCSS(rule) {
   if ( !sheet ) {
@@ -71,9 +74,6 @@ function decompress(text) {
 
 export default {
   arr2obj,
-  getPokemonID,
-  getPokemonName,
-  getPokemonInfo,
   addCSS,
   decompress
 }

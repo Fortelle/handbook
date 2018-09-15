@@ -3,30 +3,40 @@ import popover from './popover.js';
 
 function init() {
 	let tbody = '';
-	
-	$.each( poketoru.megaList, function( pkmnID, pkmn ) {
-		var pkmnID = pkmn.id;
-		var pkmnNumber = pkmnID.split('.')[0];
-		var pkmnSkill = '';
-		var maxPower = 0;
-		var url = pmBase.url.createUrlHash( 'pokemon', pkmnID );
-		tbody += `
-      <tr>
-			  <td>${poketoru.getPokemonIcon(pkmn)}</td>
-			  <td>${pkmn.dex}</td>
-        <td><a href="${url}">${pkmn.info.fullname}</a></td>
-			  <td data-text="${pkmn.type}">${pmBase.page.create('type',pkmn.type)}</td>
-			  <td>${pkmn.power}</td>
-			  <td data-text="${pkmn.mb-pkmn.msu}">${pkmn.mb} - ${pkmn.msu} = ${pkmn.mb - pkmn.msu}</td>
-			  <td></td>
-      </tr>
-    `;
-	});
-	$(".p-result tbody").html(tbody);
-	$(".p-result").tablesorter();
+  let list = [];
+  
+  Object.keys( poketoru.megaList )
+    .map( megaID => poketoru.getMegaData(megaID) )
+    .sort(function(pkmn1, pkmn2) {
+      return pkmn1.dex - pkmn2.dex || pkmn1.form - pkmn2.form;
+    })
+    .forEach( megaData => {
+      let pkmnData = poketoru.getPokemonData(megaData.originID);
+      list.push( [
+  		  poketoru.getPokemonIcon( pkmnData ) + '=>' + poketoru.getPokemonIcon( megaData ),
+        megaData.dex.toString().padStart(3,0),
+        `<a href="${pmBase.url.getHref( 'pokemon', megaData.id )}">${megaData.name}</a>`,
+        pmBase.content.create('type',megaData.type),
+        `${poketoru.getAttack( pkmnData.group, 1 )} - ${poketoru.getAttack( pkmnData.group, pkmnData.rml + 10 )}`,
+        poketoru.getMegaEffect(megaData),
+        `${megaData.ms} - ${megaData.msu} = ${megaData.ms - megaData.msu}`,
+      ]);
+    });
+  
+  let header = [
+    '图标',
+    '编号',
+    '宝可梦',
+    '属性',
+    '攻击力',
+    '超级效果',
+    '进化速度',
+  ];
+  pmBase.content.setContent( pmBase.content.create('list',list,header), 0 );
 	popover.apply();
 };
 
-pmBase.hook.on( 'init', function(){
+
+pmBase.hook.on( 'load', function(){
 	init();
 });

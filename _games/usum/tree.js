@@ -46,9 +46,9 @@ function change( hash ) {
   $.each( trPokemonList, function( i, p ) {
     let data = partymonDataArray[p];
     
-    let pkmnID = pmBase.util.getPokemonID( data.number, data.form );
+    let pkmnID = pmBase.common.getPokemonID( data.number, data.form );
     let icon = pmBase.sprite.get('pi7',pkmnID );
-    let name = pmBase.util.getPokemonName( pkmnID );
+    let name = pmBase.common.getPokemonName( pkmnID );
     let moves = '';
     data.moves.forEach(function(mi){
       let moveData = moveDataArray[mi];
@@ -75,4 +75,4 @@ function change( hash ) {
   return true;
 }
 
-pmBase.hook.on( 'init', init );
+pmBase.hook.on( 'load', init );

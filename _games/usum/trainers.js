@@ -15,7 +15,7 @@ function init(){
     if ( data.name.length === 0 ) return;
     let clData = classDataArray[data.class];
     let id = i.toString().padStart(3,0);
-    let pokemon = trainerPokemonDataArray[i].map( bmData=>pmBase.sprite.get('pi7',pmBase.util.getPokemonID( bmData.number, bmData.form ) )).join('');
+    let pokemon = trainerPokemonDataArray[i].map( bmData=>pmBase.sprite.get('pi7',pmBase.common.getPokemonID( bmData.number, bmData.form ) )).join('');
     htmlSelect += `<option value="${i}">${id}　${clData.name.padEnd(7,'　')} ${data.name}</option>`;
     list.push( [
       pmBase.sprite.get('class',clData.icon,32 ),
@@ -68,8 +68,8 @@ function change( trIndex ) {
 
   html += '<h3>宝可梦</h3><table class="table">';
   pmList.forEach( function(bmData){
-    let pmID = pmBase.util.getPokemonID( bmData.number, bmData.form );
-    let pmInfo = pmBase.util.getPokemonInfo( bmData.number, bmData.form );
+    let pmID = pmBase.common.getPokemonID( bmData.number, bmData.form );
+    let pmInfo = pmBase.main.getNameInfo( bmData.number, bmData.form );
     let pmData = core.getPokemonData(pmID);
     let moves = bmData.moves ? bmData.moves.map( x => x == 0 ? '-' : textDict.moves[x] ).join('/') : '';
     let ability = bmData.ability
@@ -97,4 +97,4 @@ function change( trIndex ) {
   pmBase.content.setContent( html, 1 );
 }
 
-pmBase.hook.on( 'init', init );
+pmBase.hook.on( 'load', init );

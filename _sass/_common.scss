@@ -50,3 +50,12 @@ margin-bottom:1em;
     border-top: none;
   }
 }
+
+.c-loading {
+  &--step-2 {
+    color: green;
+  }
+  &--step-9 {
+    color: red;
+  }
+}

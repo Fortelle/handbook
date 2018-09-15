@@ -1,4 +1,6 @@
-const typeNames = [
+import config from './config.js';
+
+const coreTypeNames = [
   "一般",
   "格斗",
   "飞行",
@@ -19,9 +21,12 @@ const typeNames = [
   "妖精",
 ];
 
+let typeNames;
+
 let createFunctions = {
   
   'type' : function( value, value2 = null ) {
+    if ( !typeNames ) typeNames = pmBase.config.get( 'typenames', coreTypeNames);
     let name = Number.isInteger(value) ? typeNames[value] : value;
     let html = `<span class="o-badge o-badge--type t-type--${name}">${name}</span>`;
     if ( value2 !== null && value2 != value ) {
@@ -76,7 +81,17 @@ const createSelector = function ( html ) {
 
 const setControl = function ( html, pageIndex = 0 ) {
   html = html.trim();
-  if ( html.startsWith('<option') ) html = `<select class="form-control p-selector">${html}</select>`;
+  if ( html.startsWith('<option') ) {
+    html = `<div class="input-group">
+      <div class="input-group-prepend">
+      </div>
+      <select class="form-control p-selector">${html}</select>
+      <div class="input-group-append">
+        <button class="btn p-select-prev" type="button"><i class="fas fa-arrow-left"></i></button>
+        <button class="btn p-select-next" type="button"><i class="fas fa-arrow-right"></i></button>
+      </div>
+    </div>`;
+  }
   $('.p-page__control')[pageIndex].innerHTML = html;
 };
 

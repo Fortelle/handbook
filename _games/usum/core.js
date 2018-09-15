@@ -3,7 +3,7 @@ import { pokemoniconIndex } from './data/misc.js';
 
 const getPokemonData = function( pkmnID ) {
   let pkmnData = pokemonDataDict[pkmnID];
-  if ( !pkmnData ) pkmnData = pokemonDataDict[pmBase.util.getPokemonID(pkmnID,0)];
+  if ( !pkmnData ) pkmnData = pokemonDataDict[pmBase.common.getPokemonID(pkmnID,0)];
   return pkmnData;
 };
 
@@ -21,13 +21,13 @@ pmBase.sprite.add( 'pi7', {
 	  if ( i > -1 ) {
 	    return i;
 	  } else {
-	    return pokemoniconIndex.indexOf( pmBase.util.getPokemonID(pid,0) );
+	    return pokemoniconIndex.indexOf( pmBase.common.getPokemonID(pid,0) );
 	  }
 	}
 });
 
 pmBase.sprite.add( 'item7', {
-	url : '/usum/images/items.reindexed.png',
+	url : '/usum/images/items.min.png',
 	width: 32,
 	height: 32,
 	col: 30
@@ -39,6 +39,8 @@ pmBase.sprite.add( 'class', {
 	height: 64,
 	col: 10
 });
+
+pmBase.loader.load('common','main');
 
 export default {
   getPokemonData,
