@@ -1,31 +1,47 @@
 import poketoru from './core.js';
+import popover from './popover.js';
 import actionDataArray from './data/stage.action.js';
 import pokemonSetDataArray from './data/pokemonset.js';
 import { typeStatusArray } from './data/misc.js';
 //import stageDataArray from './data/stage.event.js';
 
-let selfIndex = 0;
 let statusNameArray = ['灼伤','恐惧','睡眠','冰冻','麻痹','中毒'];
-let stageDataArray;
 let spriteNameArray = [ 'main', 'extra', 'event', 'event' ];
+let rankTextArray   = 'SABC';
+let rankColorArray  = [ 'goldenrod', 'blue', 'green', 'red'];
+
+let selfIndex = 0;
+let stageDataArray, eventDataArray;
+
 let uxHP = 0;
 let mode = '';
 function init(){
   mode = ~~$('.p-mode').data('mode');
 
-  pmBase.loader.using([
-    `./data/stage.${spriteNameArray[mode]}.js`,
-  ], function( arr ) {
-    [stageDataArray] = arr;
-    if ( mode == 0 ) {
-      initMain();
-    } else if ( mode == 1 ) {
-      initExtra();
-    } else {
-      initEvent();
-    }
-    pmBase.url.listen( change );
-  });
+  if ( mode < 3 ) {
+    pmBase.loader.using([
+      `./data/stage.${spriteNameArray[mode]}.js`,
+    ], function( arr ) {
+      [stageDataArray] = arr;
+      if ( mode == 0 ) {
+        initMain();
+      } else if ( mode == 1 ) {
+        initExtra();
+      } else {
+        initEvent();
+      }
+      pmBase.url.listen( change );
+    });
+  } else {
+    pmBase.loader.using([
+      `./data/stage.event.js`,
+      `./data/events.js`,
+    ], function( arr ) {
+      [stageDataArray,eventDataArray] = arr;
+      initEventSchedule();
+      pmBase.url.listen( change2 );
+    });
+  }
 
 }
 
@@ -67,51 +83,108 @@ function initEvent(){
   pmBase.content.setControl(html);
 }
 
+function initEventSchedule(){
+  let htmlSelect = '', htmlTable = '';
+  eventDataArray.forEach( (eventData,eventIndex) => {
+    if ( eventData.type == 6 || eventData.type == 7 || eventData.type == 9 ) {
+      eventDataArray[eventIndex].extend = eventData.stages.slice();
+      eventDataArray[eventIndex].stages = eventData.stages.map( row => row[0] );
+    }
+  });
+  eventDataArray.forEach( (eventData,eventIndex) => {
+    let pkmnNames = [...new Set(eventData.stages.map( stageIndex => {
+      let stageData = stageDataArray[stageIndex];
+      let pkmn = poketoru.getPokemonData( stageData.pokemon );
+      return poketoru.getPokemonFullname(pkmn);
+    }))].join(', ');
+    htmlSelect += `<option value="${eventIndex}">${eventIndex} ${pkmnNames}</option>`;
+  });
+  htmlTable = '<table class="table table-bordered text-center">';
+  for ( let week = 0; week <=23; week ++ ) {
+    let trArray = ['','','','','',''];
+    
+    eventDataArray.forEach( (eventData,eventIndex) => {
+      if ( eventData.cycleType !=1 || eventData.cycleValue != week ) return;
+      let tdIndex;
+      if ( eventData.type == 5 && trArray[0] ) { return; }
+      else if ( eventData.type == 5 ) { tdIndex = 0; }
+      else if ( eventData.type2 == 6 ) { tdIndex = 3; }
+      else if ( eventData.type2 == 15 ) { tdIndex = 2; }
+      else if ( eventData.type == 1 ) { tdIndex = 1; }
+      else if ( eventData.type == 6 ) { tdIndex = 4; }
+      else if ( eventData.type == 2 ) { tdIndex = 5; }
+      else { return; }
+      let stageData = stageDataArray[eventData.stages[0]];
+      let pkmnData = poketoru.getPokemonData( stageData.pokemon );
+      let pkmnName = poketoru.getPokemonFullname(pkmnData);
+      let pkmnIcon = poketoru.getPokemonIcon( pkmnData );
+      trArray[tdIndex] += `<td class="small">${pkmnIcon}<br><a href="${pmBase.url.getHref( eventIndex )}">${pkmnData.name}</a></td>`;
+    });
+    htmlTable += `<tr>
+      <th>第${week+1}周</th>
+      ${trArray.map(x=>x||'<td></td>').join('')}
+    </tr>`;
+  }
+  htmlTable += '</table>';
+  pmBase.content.setControl(htmlSelect, 1);
+  pmBase.content.setContent(htmlTable, 0);
+	popover.apply();
+}
+
 
 function change( key ) {
-  let stageData = stageDataArray[key];
+  let stageIndex = ~~key;
+  let html = createStageTable(stageIndex);
+  $('.p-main-content').html(html);
+  return true;
+}
+
+function change2( key ) {
+  let eventIndex = ~~key;
+  let eventData = eventDataArray[eventIndex];
+  let html = '';
+  eventData.stages.forEach( stageIndex => {
+    html += createStageTable(stageIndex);
+  });
+  pmBase.content.setContent(html, 1);
+  return true;
+}
+
+function createStageTable( stageIndex ) {
+  let stageData = stageDataArray[stageIndex];
   selfIndex = stageData.pokemon;
   let pkmnData = poketoru.getPokemonData( stageData.pokemon );
   let skyfallIcons = pokemonSetDataArray[stageData.pkmnSet].slice(0,stageData.skyfallCount).map(x=>getBlock(x,24)).join('');
   let html = '';
-  let stageHP = stageData.hp?stageData.hp.toLocaleString():'无限';
   uxHP = stageData.hpLock ? stageData.hp : stageData.hp * 3;
-  if ( mode === 0 ) stageHP += `（UX：${(uxHP).toLocaleString()}）`;
+  let hpText = stageData.hp > 1 ? stageData.hp.toLocaleString() + ( mode === 0 ? `（UX：${uxHP.toLocaleString()}）` : '' ) : '无限' ;
   let avgDamage = '';
   if ( stageData.hp && stageData.moves ) {
-     avgDamage += parseInt(stageData.hp/stageData.moves);
-    if ( mode === 0 ) avgDamage += `（UX：${parseInt(uxHP/stageData.moves)}）`;
-    if ( stageData.ranks[0] > 0 ) {
-      avgDamage += ' / S：' + parseInt(stageData.hp/(stageData.moves-stageData.ranks[0]));
-      if ( mode === 0 ) avgDamage += `（UX：${parseInt(uxHP/(stageData.moves-stageData.ranks[0]))}）`;
-    }
+    avgDamage += parseInt(stageData.hp/stageData.moves) + '/步';
+    if ( mode === 0 && !stageData.hpLock ) avgDamage += `（UX：${parseInt(uxHP/stageData.moves)}/步）`;
   }
-  let rankText = '';
-  rankText += `<span style="color:goldenrod;font-weight:bold;">S：${stageData.ranks[0]}</span>`;
-  if ( stageData.ranks[0] ) rankText += ` / <span style="color:blue;font-weight:bold;">A：${stageData.ranks[1]}</span>`;
-  if ( stageData.ranks[1] ) rankText += ` / <span style="color:green;font-weight:bold;">B：${stageData.ranks[2]}</span>`;
-  if ( stageData.ranks[2] ) rankText += ` / <span style="color:red;font-weight:bold;">C：0</span>`;
+  let rankText = [...new Set(stageData.ranks)].map( (v,i)=> `<span style="color:${rankColorArray[i]};font-weight:bold;">${rankTextArray[i]}：${v}</span>` ).join(' / ');
   let statusText = typeStatusArray[pkmnData.type].map( (x,i) => x ? `<i class="fas fa-check"></i> ${statusNameArray[i]}` : `<span style="color:gray;"><i class="fas fa-times"></i> ${ statusNameArray[i]}</span>` ).join('&nbsp;&nbsp;&nbsp;');
-  
-
 
   html += `
-  <div class="row"><div class="col-6">
+  <div class="row"><div class="col-12">
   <h3>关卡数据</h3>
   <table class="table table-sm">
     <tr><th style="width:30%">宝可梦</th><td>${poketoru.getPokemonFullname(pkmnData)}</td></tr>
     <tr><th>属性</th><td>${pmBase.content.create('type', pkmnData.type )}</td></tr>
-    <tr><th>HP</th><td>${stageHP}</td></tr>
+    <tr><th>HP</th><td>${hpText}</td></tr>
     <tr><th>步数</th><td>${stageData.moves || stageData.times}</td></tr>
     <tr><th>默认落下</th><td>${skyfallIcons}</td></tr>
     <tr><th>评价</th><td>${rankText}</td></tr>
   </table>
+  </div>
+  <div class="col-6">
   <h3>初始布局</h3>
   ${stageData.layout ? drawLayout(stageData.layout) : '随机'}
   <h3>参考参数</h3>
   <table class="table table-sm">
     <tr><th style="width:30%">异常状态</th><td>${statusText}</td></tr>
-    ${avgDamage?`<tr><th>平均每步伤害</th><td>${avgDamage}</td></tr>`:''}
+    ${avgDamage?`<tr><th>平均伤害</th><td>${avgDamage}</td></tr>`:''}
   </table>
   
   </div>
@@ -120,9 +193,7 @@ function change( key ) {
   </div>
   </div>
   `;
-  
-  $('.p-main-content').html(html);
-  return true;
+  return html;
 }
 
 let layoutIconIndexes = {
@@ -190,6 +261,7 @@ let layoutIconNames = {
   2202:'硬币',
   2203:'黑云',
   2204:'屏障',
+  2205:'消除',
 };
 
 function getCover( value, size ) {
@@ -317,7 +389,6 @@ function createOjama( stageData ) {
       actIndexes.forEach(actIndex => {
         if ( actIndex===0 ) return;
         let actData= actionDataArray[actIndex];
-        debug(actData);
         
         let s2='';
         let startPos = '';

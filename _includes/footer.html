@@ -1,8 +1,11 @@
 <footer class="l-layout__footer l-footer">
   <div class="l-footer__body">
     <div class="l-footer__logo">
-      {{- site.title | escape -}}
-		<span>© 2018</span>
+      <a href="{{ "/" | relative_url }}">{{- site.title | escape -}}</a>
+		  <span>© 2018 </span>
+    </div>
+    <div class="l-footer__list">
+      {{page.footer}}
     </div>
   </div>
 </footer>

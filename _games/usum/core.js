@@ -27,7 +27,7 @@ pmBase.sprite.add( 'pi7', {
 });
 
 pmBase.sprite.add( 'item7', {
-	url : '/usum/images/items.min.png',
+	url : '/usum/images/items.reindexed.min.png',
 	width: 32,
 	height: 32,
 	col: 30

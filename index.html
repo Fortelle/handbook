@@ -1,26 +1,21 @@
 ---
 layout: home
-items: 
-  -
-    key: pktl
-    title: Poketoru
-  -
-    key: quest
-    title: Quest
+title: 数据手册<small>测试版</small>
+footer: 数据手册是一个口袋百科的附属项目，用于存放数据方面的游戏资料。需要人工撰写的内容，以口袋百科为主。
 ---
 
-<div class="row m-3">
+<div>
+<ul class="c-hexagon">
 {% for game in site.data.nav %}
-  <div class="col-12 col-sm-3 col-lg-2">
-    <div class="card text-center">
-      <div class="card-body">
-        <a href="{{ site.baseurl }}/{{game[0]}}/">
-          <i class="nav-icon fa fa-book-open" style="font-size:64px;"></i>
-          <br>
-          {{game[1].title}}
-        </a>
-      </div>
+  <li class="c-hexagon__item">
+    <div class="c-hexagon__inner">
+      <a class="c-hexagon__link" href="{{ site.baseurl }}/{{game[0]}}/">
+        <div class="c-hexagon__image"><p><i class="nav-icon fa fa-book-open" style="font-size:80px;"></i><br>{{game[1].title}}</p></div>
+        <div class="c-hexagon__title">{{game[1].title}}</div>
+        <div class="c-hexagon__text">Some sample text about the article this hexagon leads to</div>
+      </a>
     </div>
-  </div>
+  </li>
 {% endfor %}
+</ul>
 </div>

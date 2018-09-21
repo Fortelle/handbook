@@ -1,37 +1,23 @@
-﻿$break-small:  768px;
-$breakpoint-medium: 900px;
-$break-large:  1280px;
+﻿@import "color";
 
-@import "color";
-
+@import "layout/responsive";
 @import "layout/layout";
 @import "layout/header";
 @import "layout/footer";
-@import "layout/responsive";
+@import "layout/main";
 
 @import "objects/type";
 
 @import "components/tab";
 @import "components/breadcrumb";
+@import "components/hexagon";
+
+html {
+  overflow-y: scroll;
+}
 
 table.table td {
   vertical-align: middle;
-}
-
-.l-content {
-  h3{
-  font-size: 1.4em;
-  margin-top:1em;
-  
-  }
-  
-  h3:after {
-  content: "";
-  display: block;
-  height: 2px;
-  margin-top:4px;
-  background: linear-gradient(to right, rgb(120, 120, 240), transparent);
-  }
 }
 
 .p-page__control {
@@ -52,6 +38,9 @@ margin-bottom:1em;
 }
 
 .c-loading {
+  &__icon {
+    font-size: 24px;
+  }
   &--step-2 {
     color: green;
   }

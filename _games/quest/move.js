@@ -1,52 +1,69 @@
 import './core.js';
-import pokemonData from './data/pokemondata.js';
-import moveData from './data/movedata.js';
-import enemyData from './data/enemydata.js';
+import pokemonDataArray from './data/pokemondata.js';
+import moveDataArray from './data/movedata.js';
+import enemyDataArray from './data/enemydata.js';
 
-function fillSelector(){
-	let html = '';
-	$.each( moveData, function( i, data ){
-		if ( data.name.length == 0 ) return;
-		html += `<option value="${i}">${data.name}</option>`;
-	});
-	$('.c-moveSelector').html(html);
+function init() {
+	let htmlSelect = '';
+	let listData = [];
 	
-	$('.c-moveSelector').change(function(){
-		selectMove( $('.c-moveSelector').val() )
+	moveDataArray.forEach( (moveData, moveIndex) => {
+		if ( moveData.name.length == 0 ) return;
+		htmlSelect += `<option value="${moveIndex}">${moveData.name}</option>`;
+		listData.push([
+		  pmBase.sprite.get('skill',moveData.icon),
+		  `<a href="${pmBase.url.getHref(moveIndex)}">${moveData.name}</a>`,
+		  moveData.desc,
+		]);
 	});
-}
-
-function parseHash(){
-	let i = pmBase.hash.get();
-	if ( i.length == 0 ) i = $('.c-moveSelector option:first').val();
-	$('.c-moveSelector').val(i);
-	selectMove(i);
-}
-
-function selectMove( i ){
-	pmBase.hash.set(i);
-	showMove( i );
-}
-
-function showMove( i ){
-	i = parseInt(i,10);
-	let mData = moveData[i];
-	let html = '';
-	$.each( pokemonData, function( pi, pData ) {
-		if ( ! pData.skillIDs.includes(i) ) return;
-		html += `
-				<tr>
-					<td>${pmBase.sprite.get('quest-pokemon',pi,48)}</td>
-					<td>${pmBase.url.createAnchor('quest-pokemon',pi,pmBase.util.getPokemonName(pi))}</td>
-					<td>${pData.hpBasis}</td>
-					<td>${pData.attackBasis}</td>
-				</tr>
-		`;
-	});
-	$('.c-moveData__pokemon tbody').html( html );
 	
-	html = '';
-	$.each( enemyData, function( key, eData ) {
+	let listHead = ['图标','招式','说明'];
+	
+	pmBase.content.buildLayout({
+	  pages: 2,
+	  content1: pmBase.content.create('list',listData, listHead, 'sortable'),
+	  control2: htmlSelect,
+	  content2: selectMove,
+	});
+}
+
+function selectMove( moveIndex ){
+  moveIndex = ~~moveIndex;
+	let moveData = moveDataArray[moveIndex];
+	let infoIcon = pmBase.sprite.get('skill',moveData.icon) + '<br>' + moveData.name;
+	let infoData = [
+	  [ '属性', pmBase.content.create('type',moveData.type) ],
+	  [ '攻击力', moveData.damage ],
+	  [ '等待时间', moveData.charge ],
+	  [ '说明', moveData.desc.replace(/。/g,'。<br>') ],
+  ];
+  
+  let listData1 = pokemonDataArray
+    .filter( x=>x.skillIDs.includes(moveIndex) )
+    .map( pkmnData => [
+      pmBase.sprite.get('pokemon',pkmnData.index,32),
+		  `<a href="${pmBase.url.getHref('pokemon', pkmnData.monsterNo)}">${pmBase.common.getPokemonName(pkmnData.index)}</a>`,
+      pkmnData.hpBasis,
+      pkmnData.attackBasis,
+    ]);
+    /*
+  let listData2 = enemyDataArray
+    .filter( x=>x.skillIDs.includes(moveIndex) )
+    .map( pkmnData => [
+      pmBase.sprite.get('pokemon',pkmnData.monsterNo,32),
+		  `<a href="${pmBase.url.getHref('pokemon', pkmnData.monsterNo)}">${pmBase.common.getPokemonName(pkmnData.monsterNo)}</a>`,
+      pkmnData.hpBasis,
+      pkmnData.attackBasis,
+    ]);
+    */
+	let html = `
+	<h3>招式</h3>
+  ${pmBase.content.create('info', infoData, infoIcon)}
+	<h3>宝可梦</h3>
+  ${pmBase.content.create('list', listData1)}
+	<h3>敌人</h3>
+	`;
+	/*
 		let pi = key.split('.')[0];
 		if ( ! eData[3].includes(i) ) return;
 		html += `
@@ -59,11 +76,8 @@ function showMove( i ){
 		`;
 	});
 	$('.c-moveData__enemy tbody').html( html );
-	
+	*/
+	return html;
 }
 
-pmBase.hook.on( 'init', function(){
-	fillSelector();
-	parseHash();
-	pmBase.hash.popstate( parseHash );
-});
+pmBase.hook.on( 'load', init);

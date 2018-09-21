@@ -14,13 +14,13 @@ function init(){
   ], function( arr ) {
     [partymonDataArray, npcDataArray] = arr;
     
-    let list=[],htmlSelect='';
+    let listData=[],htmlSelect='';
     npcDataArray.forEach( function( data, i ) {
       let clData = classDataArray[data.class];
       let id = i.toString().padStart(3,0);
       htmlSelect += `<option value="${i}">${id}　${clData.name.padEnd(7,'　')} ${data.name}</option>`;
       
-      list.push( [
+      listData.push( [
         pmBase.sprite.get('class',clData.icon,32 ),
         `#${id}`,
         clData.name,
@@ -30,15 +30,19 @@ function init(){
         data.pokemon.length,
       ] );
     });
-    pmBase.content.setControl( htmlSelect, 1 );
-    pmBase.content.setContent( pmBase.content.create('list',list), 0 );
-    pmBase.url.listen( change );
+      
+  	pmBase.content.buildLayout({
+  	  pages: 2,
+  	  content1: pmBase.content.create('list',listData),
+  	  control2: htmlSelect,
+  	  content2: change,
+  	});
+  	
   });
 }
 
-function change( hash ) {
-  let trIndex = ~~hash;
-  if ( ! trIndex in npcDataArray ) return false;
+function change( trIndex ) {
+  if ( ! (trIndex in npcDataArray) ) return false;
   let trPokemonList = npcDataArray[trIndex].pokemon;
   
   let html = '';
@@ -71,8 +75,7 @@ function change( hash ) {
       </tr>`;
   });
   html += '</table>';
-  pmBase.content.setContent( html, 1 );
-  return true;
+  return html;
 }
 
 pmBase.hook.on( 'load', init );

@@ -1,28 +1,24 @@
 ﻿.l-footer {
   font-size:xx-small;
-  padding: 20px 0;
-  font-weight:bold;
-  line-height: 20px;
+  //font-weight:bold;
+  //line-height: 20px;
   background-color: #f2f2f2;
-  height: 60px;
+  //height: 60px;
   border-top: 1px solid #ccc;
 
-  a {
-    color: inherit;
-    white-space: nowrap;
-    font-size:inherit;
-  }
-  
-  &__logo {
-    float: left;
-    margin-right: 16px;
-    color: #eee;
+  &__body {
+    display: flex;
+    flex-direction: row;
+    padding: 15px 0;
+    text-align: center;
+    width: var(--main-width);
+    margin: auto;
   }
   
   &__list {
     list-style: none;
     padding: 0;
-    margin: 0;
+    margin-left: 10px;
     
     li {
       display: block;

@@ -18,13 +18,17 @@ function init(){
     let name = pmBase.common.getPokemonName( i );
     htmlSelect += `<option value="${i}">${i}　${name}</option>`;
   });
-  pmBase.content.setControl( htmlSelect, 0 );
-  pmBase.url.listen( change );
-  if ( location.hash.length === 0 ) change($('select').val());
+  
+	pmBase.content.buildLayout({
+	  pages: 1,
+	  control1: htmlSelect,
+	  content1: change,
+	});
+  
 }
 
-function change( hash ) {
-  let number = ~~hash;
+function change( number ) {
+  if ( !(number in partymonGroup ) ) return;
   
   let html = '';
   html += '<table class="table">';
@@ -60,8 +64,7 @@ function change( hash ) {
       </tr>`;
   });
   html += '</table>';
-  pmBase.content.setContent( html, 0 );
-  return true;
+  return html;
 }
 
 pmBase.hook.on( 'load', init );

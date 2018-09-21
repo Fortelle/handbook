@@ -6,7 +6,8 @@ let oldHash;
 const getHash = function() {
   let hash = window.location.hash;
   if ( hash.startsWith('#!/') ) {
-    return hash.slice(3);
+    let value = hash.slice(3);
+    return value;
   } else if ( hash.startsWith('#?') ) {
     return hash.slice(2).split('&').map(x=>x.split('='));
   } else {
@@ -51,26 +52,32 @@ const listen = function ( _callback, _selector = '.p-selector' ) {
   onHashChange();
   window.addEventListener("hashchange", onHashChange);
 	$(selector).change( function(){ setHash(this.value); });
-	$('.p-select-prev').click( function(){ setHash($('.p-selector option:selected').prev().val()); });
-	$('.p-select-next').click( function(){ setHash($('.p-selector option:selected').next().val()); });
+	$('.p-select-prev').click( function(){ setHash($(this).parents('.p-page__control').find('.p-selector option:selected').prev().val()); });
+	$('.p-select-next').click( function(){ setHash($(this).parents('.p-page__control').find('.p-selector option:selected').prev().val()); });
 };
 
 const onHashChange = function (){
 	let key = getHash();
+	let result = key.length > 0 ? callback(key) : false;
+	
+	if ( result ) {
+    $(selector).val(key);
+	  window.scrollTo(0, 0);
+	  content.changeTab( ~~result );
+    return true;
+	} else {
+	  content.changeTab(0);
+	  return false;
+	}
+	
+	/*	
 	if ( key.length > 0 ) {
 	  let success = callback(key);
 	  if ( success ) {
-      $(selector).val(key);
-      if ( pageMode == 2 ) {
-  	    window.scrollTo(0, 0);
-  	    content.changeTab(1);
-      }
-	    return true;
 	  }
 	} else {
 	  if ( pageMode == 2 ) content.changeTab(0);
-	}
-	return false;
+	}*/
 };
 
 /*******************/

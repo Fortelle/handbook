@@ -11,38 +11,46 @@ const scenarioText = ['⓪',' ① ','② ','③',' ④',' ⑤',' ⑥',' ⑦',' �
 const rankText = ['','I','II','III'];
 
 function init(){
-  let html_table = '', html_select = '';
+  let listData = [], html_select = '';
   
-  $.each( pokemonDataArray, function( pkmnIndex, pkmnData ) {
-    let icon = pmBase.sprite.get('pokemon',pkmnIndex);
-    let name = textDict.pokemon[pkmnIndex];
-    let href = pmBase.url.createUrlHash( pkmnIndex );
-    let types = pmBase.page.create( 'type', pkmnData.types[0], pkmnData.types[1] );
-    let abilities = pkmnData.abilities.map( a=> textDict.abilities[a] ).join('/');
-    let move = textDict.moves[pkmnData.move];
-    let movement = pkmnData.movement;
+  pokemonDataArray.forEach( (pkmnData,pkmnIndex) => {
+    let pkmnIcon = pmBase.sprite.get('pokemon',pkmnIndex);
+    let pkmnName = textDict.pokemon[pkmnIndex];
     
-    html_table += `<tr>
-      <td>${icon}</td>
-      <td><a href="${href}">${name}</a></td>
-      <td>${pkmnData.stats[0]}</td>
-      <td>${movement}</td>
-      <td>${pkmnData.stats[1]}</td>
-      <td>${pkmnData.stats[2]}</td>
-      <td>${pkmnData.stats[3]}</td>
-      <td>${types}</td>
-      <td>${move}</td>
-      <td>${abilities}</td>
-    </tr>`;
+    listData.push([
+      pkmnIcon,
+      `<a href="${pmBase.url.getHref( pkmnIndex )}">${pkmnName}</a>`,
+      pmBase.content.create('type',pkmnData.types[0],pkmnData.types[1] ),
+      pkmnData.stats[0],
+      pkmnData.stats[1],
+      pkmnData.stats[2],
+      pkmnData.stats[3],
+      pkmnData.movement,
+      textDict.moves[pkmnData.move],
+      pkmnData.abilities.filter(a=>a>-1).map( a=> textDict.abilities[a] ).join('/'),
+    ]);
     
-    html_select += `<option value="${pkmnIndex}">${name}</option>`;
+    html_select += `<option value="${pkmnIndex}">${pkmnName}</option>`;
   });
-  $('.p-result tbody').html(html_table);
-  $('.p-result').tablesorter();
+    let listHead = [
+  		'图标',
+  		'宝可梦',
+  		'属性',
+  		'HP',
+  		'攻击力',
+  		'防御力',
+  		'速度',
+  		'移动',
+  		'招式',
+  		'特性',
+    ];
   
-  $('.p-page--2 .p-page__control').html(`<select class="form-control p-pokemon-selector">${html_select}</select>`);
-  
-  $('.p-pokemon-selector').change(function(){ pmBase.url.setHash(this.value); });
+  pmBase.content.build({
+    pages: 2,
+    content1: pmBase.content.create('sortlist',listData,listHead),
+    control2: html_select,
+    content2: showPokemon,
+  });
 }
 
 function getBuilding ( kuniIndex, encIndex ) {
@@ -56,63 +64,70 @@ function getBuilding ( kuniIndex, encIndex ) {
 function showPokemon( pkmnIndex ){
   let pkmnData = pokemonDataArray[pkmnIndex];
   if ( !pkmnData ) return;
-  
-  let html = '';
-  
   let habitat = NBNG.hex2bln( pkmnData.habitat,17*2 ).reverse();
-  let html_habitat = '';
+  
+  let listHabitatData = [];
   for ( let i=0;i<=16;i++ ) {
     let s1 = habitat[i*2], s2 = habitat[i*2+1];
     if ( s1 + s2 === 0 ) continue;
     let b1 = s1 ? getBuilding( i, 0 ) : '';
     let b2 = s2 ? getBuilding( i, 1 ) : '';
-    let icon = pmBase.sprite.get( 'kuni', i );
-    html_habitat += `<tr><td>${icon}</td><td>${textDict.kuni[i]}</td><td>${b1}</td><td>${b2}</td>`;
-    for ( let j=0;j<=10;j++ ) {
-      html_habitat += `<td>${scenarioDataArray[j].appearPokemon[pkmnIndex]?scenarioText[j]:''}</td>`; //\u2713
-    }
-    html_habitat += `</tr>`;
+    listHabitatData.push([
+      pmBase.sprite.get( 'kuni', i ),
+      textDict.kuni[i],
+      b1,
+      b2,
+      ...scenarioDataArray.map((x,j)=>x.appearPokemon[pkmnIndex]?scenarioText[j]:'')
+    ]);
   }
-  if ( html_habitat ) html += `
-    <h3>栖息地</h3>
-    <table class="table table-sm text-center">
-      <thead>
-        <tr>
-          <th>图标</th>
-          <th>国</th>
-          <th colspan="2">设施</th>
-          <th colspan="11" style="width: 50%;">剧本</th>
-        </tr>
-      </thead>
-      <tbody>${html_habitat}</tbody>
-    </table>`;
   
-  html +='<h3>最大连接的武将</h3>';
-  html += '<div class="row text-center">';
-  $.each( bushoLinkDataArray, function( bushoIndex, v ) {
+  let listBushoData = bushoLinkDataArray.map( (linkArray, bushoIndex) => {
     let bushoData = bushoDataArray[bushoIndex];
-    if ( bushoData.rank == 0 ) return;
     let icon = pmBase.sprite.get('busho_o',bushoData.icon);
-    let href = pmBase.url.createUrlHash( 'busho', bushoIndex );
-    let link = v[pkmnIndex];
-    link = link == 0 ? '--' : `<span style="color:rgb(${218},${165*link/100},${32*link/100});">${link}%</span>`;
     let name = textDict.warriors[bushoIndex];
-    
-    html += `<div class="col-3 col-md-2 col-lg-1 m-1">
-      <div>${icon}</div>
-      <div><a href="${href}">${name}</a> <sup>${rankText[bushoData.rank]}</sup></div>
-      <div>${link}</div>
-    </div>`;
+    let link = pmBase.url.getHref( 'busho', bushoIndex );
+    let types = pmBase.content.create('type',bushoData.types[0], bushoData.types[1] );
+    let power = textDict.powers[bushoData.power];
+    return [
+      icon,
+      `<a href="${link}">${name}</a> <sup>${rankText[bushoData.rank]}</sup>`,
+      types,
+      power,
+      bushoData.stats[0],
+      bushoData.stats[1],
+      bushoData.stats[2],
+      bushoData.stats[3],
+      linkArray[pkmnIndex]
+    ];
   });
-  html += '</div>';
+  let listBushoHead = [
+    '图标',
+    '武将',
+    '擅长属性',
+    '武将之力',
+    '力量',
+    '智力',
+    '魅力',
+    '才量',
+		'最大连接',
+	];
+	
+  let listHabitatHead=[
+		'图标',
+		'城池',
+		'设施1',
+		'设施2',
+		...Array.from({length: 11}, (v, i) => `剧本${i}`),
+		//...[...Array(11)].map((x,i)=>`剧本${i}`)
+  ];
   
-  $('.p-page--2 .p-page__body').html(html);
-  $('.p-pokemon-selector').val(pkmnIndex);
-  
-  return true;
+  let html = `
+<h3>栖息地</h3>
+${pmBase.content.create('list', listHabitatData,listHabitatHead)}
+<h3>最大连接的武将</h3>
+${pmBase.content.create('sortlist', listBushoData,listBushoHead,"[8,1]")}
+  `;
+  return html;
 } 
 
-pmBase.hook.on( 'init', function(){
-  init();
-  pmBase.page.listen( showPokemon );
-});
+pmBase.hook.on( 'init', init);

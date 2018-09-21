@@ -14,6 +14,10 @@ usum:
           url: /usum/royal/
         - name: 代理人对战的宝可梦
           url: /usum/agency/
+        - name: 野生宝可梦
+          url: /usum/wild/
+        - name: 剧情宝可梦
+          url: /usum/event/
 
 pktl:
   title: 消消乐
@@ -26,6 +30,8 @@ pktl:
           icon: search
         - name: 超级进化
           url: /pktl/mega/
+    - group: 关卡
+      nav:
         - name: 主线关卡
           url: /pktl/mainstage/
         - name: 额外关卡

@@ -7,7 +7,7 @@ function init(){
   itemDataArray.forEach( function( data, i ) {
     let id = i.toString().padStart(3,0);
     list.push( [
-      pmBase.sprite.get('item7',data.icon ),
+      pmBase.sprite.get('item7',i ),
       `#${id}`,
       data.name,
       data.nameja,

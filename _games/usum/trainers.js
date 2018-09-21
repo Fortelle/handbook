@@ -10,14 +10,14 @@ import {ballIndexArray} from './data/misc.js';
 const genderText = ['<i class="fas fa-genderless"></i>','<i class="fas fa-mars"></i>','<i class="fas fa-venus"></i>'];
 
 function init(){
-  let list=[],htmlSelect='';
+  let listData=[],htmlSelect='';
   trainerDataArray.forEach( function( data, i ) {
     if ( data.name.length === 0 ) return;
     let clData = classDataArray[data.class];
     let id = i.toString().padStart(3,0);
     let pokemon = trainerPokemonDataArray[i].map( bmData=>pmBase.sprite.get('pi7',pmBase.common.getPokemonID( bmData.number, bmData.form ) )).join('');
     htmlSelect += `<option value="${i}">${id}　${clData.name.padEnd(7,'　')} ${data.name}</option>`;
-    list.push( [
+    listData.push( [
       pmBase.sprite.get('class',clData.icon,32 ),
       `#${id}`,
       clData.name,
@@ -27,20 +27,18 @@ function init(){
       pokemon,
     ] );
   })
-  pmBase.content.setControl( htmlSelect, 1 );
-  pmBase.content.setContent( pmBase.content.create('list',list), 0 );
-  pmBase.url.listen( parseHash );
-}
-
-function parseHash( hash ) {
-  hash = ~~hash;
-  if ( hash in trainerDataArray ) {
-    change(hash);
-    return true;
-  }
+  
+	pmBase.content.buildLayout({
+	  pages: 2,
+	  content1: pmBase.content.create('list',listData),
+	  control2: htmlSelect,
+	  content2: change,
+	});
+	
 }
 
 function change( trIndex ) {
+  if ( !(trIndex in trainerDataArray) ) return;
   let trData = trainerDataArray[trIndex];
   let pmList = trainerPokemonDataArray[trIndex];
   let clData = classDataArray[trData.class];
@@ -94,7 +92,7 @@ function change( trIndex ) {
   });
   html += '</table>';
   
-  pmBase.content.setContent( html, 1 );
+  return html;
 }
 
 pmBase.hook.on( 'load', init );

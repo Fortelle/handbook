@@ -20,7 +20,7 @@ defaults:
       path: ""
       type: "games"
     values:
-      layout: "page"
+      layout: "gamepage"
   -
     scope:
       path: ""

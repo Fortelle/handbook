@@ -1,18 +1,16 @@
 ﻿.l-header {
-  display: flex;
-  flex-direction: row;
-  background-color: #456d;
-  height: 60px;
+  background-color: #222d;
   border-bottom: 1px solid #ccc;
-  text-align: center;
   z-index: 999;
-     box-shadow: 0 0 5px -3px #000;
+  box-shadow: 0 0 5px -3px #000;
   
-  a {
-    text-decoration: none;
-    display: block;
-    color: inherit;
-    width: 100%;
+  &__body {
+    display: flex;
+    flex-direction: row;
+    height: 60px;
+    text-align: center;
+    width: var(--main-width);
+    margin: auto;
   }
   
   &__logo {
@@ -20,6 +18,11 @@
     width: 120px;
     align-items: center;
     display: flex;
+    text-align: center;
+    
+    a {
+      margin: auto;
+    }
     
     img {
       max-height: 40px;
@@ -31,7 +34,7 @@
   list-style: none;
   padding: 0;
   margin-left: 20px;
-     
+  cursor: pointer;
   &__item {
     float:left;
     line-height: 60px;

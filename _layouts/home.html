@@ -2,16 +2,10 @@
 layout: default
 ---
 
-		<div class="app-body">
-		  
-    <main class="main" aria-label="Content">
-      
-      <div class="content container-fluid">
-      	<div class="row">
-      		<div class="col-12">
-      			<div class="page-content">{{ content }}</div>
-      		</div>
-      	</div>
-      </div>
-    </main>
-    </div>
+<div class="l-main__header l-homehead">
+  <div class="l-homehead__body">
+    <h1>{{page.title}}</h1>
+  </div>
+</div>
+<div class="l-main__body l-homebody">{{content}}
+</div>

@@ -2,14 +2,9 @@
 <html lang="zh">
   {%- include head.html -%}
   <body>
-		<div class="l-layout">
+		<div class="l-layout l-layout--{{ page.layout | default: 'default' }}">
       {%- include header.html -%}
-      <div class="l-layout__body">
-        <div class="l-layout__spacing"></div>
-        <div class="l-layout__main">{{ content }}</div>
-        
-        <div class="l-layout__spacing"></div>
-      </div>
+      <div class="l-layout__body l-main">{{ content }}</div>
       {%- include footer.html -%}
     </div>
   </body>

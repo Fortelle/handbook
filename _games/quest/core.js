@@ -12,5 +12,7 @@ pmBase.sprite.add( 'skill', {
 	col: 10
 });
 
+pmBase.loader.load('common');
+
 export default {
 }

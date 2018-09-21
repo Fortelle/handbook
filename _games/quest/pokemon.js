@@ -1,53 +1,55 @@
 import quest from './core.js';
 import pokemonData from './data/pokemondata.js';
-import moveData from './data/movedata.js';
+import moveDataArray from './data/movedata.js';
 
 function init(){
 	let html = '';
 	for ( let i = 1; i<pokemonData.length; i ++ ) {
 		let pi = `00${i}`.slice(-3);
-		let name = pmBase.util.getPokemonName(pi);
+		let name = pmBase.common.getPokemonName(i);
 		html += `<option value="${i}">#${pi} ${name}</option>`;
 	}
-	pmBase.page.createSelector(html);
+	
+	pmBase.content.buildLayout({
+	  pages: 1,
+	  control1: html,
+	  content1: selectPokemon,
+	});
 }
 
 function selectPokemon( pi ){
 	let data = pokemonData[pi];
-	let name = pmBase.util.getPokemonName(pi);
-	let html = '';
-	
-	
-	$.each( data.skillIDs, function( i, skillID ) {
-		let sData = moveData[skillID];
-		html += `
-				<tr>
-					<td>${pmBase.sprite.get('skill',sData.icon)}</td>
-					<td><a href="${pmBase.url.createUrlHash('move', skillID )}">${sData.name}</a></td>
-					<td>${sData.desc}</td>
-					<td>${Math.round(sData.damage * 100)}</td>
-					<td>${sData.charge}</td>
-				</tr>
-		`;
-	});
-	$('.c-pkmnData__skills tbody').html( html );
-	
-	let types = pmBase.page.create('type',data.type1,data.type2);
-
-	html = `
-    <table class="table table-sm">
-    <tr><th>图标</th><td>${pmBase.sprite.get('pokemon',data.monsterNo)}</td></tr>
-    <tr><th>属性</th><td>${types}</td></tr>
-    <tr><th>HP</th><td>${data.hpBasis}</td></tr>
-    <tr><th>Atk</th><td>${data.attackBasis}</td></tr>
-    <tr><th>攻击方式</th><td>${data.isMelee?'近战':'远程'}</td></tr>
-    </table>`;
-	$('.p-pkmnData__info').html( html );
+	if ( !data ) return;
+	let name = pmBase.common.getPokemonName(pi);
+	let html1 = '', html2 = '';
+	let icon = pmBase.sprite.get('pokemon',data.monsterNo);
+	let infoData = [
+	  [ '属性', pmBase.content.create('type',data.type1,data.type2) ],
+	  [ 'HP', data.hpBasis ],
+	  [ 'Atk', data.attackBasis ],
+	  [ '攻击方式', data.isMelee?'近战':'远程' ],
+  ];
   
-	return true;
+	let listData = data.skillIDs
+	  .map( skillIndex => moveDataArray[skillIndex])
+	  .map( skillData => [
+	    pmBase.sprite.get('skill', skillData.icon, 32),
+	    `<a href="${pmBase.url.getHref('move', skillData.index )}">${skillData.name}</a>`,
+	    pmBase.content.create('type', skillData.type),
+	    Math.round(skillData.damage * 100),
+	    skillData.charge,
+	    skillData.desc,
+	  ]);
+	  
+	
+  let html = `
+<h3>宝可梦数据</h3>
+${pmBase.content.create('info', infoData, icon)}
+<h3>招式</h3>
+${pmBase.content.create('list', listData)}
+`;
+
+	return html;
 }
 
-pmBase.hook.on( 'init', function(){
-	init();
-	pmBase.page.listen( selectPokemon );
-});
+pmBase.hook.on( 'load', init );
