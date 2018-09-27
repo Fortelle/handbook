@@ -33,16 +33,18 @@ pktl:
     - group: 关卡
       nav:
         - name: 主线关卡
-          url: /pktl/mainstage/
+          url: /pktl/main/
         - name: 额外关卡
-          url: /pktl/extrastage/
+          url: /pktl/extra/
         - name: 活动关卡
-          url: /pktl/eventstage/
+          url: /pktl/events/
     - group: 工具
       icon: calculator
       nav:
         - name: 打击面计算器
           url: /pktl/te/
+        - name: 超级进化加速统计
+          url: /pktl/megacalc/
 
 quest:
   title: 探险寻宝

@@ -85,21 +85,32 @@ let create = function( key, ...args) {
 let buildingOptions;
 
 let build = function( options ) {
+  $('.c-loading').attr('class', 'c-loading c-loading--step-4');
+  
   buildingOptions = options;
   let html = '';
-  for ( let i=1; i<=options.pages; i++ ) {
+  let listen = false;
+  
+  for ( let i=0; i<options.pages.length; i++ ) {
     let htmlControls = '', htmlContent = '';
-    if ( options[`control${i}`] ) {
-      htmlControls = createSelector(options[`control${i}`]);
-      options[`control${i}`] = '';
+    
+    if ( options.pages[i].control ) {
+      htmlControls = createSelector(options.pages[i].control);
+      //options.pages[i].dynamic = true;
+      delete options.pages[i].control;
     }
-    if ( typeof options[`content${i}`] === 'string' ) {
-      htmlControls = options[`content${i}`];
-      //options[`content${i}`] = '';
+    
+    if ( typeof options.pages[i].content === 'string' ) {
+      htmlContent = options.pages[i].content;
+      delete options.pages[i].content;
+    } else if ( options.pages[i].content instanceof Function ) {
+      options.pages[i].dynamic = true;
+      options.dynamic = true;
+      listen = true;
     }
     
     html += `
-      <input class="l-tab-controller" type="radio" name="layouttab" ${i==1?'checked':''} />
+      <input class="js-tab-trigger" type="radio" name="layouttab" ${i==0?'checked':''} />
       <div class="p-page p-page--${i}">
         <div class="p-page__control">${htmlControls}</div>
         <div class="p-page__content">${htmlContent}</div>
@@ -107,50 +118,66 @@ let build = function( options ) {
     `;
   }
   $('.l-page__body').html(html);
-	$('.p-select-prev').click( function(){ url.setHash($(this).parents('.p-page__control').find('.p-selector option:selected').prev().val()); });
-	$('.p-select-next').click( function(){ url.setHash($(this).parents('.p-page__control').find('.p-selector option:selected').next().val()); });
-	$('.p-selector').change( function(){ url.setHash(this.value); });
   
-  if ( !options.hashParser ) options.hashParser = function( hashValue ){
-    if ( hashValue.length === 0 ) {
-      return 1;
-    } else {
-      return options.pages;
-    }
-  }
-  if ( onHashChange() === false && options.pages ===1 && options.content1 instanceof Function ) {
+  debug(buildingOptions);
+  if ( listen ) {
+  	$('.p-select-prev').click( function(){ url.setHash($(this).parents('.p-page__control').find('.p-selector option:selected').prev().val()); });
+  	$('.p-select-next').click( function(){ url.setHash($(this).parents('.p-page__control').find('.p-selector option:selected').next().val()); });
+	  $('.p-selector').change( function(){ url.setHash(this.value); });
+
+    if ( !options.hashParser ) options.hashParser = hashParser;
+    if ( !options.trigger ) options.trigger = $('.p-selector').change;
+    
+    
+    window.addEventListener("hashchange", onHashChange );
     
   }
   
-  window.addEventListener("hashchange", onHashChange );
+  if ( onHashChange() === false && options.pages && options.pages[0].dynamic ) {
+
+  }
   
   $('.c-loading').remove();
 };
 
-const onHashChange = function (){
-	let hashValue = url.getHash();
+const hashParser = function( hashValue ) {
+  let targetPage = ( hashValue.length === 0 ) ? 0 : buildingOptions.pages.length-1;
   if ( /^\d+$/.test(hashValue) ) hashValue = ~~hashValue;
-	let targetPage = buildingOptions.hashParser( hashValue );
-	
-  if ( buildingOptions[`content${targetPage}`] instanceof Function ) {
-    let html = hashValue === '' ? '' : buildingOptions[`content${targetPage}`](hashValue);
-    if ( targetPage === 1 && !html ) {
-      hashValue = $('.p-page--1 .p-selector option:first').val();
+  let html = '';
+  if ( buildingOptions.pages[targetPage].dynamic ) {
+    if ( hashValue !== '' ) html = buildingOptions.pages[targetPage].content(hashValue);
+    if ( targetPage === 0 && !html ) {
+      hashValue = $('.p-page--0 .p-selector option:first').val();
       if ( /^\d+$/.test(hashValue) ) hashValue = ~~hashValue;
-      html = buildingOptions[`content${targetPage}`](hashValue);
+      html = buildingOptions.pages[targetPage].content(hashValue);
     }
     if ( html ) {
-      $(`.p-page--${targetPage} .p-page__content`).html( html );
-      $(`.p-page--${targetPage} .p-selector`).val(hashValue);
     } else {
-      targetPage = 1;
+      targetPage = 0;
     }
   }
-	//$(`.p-page--${targetPage} .p-selector`).val(0)
+  return {
+    page: targetPage,
+    output: html,
+    value: hashValue,
+  }
+}
+
+const onHashChange = function (){
+  
+	let hashValue = url.getHash();
+  debug( `Hash change event {${hashValue}}` );
+  if ( !buildingOptions.hashParser ) return;
+  let result = buildingOptions.hashParser( hashValue );
+  if ( !result ) return;
+  let targetPage = result.page || 0;
+  if ( result.output ) $(`.p-page--${targetPage} .p-page__content`).html( result.output );
+  if ( result.value )  $(`.p-page--${targetPage} .p-selector`).val( result.value );
+  
 	$('.p-listtable.sortable').removeClass('sortable').tablesorter();
 	
 	changeTab( targetPage );
-	if ( targetPage > 1 ) {
+	if ( targetPage > 0 ) {
 	  window.scrollTo(0, 0);
     return true;
 	} else {
@@ -166,8 +193,8 @@ let createSelector = function(html) {
       </div>
       <select class="form-control p-selector">${html}</select>
       <div class="input-group-append">
-        <button class="btn p-select-prev" type="button"><i class="fas fa-arrow-left"></i></button>
-        <button class="btn p-select-next" type="button"><i class="fas fa-arrow-right"></i></button>
+        <button class="btn p-select-prev" type="button"><i class="fas fa-angle-left"></i></button>
+        <button class="btn p-select-next" type="button"><i class="fas fa-angle-right"></i></button>
       </div>
     </div>`;
   }
@@ -182,34 +209,10 @@ const setTitle = function ( title ){
 };
 
 const changeTab = function (pageIndex) {
-  pageIndex = pageIndex || 1;
-  $('.l-tab-controller')[pageIndex-1].checked=true;
-};
-/*
-const createSelector = function ( html ) {
-  $('.p-page__control')[0].innerHTML = `<select class="form-control p-selector">${html}</select>`;
-};
-const setControl = function ( html, pageIndex = 0 ) {
-  html = html.trim();
-  if ( html.startsWith('<option') ) {
-    html = `<div class="input-group">
-      <div class="input-group-prepend">
-      </div>
-      <select class="form-control p-selector">${html}</select>
-      <div class="input-group-append">
-        <button class="btn p-select-prev" type="button"><i class="fas fa-arrow-left"></i></button>
-        <button class="btn p-select-next" type="button"><i class="fas fa-arrow-right"></i></button>
-      </div>
-    </div>`;
-  }
-  $('.p-page__control')[pageIndex].innerHTML = html;
+  pageIndex = pageIndex || 0;
+  $('.js-tab-trigger')[pageIndex].checked=true;
 };
 
-const setContent = function ( html, pageIndex = 0 ) {
-  $('.p-page__content')[pageIndex].innerHTML = html;
-};
-
-*/
 
 export default {
   create,

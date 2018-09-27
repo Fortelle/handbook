@@ -34,9 +34,16 @@ function init() {
     '超级效果',
     '进化速度',
   ];
+  /*
   pmBase.content.build({
     pages: 1,
     content1: pmBase.content.create('sortlist',list,header)
+  });
+  */
+  pmBase.content.build({
+    pages: [{
+        content: pmBase.content.create('sortlist',list,header),
+    }],
   });
 	popover.apply();
 };

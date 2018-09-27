@@ -133,7 +133,7 @@ function showBusho( bushoIndex ){
       listHabitatData.push([
         scenIndex,
         bushoIcon,
-        name,
+        bushoName,
         typeText[bushoInfo.type],
         kuniIcon,
         kuniName,

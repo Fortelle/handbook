@@ -6,14 +6,8 @@ import url from './core/url.js';
 import content from './core/content.js';
 import config from './core/config.js';
 import loader from './core/loader.js';
-/*
-let loader = {
-  using : function (arr,callback){
-    let gkey = `/${config.get( 'gameKey')}/`;
-    Promise.all(arr.map(x=>import(x.replace('./',gkey)))).then(x=>callback(x.map(y=>y.default)));
-  }
-};
-*/
+
+
 window.pmBase = {
   config,
   hook,
@@ -30,10 +24,9 @@ window.pmBase = {
 
 if ( pageInfo.isGame ) {
   config.set( 'isGame', true );
-  config.set( 'gameKey', pageInfo.gameKey ); //location.pathname.split('/')[1]
+  config.set( 'gameKey', pageInfo.gameKey );
   config.set( 'gameName', pageInfo.gameName );
 }
-
 
 sprite.add( 'type7', {
 	url : '/assets/images/types7.min.png',
@@ -43,12 +36,13 @@ sprite.add( 'type7', {
 });
 
 window.onload = function() {
-  $('.c-loading:not(.c-loading--step-9)').addClass('c-loading--step-2');
+  document.documentElement.className = document.documentElement.className.replace('js-loading','js-loaded');
+  $('.c-loading').attr('class', 'c-loading c-loading--step-3');
   hook.keepAlive('init');
 };
 
 window.onerror = function() {
-  $('.c-loading').addClass('c-loading--step-9').find('.fa').removeClass('fa-spin');
+  setTimeout(function() {  $('.c-loading').attr('class', 'c-loading c-loading--step-9');}, 1000);
 };
 
 window.debug = function( obj ) {

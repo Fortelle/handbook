@@ -1,33 +1,36 @@
-let funcPool = {};
-let alivePool = {};
+let funcPool = {
+  foo: [
+    function bar(){
+    },
+  ],
+};
+let alivEvents = {};
 
-const on = function ( name, func ) {
-	if ( name in alivePool ) {
-		func();
-	} else {
-		if ( ! ( name in funcPool ) ) funcPool[name] = [];
-		funcPool[name].push( func );
-	}
+const on = function ( eventName, func ) {
+  if ( alivEvents[eventName] ) {
+    func();
+  } else {
+    if ( ! ( eventName in funcPool ) ) funcPool[eventName] = [];
+    funcPool[eventName].push( func );
+  }
 };
 
-const trigger = function ( name ) {
-	if ( name in funcPool ) {
-		var l = funcPool[name]
-		delete funcPool[name];
-		return l;
-	}
+const trigger = function ( eventName ) {
+  run( eventName );
 };
 
-const keepAlive = function ( name ) {
-	if ( name in funcPool ) {
-		funcPool[name].map( x => x() );
-		delete funcPool[name];
-	}
-	alivePool[name] = true;
+const keepAlive = function ( eventName ) {
+  run( eventName, true );
+  alivEvents[eventName] = true;
 };
+
+const run = function ( eventName, clearPool = false ) {
+  if ( eventName in funcPool ) funcPool[eventName].forEach( x => x() );
+  if ( clearPool ) delete funcPool[eventName];
+}
 
 export default {
-	on,
-	trigger,
-	keepAlive
+  on,
+  trigger,
+  keepAlive
 }

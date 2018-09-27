@@ -1,16 +1,17 @@
 import poketoru from './core.js';
 import popover from './popover.js';
+import layout from './layout.js';
 import actionDataArray from './data/stage.action.js';
 import pokemonSetDataArray from './data/pokemonset.js';
-import { typeStatusArray } from './data/misc.js';
+import { typeStatusArray, itemPatternArray } from './data/misc.js';
 //import stageDataArray from './data/stage.event.js';
 
 let statusNameArray = ['灼伤','恐惧','睡眠','冰冻','麻痹','中毒'];
 let spriteNameArray = [ 'main', 'extra', 'event', 'event' ];
 let rankTextArray   = 'SABC';
 let rankColorArray  = [ 'goldenrod', 'blue', 'green', 'red'];
+let itemDataArray   = [0,1,2,3,4,5,6,7,1,2,3,4,5,6,7];
 
-let selfIndex = 0;
 let stageDataArray, eventDataArray;
 
 let uxHP = 0;
@@ -30,7 +31,6 @@ function init(){
       } else {
         initEvent();
       }
-      pmBase.url.listen( change );
     });
   } else {
     pmBase.loader.using([
@@ -39,7 +39,6 @@ function init(){
     ], function( arr ) {
       [stageDataArray,eventDataArray] = arr;
       initEventSchedule();
-      pmBase.url.listen( change2 );
     });
   }
 
@@ -49,38 +48,50 @@ function initMain(){
   let html = '';
   
   html = '';
-  html += `<option value="-1">-</option>`;
   stageDataArray.forEach( function( stageData, i ) {
       let pkmn = poketoru.getPokemonData( stageData.pokemon );
       html += `<option value="${i}">${i} ${poketoru.getPokemonFullname(pkmn)}</option>`;
   });
-  pmBase.content.setControl(html);
+  
+  pmBase.content.build({
+    pages: [{
+      control: html,
+      content: change
+    }],
+  });
 }
-
 
 function initExtra(){
   let html = '';
   
   html = '';
-  html += `<option value="-1">-</option>`;
   stageDataArray.forEach( function( stageData, i ) {
       let pkmn = poketoru.getPokemonData( stageData.pokemon );
       let index = (i+1).toString().padStart(2,0);
       html += `<option value="${i}">EX${index} ${poketoru.getPokemonFullname(pkmn)}</option>`;
   });
-  pmBase.content.setControl(html);
+  pmBase.content.build({
+    pages: [{
+      control: html,
+      content: change
+    }],
+  });
 }
 
 function initEvent(){
   let html = '';
   
   html = '';
-  html += `<option value="-1">-</option>`;
   stageDataArray.forEach( function( stageData, i ) {
       let pkmn = poketoru.getPokemonData( stageData.pokemon );
       html += `<option value="${i}">${i} ${poketoru.getPokemonFullname(pkmn)}</option>`;
   });
-  pmBase.content.setControl(html);
+  pmBase.content.build({
+    pages: [{
+      control: html,
+      content: change
+    }],
+  });
 }
 
 function initEventSchedule(){
@@ -126,8 +137,15 @@ function initEventSchedule(){
     </tr>`;
   }
   htmlTable += '</table>';
-  pmBase.content.setControl(htmlSelect, 1);
-  pmBase.content.setContent(htmlTable, 0);
+  
+  pmBase.content.build({
+    pages: [{
+      content: htmlTable,
+    },{
+      control: htmlSelect,
+      content: change2,
+    }],
+  });
 	popover.apply();
 }
 
@@ -135,8 +153,7 @@ function initEventSchedule(){
 function change( key ) {
   let stageIndex = ~~key;
   let html = createStageTable(stageIndex);
-  $('.p-main-content').html(html);
-  return true;
+  return html;
 }
 
 function change2( key ) {
@@ -146,15 +163,15 @@ function change2( key ) {
   eventData.stages.forEach( stageIndex => {
     html += createStageTable(stageIndex);
   });
-  pmBase.content.setContent(html, 1);
-  return true;
+  return html;
 }
 
 function createStageTable( stageIndex ) {
   let stageData = stageDataArray[stageIndex];
-  selfIndex = stageData.pokemon;
+  pmBase.config.set('selfIndex', stageData.pokemon);
   let pkmnData = poketoru.getPokemonData( stageData.pokemon );
-  let skyfallIcons = pokemonSetDataArray[stageData.pkmnSet].slice(0,stageData.skyfallCount).map(x=>getBlock(x,24)).join('');
+  let pkmnIcon = poketoru.getPokemonIcon( pkmnData );
+  let skyfallIcons = pokemonSetDataArray[stageData.pkmnSet].slice(0,stageData.skyfallCount).map(x=>layout.getBlock(layout.blockType.pokemonset,x,24)).join('');
   let html = '';
   uxHP = stageData.hpLock ? stageData.hp : stageData.hp * 3;
   let hpText = stageData.hp > 1 ? stageData.hp.toLocaleString() + ( mode === 0 ? `（UX：${uxHP.toLocaleString()}）` : '' ) : '无限' ;
@@ -165,22 +182,26 @@ function createStageTable( stageIndex ) {
   }
   let rankText = [...new Set(stageData.ranks)].map( (v,i)=> `<span style="color:${rankColorArray[i]};font-weight:bold;">${rankTextArray[i]}：${v}</span>` ).join(' / ');
   let statusText = typeStatusArray[pkmnData.type].map( (x,i) => x ? `<i class="fas fa-check"></i> ${statusNameArray[i]}` : `<span style="color:gray;"><i class="fas fa-times"></i> ${ statusNameArray[i]}</span>` ).join('&nbsp;&nbsp;&nbsp;');
+  let itemText = itemPatternArray[stageData.items].filter(x=>x>0).map( (x,i)=>poketoru.getItem(4,itemDataArray[x]) ).join('');
 
+  let infoData = [
+    ['宝可梦',poketoru.getPokemonFullname(pkmnData) ],
+    ['属性',pmBase.content.create('type', pkmnData.type )],
+    ['HP',hpText],
+    ['步数',stageData.moves || stageData.times],
+    ['道具',itemText],
+    ['默认落下',skyfallIcons],
+    ['评价',rankText],
+  ];
+  
   html += `
   <div class="row"><div class="col-12">
-  <h3>关卡数据</h3>
-  <table class="table table-sm">
-    <tr><th style="width:30%">宝可梦</th><td>${poketoru.getPokemonFullname(pkmnData)}</td></tr>
-    <tr><th>属性</th><td>${pmBase.content.create('type', pkmnData.type )}</td></tr>
-    <tr><th>HP</th><td>${hpText}</td></tr>
-    <tr><th>步数</th><td>${stageData.moves || stageData.times}</td></tr>
-    <tr><th>默认落下</th><td>${skyfallIcons}</td></tr>
-    <tr><th>评价</th><td>${rankText}</td></tr>
-  </table>
   </div>
   <div class="col-6">
+  <h3>关卡数据</h3>
+  ${pmBase.content.create('info',infoData,pkmnIcon)}
   <h3>初始布局</h3>
-  ${stageData.layout ? drawLayout(stageData.layout) : '随机'}
+  ${stageData.layout ? layout.createLayout(stageData.layout) : '随机'}
   <h3>参考参数</h3>
   <table class="table table-sm">
     <tr><th style="width:30%">异常状态</th><td>${statusText}</td></tr>
@@ -193,139 +214,6 @@ function createStageTable( stageIndex ) {
   </div>
   </div>
   `;
-  return html;
-}
-
-let layoutIconIndexes = {
-  1:5,
-  2:4,
-  3:3,
-  5:3,
-  4:4,
-  2000:-1,
-  
-  1990:10,
-  1991:11,
-  1992:12,
-  1993:13,
-  1994:14,
-  1995:10,
-  1996:11,
-  1997:12,
-  1998:13,
-  1999:14,
-  2100:10,
-  2101:11,
-  2102:12,
-  2103:13,
-  2104:14,
-  2105:15,
-  
-  1152:0,
-  1153:1,
-  1154:2,
-  
-  2200:0,
-  2201:1,
-  2202:2,
-  2203:4,
-  2204:3,
-  
-  2205:5, //trick
-  9000:6,
-};
-
-let layoutIconNames = {
-  1990:'支援宝可梦A1',
-  1991:'支援宝可梦A2',
-  1992:'支援宝可梦A3',
-  1993:'支援宝可梦A4',
-  1994:'支援宝可梦A5',
-  1995:'支援宝可梦B1',
-  1996:'支援宝可梦B2',
-  1997:'支援宝可梦B3',
-  1998:'支援宝可梦B4',
-  1999:'支援宝可梦B5',
-  2100:'支援宝可梦1',
-  2101:'支援宝可梦2',
-  2102:'支援宝可梦3',
-  2103:'支援宝可梦4',
-  2104:'支援宝可梦5',
-  2105:'支援宝可梦6',
-  1152:'岩石',
-  1153:'铁块',
-  1154:'硬币',
-  2000:'自己',
-  2200:'岩石',
-  2201:'铁块',
-  2202:'硬币',
-  2203:'黑云',
-  2204:'屏障',
-  2205:'消除',
-};
-
-function getCover( value, size ) {
-  //if ( value == 3) return '';
-  return pmBase.sprite.get('ojama', layoutIconIndexes[value],size);
-}
-function getBlock( value, size ) {
-  if ( value == 2000 ) value = selfIndex;
-  if ( value in layoutIconIndexes ) {
-    return pmBase.sprite.get('ojama', layoutIconIndexes[value],size);
-  } else {
-    let pkmn = poketoru.getPokemonData( value );
-    return pmBase.sprite.get('pokemon',pkmn.icon,size);
-  }
-}
-function getBlockName( value ) {
-  if ( value == 2000 ) value = selfIndex;
-  if ( value in layoutIconNames ) {
-    return pmBase.sprite.get('ojama',layoutIconIndexes[value],24) + layoutIconNames[value];
-  } else {
-    let pkmn = poketoru.getPokemonData( value );
-    return pmBase.sprite.get('pokemon',pkmn.icon,24) + pkmn.name;
-  }
-}
-
-function drawLayout( layoutArray ) {
-  let html = '', html2='';
-  let size=32;
-  for ( let i=layoutArray.length/6-1;i>=0;i-- ){
-    html2 += '<tbody>';
-    for ( let j=0;j<6;j++ ) {
-      html2 += '<tr>';
-      for ( let k=0;k<6;k++ ) {
-        let layoutRow = layoutArray[i*6+j];
-        html2 += '<td>';
-        if ( layoutRow[k+6] > 0 ) html2 += getBlock(layoutRow[k+6],size);
-        if ( layoutRow[k] > 0 ) html2 += getCover(layoutRow[k]==3?0:layoutRow[k],size);
-        html2 += '</td>';
-      }
-      html2 += '</tr>';
-    }
-    html2 += '</tbody>';
-  }
-  html = `<table class="p-layout ${size==16?'p-layout--figure':''}" ><tbody>${html2}</tbody></table>`;
-  return html;
-}
-
-function drawPattern( layoutArray ) {
-  let html = '', html2='';
-  let row = layoutArray.length;
-  let col = layoutArray[0].length > 6 ? 6 : layoutArray[0].length;
-  let size = 12;
-    for ( let j=0;j<row;j++ ) {
-      html2 += '<tr>';
-      for ( let k=0;k<col;k++ ) {
-        let layoutRow = layoutArray[j];
-        html2 += '<td>';
-        if ( layoutRow[k+6] > 0 ) html2 += getBlock(layoutRow[k+6],size);
-        if ( layoutRow[k] > 0 ) html2 += getCover(layoutRow[k],size);
-        html2 += '</td>';
-      }
-      html2 += '</tr>';
-    }
-  html = `<table class="p-layout p-layout--figure" style="display:inline-block; vertical-align: middle;"><tbody>${html2}</tbody></table>`;
   return html;
 }
 
@@ -430,7 +318,7 @@ function createOjama( stageData ) {
         
         if (actData.count==25 ) {
           let figure = actData.blocks;
-          pattern = drawPattern(figure);
+          pattern = layout.createPattern(figure);
             
           let ojamaGroups = {};
           for( let i=0;i<6;i++ ){
@@ -445,7 +333,7 @@ function createOjama( stageData ) {
               }
             }
           }
-          ojamaText = Object.keys(ojamaGroups).map(ojamaIndex=>`${ojamaGroups[ojamaIndex]}个${getBlockName(ojamaIndex)}`).join('、');
+          ojamaText = Object.keys(ojamaGroups).map(ojamaIndex=>`${ojamaGroups[ojamaIndex]}个${layout.getBlock(layout.blockType.pattern,ojamaIndex,24,true)}`).join('、');
           
         } else if (actData.count==1){
           let figure = new Array(6).fill(null).map(x=>new Array(12).fill(0));
@@ -454,7 +342,7 @@ function createOjama( stageData ) {
               figure[j+y2][i+x2+6] = actData.blocks[j * w + i];
             }
           }
-          pattern = drawPattern(figure);
+          pattern = layout.createPattern(figure);
           
           let ojamaGroups = {};
           for( let i=0;i<count;i++ ){
@@ -466,7 +354,7 @@ function createOjama( stageData ) {
               ojamaGroups[ojamaIndex] = 1
             }
           }
-          ojamaText = Object.keys(ojamaGroups).map(ojamaIndex=>`${ojamaGroups[ojamaIndex]}个${getBlockName(ojamaIndex)}`).join('、');
+          ojamaText = Object.keys(ojamaGroups).map(ojamaIndex=>`${ojamaGroups[ojamaIndex]}个${layout.getBlock(layout.blockType.pattern,ojamaIndex,24,true)}`).join('、');
         } else {
           let figure;
           if ( actData.count >= 13 ) {
@@ -479,7 +367,7 @@ function createOjama( stageData ) {
           } else {
             figure = new Array(6).fill(null).map(x=>new Array(12).fill(9000));
           }
-          pattern = drawPattern(figure);
+          pattern = layout.createPattern(figure);
           
           let ojamaGroups = {};
           for( let i=0;i<count;i++ ){
@@ -490,7 +378,7 @@ function createOjama( stageData ) {
               ojamaGroups[ojamaIndex] = 1
             }
           }
-          ojamaText = Object.keys(ojamaGroups).map(ojamaIndex=>`${ojamaGroups[ojamaIndex]}个${getBlockName(ojamaIndex)}`).join('、');
+          ojamaText = Object.keys(ojamaGroups).map(ojamaIndex=>`${ojamaGroups[ojamaIndex]}个${layout.getBlock(layout.blockType.pattern,ojamaIndex,24,true)}`).join('、');
         }
         
         
@@ -517,40 +405,3 @@ function createOjama( stageData ) {
 }
 
 pmBase.hook.on( 'init', init);
-pmBase.util.addCSS(`
-  .p-layout td {
-    border-collapse: separate;
-  }
-  .p-layout tbody + tbody:before {
-    content: '';
-    display: block;
-    height: 10px;
-  }
-  .p-layout{
-    position:relative;
-  }
-  .p-layout td{
-    width:32px;
-    height:32px;
-    padding:0;
-    position:relative;
-    border: 1px solid #ccc;
-  }
-  .p-layout div{
-    position:absolute;
-    top:0;
-    left:0;
-  }
-  
-  .p-layout--figure td {
-    width:12px;
-    height:12px;
-  }
-  
-  .p-layout tbody:not(:last-child) {
-    display: none;
-  }
-  .p-layout:hover tbody {
-    display: block;
-  }
-`);

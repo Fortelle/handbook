@@ -7,6 +7,7 @@ let main = {
 */
 
 function using (arr,callback){
+  $('.c-loading').attr('class', 'c-loading c-loading--step-3');
   let gkey = `/${config.get( 'gameKey')}/`;
   Promise
     .all(arr.map(x=>import(x.replace('./',gkey))))
@@ -14,10 +15,15 @@ function using (arr,callback){
 }
 
 function load (...args){
+  $('.c-loading').attr('class', 'c-loading c-loading--step-3');
   Promise
     .all(args.map(x=>import(`../modules/${x}.js`)))
     .then(()=>hook.keepAlive('load'));
 }
+
+hook.on( 'load', function(){
+  $('.c-loading').attr('class', 'c-loading c-loading--step-4');
+});
 
 export default {
   using,

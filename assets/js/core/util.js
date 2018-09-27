@@ -72,8 +72,31 @@ function decompress(text) {
   return JSON.parse(LZString.decompressFromBase64(text));
 }
 
+/************************/
+const Base64String = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/';
+
+function binToBase64 ( bin ) {
+  return bin
+    .padStart( Math.ceil(bin.length/6)*6, '0')
+    .match(/(.{6})/g)
+    .map( x => Base64String[parseInt(x,2)] )
+    .join('')
+    ;
+}
+
+function base64ToBin ( b64 ) {
+  return b64
+    .split('')
+    .map( x=> Base64String.indexOf(x).toString(2).padStart(6,'0') )
+    .join('')
+    ;
+}
+
 export default {
   arr2obj,
   addCSS,
-  decompress
+  decompress,
+  binToBase64,
+  base64ToBin,
+  
 }

@@ -1,8 +1,16 @@
 ---
-layout: gamepage
+layout: page
 ---
 {% assign gameKey = page.url | split: "/" | shift | first %}
 
+<div class="l-page">
+  <div class="l-page__header">
+    <h1 class="mb-3 mt-1">
+      <a href="{{page.url}}">{{ page.title}}</a>
+      </h1>
+    <hr>
+  </div>
+  <div class="l-page__body">
 {% for item in site.data.nav[gameKey].nav %}
   <div class="list-group m-2 mb-4" style="font-size:16px;">
       <div class="list-group-item list-group-item-info">{{ item.group }}</div>
@@ -14,3 +22,9 @@ layout: gamepage
   {% endfor %}
   </div>
 {% endfor %}
+
+    {{ content }}
+  </div>
+  <div class="l-page__footer">
+  </div>
+</div>

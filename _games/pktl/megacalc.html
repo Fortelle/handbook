@@ -9,6 +9,9 @@ function init() {
 	let tbody = '';
   let sumMSU = 0;
   
+	let hash = window.location.hash.slice(1);
+	let binArray = ( hash.length > 0 ) ? pmBase.util.base64ToBin(hash).split('').reverse() : [];
+	debug(binArray);
   let html = `
   <div class="card">
   <div class="card-body p-text"></div>
@@ -20,32 +23,49 @@ function init() {
     .sort(function(pkmn1, pkmn2) {
       return pkmn1.dex - pkmn2.dex || pkmn1.form - pkmn2.form;
     })
-    .forEach( megaData => {
+    .forEach( ( megaData, i ) => {
       let pkmnData = poketoru.getPokemonData(megaData.originID);
       sumMSU += megaData.msu;
-      html += `<div class="col-1 small"><label style="display:block;">
-      <div class="card m-1"><div class="card-body p-1 text-center">
+      html += `<div class="col-4 col-md-2 col-lg-1 small"><label style="display:block;">
+      <div class="card m-1  ${binArray[i]==='1'?'bg-primary':''}"><div class="card-body p-1 text-center">
   		  ${ poketoru.getPokemonIcon( megaData ) }
-  		  <input type="checkbox" name="msu" value="${megaData.msu}" style="display:none;"  />
+  		  <input type="checkbox" name="msu" value="${megaData.msu}" style="display:none;"  ${binArray[i]==='1'?'checked':''}/>
         <br>${megaData.ms} - ${megaData.msu} = ${megaData.ms - megaData.msu}
       </div></div>
       </label></div>`;
     });
     html+='</div>';
+    
   pmBase.content.build({
-    pages: 1,
-    content1: html
+    pages: [{
+      content: html
+    }]
   });
+  
 	popover.apply();
-	$('input[name=msu]').change(function(){
-	  let sumUsedMSU = 0;
-	  $(this).parents('.card').toggleClass('bg-primary');
-	  $('input[name=msu]:checked').each(function(){
-      sumUsedMSU += ~~this.value;
-    });
-	  $('.p-text').html(`超级进化加速总数：${sumMSU}个，已使用${sumUsedMSU}个，还需要${sumMSU-sumUsedMSU}个。`);
-	});
+	calc();
+	
+	$('input[name=msu]').change( calc );
 };
+
+function calc(){
+  let sumMSU = 0;
+  let sumUsedMSU = 0;
+  let bin = '';
+  $(this).parents('.card').toggleClass('bg-primary');
+  $('input[name=msu]').each(function(){
+    sumMSU += ~~this.value;
+    if ( this.checked ) {
+      sumUsedMSU += ~~this.value;
+      bin = '1' + bin;
+    } else {
+      bin = '0' + bin;
+    }
+  });
+  $('.p-text').html(`超级进化加速总数：${sumMSU}个，已使用${sumUsedMSU}个，还需要${sumMSU-sumUsedMSU}个。`);
+  bin = pmBase.util.binToBase64(bin);
+  window.history.replaceState(null, null, "#" + bin);
+}
 
 
 pmBase.hook.on( 'load', init );

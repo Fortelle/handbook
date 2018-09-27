@@ -42,7 +42,7 @@ const createHashPart = function( obj ) {
 };
 
 /*******************/
-
+/*
 let pageMode, callback, selector;
 
 const listen = function ( _callback, _selector = '.p-selector' ) {
@@ -70,21 +70,19 @@ const onHashChange = function (){
 	  return false;
 	}
 	
-	/*	
-	if ( key.length > 0 ) {
-	  let success = callback(key);
-	  if ( success ) {
-	  }
-	} else {
-	  if ( pageMode == 2 ) content.changeTab(0);
-	}*/
+	//if ( key.length > 0 ) {
+	//  let success = callback(key);
+	//  if ( success ) {
+	//  }
+	//} else {
+	//  if ( pageMode == 2 ) content.changeTab(0);
+	//}
 };
-
+*/
 /*******************/
 
 export default {
   getHash,
   setHash,
   getHref,
-  listen,
 }

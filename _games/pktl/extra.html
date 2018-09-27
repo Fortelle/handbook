@@ -1,0 +1,50 @@
+---
+title: 额外关卡
+---
+<script type="module">
+import poketoru from '../core.js';
+import popover from '../popover.js';
+import layout from '../layout.js';
+import pokemonSetDataArray from '../data/pokemonset.js';
+import stageDataArray from '../data/stage.extra.js';
+
+function init(){
+  let listData = [];
+  for ( let stageIndex=0; stageIndex<stageDataArray.length; stageIndex++ ) {
+    let stageData = stageDataArray[stageIndex];
+    let pkmnData = poketoru.getPokemonData( stageData.pokemon );
+    listData.push([
+      poketoru.getPokemonIcon( pkmnData ),
+      stageIndex,
+      `<a href="${pmBase.url.getHref('extrastage', stageIndex)}">${poketoru.getPokemonFullname(pkmnData)}</a>`,
+      pmBase.content.create('type', pkmnData.type ),
+      stageData.hp.toLocaleString(),
+      `${stageData.times}秒`,
+      `${stageData.ranks[0]}秒`,
+      stageData.layout ? layout.createLayout(stageData.layout.slice(0,6),12) : '',
+      //pokemonSetDataArray[stageData.pkmnSet].slice(0,stageData.skyfallCount).map(x=>getBlock(x,24)).join(''),
+    ]);
+  }
+  
+  let listHead = `<tr>
+    <th style="width:12%;">图标</th>
+    <th style="width:12%;">关卡</th>
+    <th style="width:15%;">宝可梦</th>
+    <th style="width:12%;">属性</th>
+    <th style="width:12%;">HP</th>
+    <th style="width:12%;">时间</th>
+    <th style="width:12%;">S评价</th>
+    <th style="width:12%;">初始盘面</th>
+  </tr>`;
+  
+  let html = pmBase.content.create('list',listData,listHead);
+  
+  pmBase.content.build({
+    pages: [{
+      content: html,
+    }],
+  });
+}
+
+pmBase.hook.on( 'init', init);
+</script>

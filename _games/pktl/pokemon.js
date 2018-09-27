@@ -15,8 +15,12 @@ function init(){
       htmlSelect += `<option value="${pkmnData.id}">#${dex} ${name}</option>`;
     });
 
-  pmBase.content.setControl( htmlSelect, 0 );
-  pmBase.url.listen( onHash );
+  pmBase.content.build({
+    pages: [{
+        control: htmlSelect,
+        content: onHash,
+    }],
+  });
 }
 
 function onHash( pkmnId ) {
@@ -108,8 +112,7 @@ function onHash( pkmnId ) {
   html+='<h3>升级</h3>';
   html+=pmBase.content.create('list', listBody, listHeader);
   
-  pmBase.content.setContent( html );
-  return true;
+  return html;
 }
 
 

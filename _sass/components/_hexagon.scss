@@ -10,8 +10,9 @@
   width: 80%;
   padding: 0;
   
-  @media (min-width:1201px) { /* <- 5-4  hexagons per row */
+  @media ( min-width: $break-large ) { /* <- 5-4  hexagons per row */
     padding-bottom: 5%;
+    
     .c-hexagon__item {
       width: 20%; /* = 100 / 5 */
     }
@@ -19,8 +20,44 @@
       margin-left:10%;  /* = width of .hex / 2  to indent even rows */
     }
   }
-
-
+  
+  @media (max-width: $break-large) and (min-width: $break-medium) { /* <- 4-3  hexagons per row */
+    padding-bottom: 5.5%;
+    
+    .c-hexagon__item {
+      width: 25%; /* = 100 / 4 */
+    }
+    .c-hexagon__item:nth-child(7n+5){ /* first hexagon of even rows */
+      margin-left:12.5%;  /* = width of .hex / 2  to indent even rows */
+    }
+  }
+  
+  @media (max-width: $break-medium) and (min-width: $break-small) { /* <- 3-2  hexagons per row */
+    padding-bottom: 7.4%;
+    
+    .c-hexagon__item {
+      width: 33.333%; /* = 100 / 3 */
+    }
+    .c-hexagon__item:nth-child(5n+4){ /* first hexagon of even rows */
+      margin-left:16.666%;  /* = width of .hex / 2  to indent even rows */
+    }
+  }
+    
+  @media (max-width: $break-small) { /* <- 2-1  hexagons per row */
+    padding-bottom: 11.2%;
+    
+    font-size: 13px;
+     
+    .c-hexagon__item {
+      width: 50%; /* = 100 / 3 */
+    }
+    .c-hexagon__item:nth-child(3n+3){ /* first hexagon of even rows */
+      margin-left:25%;  /* = width of .hex / 2  to indent even rows */
+    }
+  }
+  
+  
+  
   &__item {
     position: relative;
     visibility:hidden;
@@ -131,57 +168,4 @@
               transform:translate3d(0,100%,0);
     }
 
-}
-
-
-/*** HEXAGON SIZING AND EVEN ROW INDENTATION *****************************************************************/
-@media (min-width:1201px) { /* <- 5-4  hexagons per row */
-  .c-hexagon__item {
-    width: 20%; /* = 100 / 5 */
-  }
-  .hex:nth-child(9n+6){ /* first hexagon of even rows */
-    margin-left:10%;  /* = width of .hex / 2  to indent even rows */
-  }
-}
-
-@media (max-width: 1200px) and (min-width:901px) { /* <- 4-3  hexagons per row */
-  .c-hexagon{
-    padding-bottom: 5.5%
-  }
-  .hex {
-    width: 25%; /* = 100 / 4 */
-  }
-  .hex:nth-child(7n+5){ /* first hexagon of even rows */
-    margin-left:12.5%;  /* = width of .hex / 2  to indent even rows */
-  }
-}
-
-@media (max-width: 900px) and (min-width:601px) { /* <- 3-2  hexagons per row */
-  .c-hexagon{
-    padding-bottom: 7.4%
-  }
-  .hex {
-    width: 33.333%; /* = 100 / 3 */
-  }
-  .hex:nth-child(5n+4){ /* first hexagon of even rows */
-    margin-left:16.666%;  /* = width of .hex / 2  to indent even rows */
-  }
-}
-
-@media (max-width: 600px) { /* <- 2-1  hexagons per row */
-  .c-hexagon{
-    padding-bottom: 11.2%
-  }
-  .hex {
-    width: 50%; /* = 100 / 3 */
-  }
-  .hex:nth-child(3n+3){ /* first hexagon of even rows */
-    margin-left:25%;  /* = width of .hex / 2  to indent even rows */
-  }
-}
-
-@media (max-width: 400px) {
-  .c-hexagon{
-        font-size: 13px;
-    }
 }

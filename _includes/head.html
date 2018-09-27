@@ -4,9 +4,14 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   
   <script>
-  if ( typeof Symbol == "undefined" ) {
-    document.write('<script type="text/javascript" src="//unpkg.zhimg.com/babel-standalone@6.26.0/babel.min.js"><\/script>');
-  }
+    let htmlClass = 'js-enabled js-loading';
+    if ( typeof Symbol == "undefined" ) {
+      document.write('<script type="text/javascript" src="//unpkg.zhimg.com/babel-standalone@6.26.0/babel.min.js"><\/script>');
+      htmlClass += ' js-babel';
+    } else {
+      htmlClass += ' js-es6';
+    }
+    document.documentElement.className = htmlClass;
   </script>
 
   {% assign headJS = site.data.config.js %}
