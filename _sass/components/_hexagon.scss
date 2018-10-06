@@ -1,5 +1,12 @@
 ﻿// https://github.com/web-tiki/responsive-grid-of-hexagons
 
+$data: (
+  ( 10000px,       6 ),
+  ( $break-large,  4 ),
+  ( $break-medium, 3 ),
+  ( $break-small,  2 ),
+);
+
 .c-hexagon {
   display: flex;
   flex-wrap: wrap;
@@ -10,54 +17,22 @@
   width: 80%;
   padding: 0;
   
-  @media ( min-width: $break-large ) { /* <- 5-4  hexagons per row */
-    padding-bottom: 5%;
+  @each $d in $data {
+    $breakpoint: nth($d,1);
+    $cols: nth($d,2);
     
-    .c-hexagon__item {
-      width: 20%; /* = 100 / 5 */
-    }
-    .c-hexagon__item:nth-child(9n+6){ /* first hexagon of even rows */
-      margin-left:10%;  /* = width of .hex / 2  to indent even rows */
+    @media ( max-width: $breakpoint ) {
+      padding-bottom: 25% / $cols;
+      
+      &__item {
+        width: 100% / $cols;
+      }
+      &__item:nth-child(#{$cols*2-1}n+#{$cols+1}){
+        margin-left: 50% / $cols;
+      }
     }
   }
-  
-  @media (max-width: $break-large) and (min-width: $break-medium) { /* <- 4-3  hexagons per row */
-    padding-bottom: 5.5%;
-    
-    .c-hexagon__item {
-      width: 25%; /* = 100 / 4 */
-    }
-    .c-hexagon__item:nth-child(7n+5){ /* first hexagon of even rows */
-      margin-left:12.5%;  /* = width of .hex / 2  to indent even rows */
-    }
-  }
-  
-  @media (max-width: $break-medium) and (min-width: $break-small) { /* <- 3-2  hexagons per row */
-    padding-bottom: 7.4%;
-    
-    .c-hexagon__item {
-      width: 33.333%; /* = 100 / 3 */
-    }
-    .c-hexagon__item:nth-child(5n+4){ /* first hexagon of even rows */
-      margin-left:16.666%;  /* = width of .hex / 2  to indent even rows */
-    }
-  }
-    
-  @media (max-width: $break-small) { /* <- 2-1  hexagons per row */
-    padding-bottom: 11.2%;
-    
-    font-size: 13px;
-     
-    .c-hexagon__item {
-      width: 50%; /* = 100 / 3 */
-    }
-    .c-hexagon__item:nth-child(3n+3){ /* first hexagon of even rows */
-      margin-left:25%;  /* = width of .hex / 2  to indent even rows */
-    }
-  }
-  
-  
-  
+
   &__item {
     position: relative;
     visibility:hidden;

@@ -1,5 +1,6 @@
 import config from './config.js';
 import url from './url.js';
+import util from './util.js';
 
 const coreTypeNames = [
   "一般",
@@ -56,7 +57,15 @@ let createFunctions = {
   
   'list' : function( dataTable, header = '', classes = '', attr = '' ) {
     if ( typeof dataTable !== 'string' ) dataTable = dataTable.map( x=> `<tr><td>${x.join('</td><td>')}</td></tr>` ).join('');
-    if ( typeof header !== 'string' ) header = `<tr><th>${header.join('</th><th>')}</th></tr>`;
+    if ( typeof header !== 'string' ) header = '<tr>' + header.map( x=>{
+      if ( x.includes('|') ) {
+        let y=x.split('|');
+        return `<th style="width:${y[0]}">${y[1]}</th>`;
+      } else {
+        return `<th>${x}</th>`;
+      }
+    }).join('') + '</tr>';
+    
     return `<table class="table table-sm table-hover text-center p-listtable ${classes}" ${attr}>
       <thead>${header}</thead>
       <tbody>${dataTable}</tbody>
@@ -70,6 +79,20 @@ let createFunctions = {
         ? `data-sortlist="[[${defaultSortColumn},0]]"`
         : `data-sortlist="[${defaultSortColumn}]"`;
     return create( 'list', data, header, 'sortable', attr );
+  },
+  
+  'tabs' : function( names, contents ) {
+    let id = util.getUniqueID();
+    let html = '<div class="c-tabs">';
+    for ( let i=0;i<names.length;i++ ) {
+      html += `<div class="c-tabs__tab">
+                 <input type="radio" id="js-tabs-${id}-${i}" class="c-tabs__input" name="${id}" ${i===0?'checked':''}>
+                 <label class="c-tabs__label" for="js-tabs-${id}-${i}">${names[i]}</label>
+                 <div class="c-tabs__content">${contents[i]}</div> 
+             </div>`;
+    }
+    html += '</div>';
+    return html;
   },
 }
 

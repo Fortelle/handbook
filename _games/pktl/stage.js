@@ -10,6 +10,7 @@ let statusNameArray = ['灼伤','恐惧','睡眠','冰冻','麻痹','中毒'];
 let spriteNameArray = [ 'main', 'extra', 'event', 'event' ];
 let rankTextArray   = 'SABC';
 let rankColorArray  = [ 'goldenrod', 'blue', 'green', 'red'];
+let weekTextArray   = ['星期一','星期二','星期三','星期四','星期五','星期六','星期日'];
 let itemDataArray   = [0,1,2,3,4,5,6,7,1,2,3,4,5,6,7];
 
 let stageDataArray, eventDataArray;
@@ -159,14 +160,49 @@ function change( key ) {
 function change2( key ) {
   let eventIndex = ~~key;
   let eventData = eventDataArray[eventIndex];
-  let html = '';
-  eventData.stages.forEach( stageIndex => {
-    html += createStageTable(stageIndex);
-  });
+  let stageNames, stageTabs;
+  if ( eventData.type == 2 ) {
+    stageNames = eventData.stages.map ( (stageIndex,i) => weekTextArray[i] );
+  } else if ( eventData.type == 6 ) {
+    stageNames = eventData.extend.map ( (row,i) => {
+      let stageIndex = row[0];
+      let stageLevelBegin = row[1];
+      let stageLevelEnd = eventData.extend[i+1] ? eventData.extend[i+1][1]-1 : -1;
+      return ( stageLevelBegin == stageLevelEnd )
+        ? stageLevelBegin
+        : (stageLevelEnd == -1)
+          ? `${stageLevelBegin}+`
+          : `${stageLevelBegin}-${stageLevelEnd}`;
+    });
+  } else if ( eventData.type == 7 || eventData.type == 9 ) {
+    let total = eventData.extend.reduce( (x,row) => x+row[1], 0 );
+    stageNames = eventData.extend.map ( row => {
+      let stageIndex = row[0];
+      let stageData = stageDataArray[stageIndex];
+      let pkmnData = poketoru.getPokemonData( stageData.pokemon );
+      return `${poketoru.getPokemonFullname(pkmnData)}（${row[1]}/${total}）`;
+    });
+  } else {
+    stageNames = eventData.stages.map( stageIndex => poketoru.getPokemonFullname(poketoru.getPokemonData( stageDataArray[stageIndex].pokemon )) );
+  }
+  
+  if ( eventData.type == 6 ) {
+    stageTabs = eventData.extend.map ( (row,i) => {
+      let stageIndex = row[0];
+      let stageLevelBegin = row[1];
+      let stageLevelEnd = eventData.extend[i+1] ? eventData.extend[i+1][1]-1 : -1;
+      return createStageTable(stageIndex, stageLevelEnd-stageLevelBegin+1);
+    });
+  } else {
+    stageTabs = eventData.stages.map( stageIndex => createStageTable(stageIndex) );
+  }
+  
+  let html = pmBase.content.create('tabs', stageNames,stageTabs );
+  
   return html;
 }
 
-function createStageTable( stageIndex ) {
+function createStageTable( stageIndex, level = 1 ) {
   let stageData = stageDataArray[stageIndex];
   pmBase.config.set('selfIndex', stageData.pokemon);
   let pkmnData = poketoru.getPokemonData( stageData.pokemon );
@@ -174,7 +210,16 @@ function createStageTable( stageIndex ) {
   let skyfallIcons = pokemonSetDataArray[stageData.pkmnSet].slice(0,stageData.skyfallCount).map(x=>layout.getBlock(layout.blockType.pokemonset,x,24)).join('');
   let html = '';
   uxHP = stageData.hpLock ? stageData.hp : stageData.hp * 3;
-  let hpText = stageData.hp > 1 ? stageData.hp.toLocaleString() + ( mode === 0 ? `（UX：${uxHP.toLocaleString()}）` : '' ) : '无限' ;
+
+  let hpText = (stageData.hp == 1)
+    ? '无限'
+    : ( mode === 0 && !stageData.hpLock )
+      ? `${stageData.hp.toLocaleString()}（UX：${(stageData.hp * 3).toLocaleString()}）`
+      : ( level > 1 && stageData.hpIncrease )
+        ? `${stageData.hp.toLocaleString()} - ${(stageData.hp+stageData.hpIncrease*(level-1)).toLocaleString()}（+${stageData.hpIncrease}/级）`
+        : stageData.hp.toLocaleString()
+          ;
+  
   let avgDamage = '';
   if ( stageData.hp && stageData.moves ) {
     avgDamage += parseInt(stageData.hp/stageData.moves) + '/步';
@@ -194,6 +239,11 @@ function createStageTable( stageIndex ) {
     ['评价',rankText],
   ];
   
+  let extendData = [
+    ['异常状态', statusText ],
+  ];
+  if ( avgDamage ) extendData.push([ '平均伤害', avgDamage ]);
+  
   html += `
   <div class="row"><div class="col-12">
   </div>
@@ -203,10 +253,7 @@ function createStageTable( stageIndex ) {
   <h3>初始布局</h3>
   ${stageData.layout ? layout.createLayout(stageData.layout) : '随机'}
   <h3>参考参数</h3>
-  <table class="table table-sm">
-    <tr><th style="width:30%">异常状态</th><td>${statusText}</td></tr>
-    ${avgDamage?`<tr><th>平均伤害</th><td>${avgDamage}</td></tr>`:''}
-  </table>
+  ${pmBase.content.create('info',extendData)}
   
   </div>
   <div class="col-6">
@@ -223,12 +270,14 @@ function createOjama( stageData ) {
   let html = '';
   stageData.ojama.forEach(function(row,index){
     let [ switchValue, moveCountdown, timeCountdown, instantFlag, useType, value2, useOrder, actIndexes, switchType] = row;
+    debug(useType);
     html += `<h3>干扰${index+1}</h3>`;
     if ( !switchValue && !actIndexes ) {
       html += `无。`;
       return;
     }
     let a = '';
+    
     switch( useType ) {
       case 0:
         if ( timeCountdown > 0 ) {
@@ -324,7 +373,6 @@ function createOjama( stageData ) {
           for( let i=0;i<6;i++ ){
             for( let j=0;j<12;j++ ){
               let ojamaIndex = actData.blocks[i][j];
-              if ( ojamaIndex <= 6 ) ojamaIndex = [0,2205,2203,2204,2203,2204][ojamaIndex];
               if ( ojamaIndex == 0 ) continue;
               if ( ojamaIndex in ojamaGroups ) {
                 ojamaGroups[ojamaIndex] +=1;
@@ -383,7 +431,10 @@ function createOjama( stageData ) {
         
         
         
-        a += `<tr><td style="width:120px;text-align:center;margin-left:30px;">${pattern}</td><td>`;
+        a += `<tr>
+          <td><i class="fas fa-${useOrder?'arrow-down':'random'}"></i></td>
+          <td style="width:120px;text-align:center;margin-left:30px;">${pattern}</td>
+          <td>`;
         if ( actData.count == 25 ) { // whole area.
           a += `将盘面变成${ojamaText}。`;
         } else if ( actData.count >= 13 ) { // fixed range(w,h) at fixed start position(x,y) with random blocks.
@@ -393,6 +444,7 @@ function createOjama( stageData ) {
         } else if ( count > 0) { // fixed range(w,h) at fixed start position(x,y) with presetted pattern.
           a += `将随机${w}×${h}区域内的${count}个方块变成${ojamaText}。`;
         };
+        a += `</tr>`;
         
       });
       a += '</table>';

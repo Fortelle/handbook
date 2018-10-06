@@ -27,7 +27,7 @@ function init() {
       let pkmnData = poketoru.getPokemonData(megaData.originID);
       sumMSU += megaData.msu;
       html += `<div class="col-4 col-md-2 col-lg-1 small"><label style="display:block;">
-      <div class="card m-1  ${binArray[i]==='1'?'bg-primary':''}"><div class="card-body p-1 text-center">
+      <div class="card m-1  ${binArray[i]==='1'?'bg-primary':''}  p-pkmn"><div class="card-body p-1 text-center">
   		  ${ poketoru.getPokemonIcon( megaData ) }
   		  <input type="checkbox" name="msu" value="${megaData.msu}" style="display:none;"  ${binArray[i]==='1'?'checked':''}/>
         <br>${megaData.ms} - ${megaData.msu} = ${megaData.ms - megaData.msu}

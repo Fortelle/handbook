@@ -1,1 +1,1 @@
-jekyll serve --profile
+jekyll serve

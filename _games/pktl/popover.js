@@ -63,13 +63,22 @@ const createContent = function() {
   html += '</div>';
   return html;
 };
+
+
 const apply = function() {
+  $('.p-pkmn .p-pkmn').each(function(){
+    let pid = this.getAttribute('data-pid');
+    debug(pid);
+    $(this).parents('.p-pkmn')[0].setAttribute('data-pid', pid);
+    $(this).removeClass('p-pkmn');
+  });
+  
   $('.p-pkmn').popover({
     content: createContent,
     html: true,
     placement: 'top',
     trigger: 'hover '
-  })
+  });
 };
 
 export default {

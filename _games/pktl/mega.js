@@ -15,7 +15,7 @@ function init() {
       let pkmnData = poketoru.getPokemonData(megaData.originID);
       sumMSU += megaData.msu;
       list += `<tr>
-  		  <td>${ poketoru.getPokemonIcon( pkmnData ) + '=>' + poketoru.getPokemonIcon( megaData ) }</td>
+  		  <td class="p-pkmn">${ poketoru.getPokemonIcon( pkmnData )}<i class="fas fa-arrow-right m-1"></i>${poketoru.getPokemonIcon( megaData ) }</td>
         <td>${ megaData.dex.toString().padStart(3,0) }</td>
         <td><a href="${pmBase.url.getHref( 'pokemon', megaData.id )}">${megaData.name}</a></td>
         <td>${ pmBase.content.create('type',megaData.type) }</td>
@@ -34,12 +34,6 @@ function init() {
     '超级效果',
     '进化速度',
   ];
-  /*
-  pmBase.content.build({
-    pages: 1,
-    content1: pmBase.content.create('sortlist',list,header)
-  });
-  */
   pmBase.content.build({
     pages: [{
         content: pmBase.content.create('sortlist',list,header),

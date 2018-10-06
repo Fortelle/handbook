@@ -120,59 +120,9 @@ function filter() {
   });
   
   if ( result.length > 500 ) return;
-  /*
-  $.each( poketoru.pokemonList, function( pkmnID, pkmnIndex ) {
-    let pkmn=poketoru.getPokemonData(pkmnIndex);
-    if ( isSuperEffect ) {
-      if ( !se.includes(pkmn.type) ) return;
-    } else {
-      if ( selectedType >= 0 && pkmn.type != selectedType ) return;
-    }
-		if ( selectedSkill > 0 && !pkmn.skills.includes(selectedSkill) ) return;
-    result.push(pkmn);
-  });
-  
-  
-  if ( sort == 1 ) {
-    result.sort(function(pkmn1, pkmn2) {
-      return pkmn2.maxLevel - pkmn1.maxLevel;
-    });
-  } else if ( sort == 2 ) {
-    result.sort(function(pkmn1, pkmn2) {
-      return pkmn2.maxPower - pkmn1.maxPower;
-    });
-  } else if ( sort == 3 ) {
-    result.sort(function(pkmn1, pkmn2) {
-      return pkmn1.type - pkmn2.type;
-    });
-  }
-  $.each( result, function( i, pkmn ) {
-    let pkmnID = pkmn.id;
-    let pkmnNumber = pkmnID.split('.')[0];
-    let pkmnSkill = '';
-    let maxPower = 0;
-    let skills = pkmn.skills.filter(x=>x).map( s => skillDataArray[s].name ).join('<br>');
-		let url = pmBase.url.getHref( 'pokemon', pkmnID );
-    tbody += `
-      <tr>
-        <td>${pmBase.sprite.get('pokemon',pkmn.icon,48)}</td>
-        <td>${pkmn.dex}</td>
-        <td><a href="${url}">${pkmn.name}</a></td>
-        <td>${pmBase.content.create('type',pkmn.type)}</td>
-        <td>${ poketoru.getAttack( pkmn.group, 1 )} - ${poketoru.getAttack( pkmn.group, pkmn.rml + 10 ) }</td>
-        <td>${pkmn.rml}</td>
-        <td>${skills}</td>
-      </tr>
-    `;
-  });
-  let head = '<tr><th>编号</th><th>图标</th><th>宝可梦</th><th>属性</th><th>攻击力</th><th>最大等级提升</th><th>初始能力</th></tr>';
-  let html = pmBase.content.create('list',tbody,head);
-  */
-  
   
   $('.p-result tbody').html( tbody );
   $('.p-result').trigger("update");
-  // return html;
 };
 
 pmBase.hook.on( 'load', init );

@@ -92,11 +92,15 @@ function base64ToBin ( b64 ) {
     ;
 }
 
+function getUniqueID() {
+  return new Date().getTime().toString(36);
+}
+
 export default {
   arr2obj,
   addCSS,
   decompress,
   binToBase64,
   base64ToBin,
-  
+  getUniqueID,
 }

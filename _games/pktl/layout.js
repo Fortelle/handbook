@@ -62,6 +62,7 @@ const blockDict = {
     2102: 'c',
     2103: 'd',
     2104: 'e',
+    2105: 'a',
     
     // tricks( copy from 1 )
     2200: 'rock',
@@ -78,7 +79,6 @@ const blockDict = {
     1154: 'coin',
   }
 };
-
 
 const blockIndexDict = {
   'barrier' : '3',
@@ -115,6 +115,21 @@ const blockNameDict = {
   'e'       : '支援宝可梦E',
 };
 
+let recordBlockCounts = {};
+
+function newRecord () {
+  recordBlockCounts = {
+    'barrier' : 0,
+    'block'   : 0,
+    'cloud'   : 0,
+    'rock'    : 0,
+    'pokemon' : 0,
+  };
+}
+
+function getRecord () {
+}
+
 function getCover( type, value, size ) {
   let blockKey = coverDict[type][value];
   return blockKey
@@ -127,7 +142,6 @@ function getBlock( type, value, size, withName = false ) {
   let blockKey = blockDict[type][value];
   if ( blockKey === 'self' ) blockKey = pmBase.config.get('selfIndex');
   if ( !blockKey ) blockKey = value;
-  
   if ( blockKey in blockIndexDict ) {
     return pmBase.sprite.get('ojama', blockIndexDict[blockKey], size)
       + ( withName ? blockNameDict[blockKey] : '' );
@@ -236,4 +250,6 @@ export default {
   getBlock,
   createLayout,
   createPattern,
+  newRecord,
+  getRecord,
 }
