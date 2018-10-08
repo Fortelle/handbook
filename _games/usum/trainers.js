@@ -28,11 +28,13 @@ function init(){
     ] );
   })
   
-	pmBase.content.buildLayout({
-	  pages: 2,
-	  content1: pmBase.content.create('list',listData),
-	  control2: htmlSelect,
-	  content2: change,
+	pmBase.content.build({
+	  pages: [{
+	    content: pmBase.content.create('list',listData),
+	  },{
+	    control: htmlSelect,
+	    content: change,
+	  }]
 	});
 	
 }

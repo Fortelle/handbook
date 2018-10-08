@@ -4,10 +4,16 @@ import {stoneData, enemyData, moveData} from './enemy.loader.js';
 function init(){
 	let html = '';
 	$.each( enemyData, function( key, data ){
-		var name = pmBase.util.getPokemonName(data.monsterNo);
+		var name = pmBase.common.getPokemonName(data.monsterNo);
 		html += `<option value="${key}">${data.monsterNo} ${name} (${data.hpBasis})</option>`;
 	});
-	pmBase.page.createSelector(html);
+	
+  pmBase.content.build({
+    pages: [{
+      control: html,
+      content: selectenemy,
+    }],
+  });
 }
 
 function selectenemy( key ){
@@ -57,7 +63,4 @@ function selectenemy( key ){
 	$('.c-enemyData__passive tbody').html( html );
 }
 
-pmBase.hook.on( 'init', function(){
-	init();
-	pmBase.page.listen(selectenemy);
-});
+pmBase.hook.on( 'load', init );

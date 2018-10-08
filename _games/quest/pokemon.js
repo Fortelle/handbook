@@ -10,11 +10,12 @@ function init(){
 		html += `<option value="${i}">#${pi} ${name}</option>`;
 	}
 	
-	pmBase.content.buildLayout({
-	  pages: 1,
-	  control1: html,
-	  content1: selectPokemon,
-	});
+  pmBase.content.build({
+    pages: [{
+      control: html,
+      content: selectPokemon,
+    }],
+  });
 }
 
 function selectPokemon( pi ){

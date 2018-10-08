@@ -3,7 +3,7 @@ import popover from './popover.js';
 import layout from './layout.js';
 import actionDataArray from './data/stage.action.js';
 import pokemonSetDataArray from './data/pokemonset.js';
-import { typeStatusArray, itemPatternArray } from './data/misc.js';
+import { typeStatusArray, itemPatternArray, dropItemArray } from './data/misc.js';
 //import stageDataArray from './data/stage.event.js';
 
 let statusNameArray = ['灼伤','恐惧','睡眠','冰冻','麻痹','中毒'];
@@ -12,6 +12,7 @@ let rankTextArray   = 'SABC';
 let rankColorArray  = [ 'goldenrod', 'blue', 'green', 'red'];
 let weekTextArray   = ['星期一','星期二','星期三','星期四','星期五','星期六','星期日'];
 let itemDataArray   = [0,1,2,3,4,5,6,7,1,2,3,4,5,6,7];
+let dropRateArray   = [0,1,2,3,4,5,6,7].map( x=> x?1/Math.pow(2,x-1):0 );
 
 let stageDataArray, eventDataArray;
 
@@ -228,15 +229,36 @@ function createStageTable( stageIndex, level = 1 ) {
   let rankText = [...new Set(stageData.ranks)].map( (v,i)=> `<span style="color:${rankColorArray[i]};font-weight:bold;">${rankTextArray[i]}：${v}</span>` ).join(' / ');
   let statusText = typeStatusArray[pkmnData.type].map( (x,i) => x ? `<i class="fas fa-check"></i> ${statusNameArray[i]}` : `<span style="color:gray;"><i class="fas fa-times"></i> ${ statusNameArray[i]}</span>` ).join('&nbsp;&nbsp;&nbsp;');
   let itemText = itemPatternArray[stageData.items].filter(x=>x>0).map( (x,i)=>poketoru.getItem(4,itemDataArray[x]) ).join('');
-
+  let costText = `${pmBase.sprite.get('item',[23,24][stageData.costType],24)}×${stageData.cost}`;
+  let catchText = `${stageData.catchRate}%+${stageData.catchRate2}%/${stageData.isTime?'3秒':'步'}`;
+  let dropText = '';
+  let hasDrops = stageData.drops[0] || stageData.drops[2] || stageData.drops[4];
+  if ( hasDrops ) {
+    let sum = 0;
+    for (let i=0;i<3;i++) {
+      let dropIndex = stageData.drops[i*2+0];
+      let dropRate = stageData.drops[i*2+1];
+      if ( dropIndex ) {
+        let dropItemData = dropItemArray[dropIndex];
+        let dropRateValue = dropItemArray[dropIndex];
+        sum += dropRateArray[dropRate];
+        dropText += `${poketoru.getItem( dropItemData[0], dropItemData[1], dropItemData[2] )} (${(dropRateArray[dropRate] * 100).toFixed(2)}%)<br>`;
+      }
+    }
+    dropText += `平均每局掉落${sum.toFixed(1)}个道具。`;
+  }
+  
   let infoData = [
     ['宝可梦',poketoru.getPokemonFullname(pkmnData) ],
     ['属性',pmBase.content.create('type', pkmnData.type )],
     ['HP',hpText],
-    ['步数',stageData.moves || stageData.times],
+    stageData.isTime ? ['限时',stageData.times + '秒'] : ['步数',stageData.moves + '步'],
     ['道具',itemText],
     ['默认落下',skyfallIcons],
     ['评价',rankText],
+    ['消耗',costText],
+    ['捕捉率',catchText],
+    ['掉落道具',dropText],
   ];
   
   let extendData = [
@@ -326,7 +348,6 @@ function createOjama( stageData ) {
       actIndexes.forEach(actIndex => {
         if ( actIndex===0 ) return;
         let actData= actionDataArray[actIndex];
-        
         let s2='';
         let startPos = '';
         let area = '';

@@ -18,7 +18,6 @@ let encSlotText = [
 let timeText = [ '白天', '夜晚' ];
 
 function init(){
-  //let type = $('.js-config').data('type');
   pmBase.loader.using([
     `./data/encounter.us.js`,
   ], function( arr ) {
@@ -31,10 +30,11 @@ function init(){
       htmlSelect += `<option value="${i}">#${i.toString().padStart(3,0)}　${locName}</option>`;
     });
     
-  	pmBase.content.buildLayout({
-  	  pages: 1,
-  	  control1: htmlSelect,
-  	  content1: change,
+  	pmBase.content.build({
+  	  pages: [{
+  	    control: htmlSelect,
+  	    content: change,
+  	  }]
   	});
     
   });

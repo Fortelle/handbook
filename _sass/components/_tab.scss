@@ -5,50 +5,41 @@
   }
 }
 
+%display {
+  display: block;
+}
 
 .c-tabs {
-  position: relative;   
-  min-height: 800px; /* This part sucks */
-  clear: both;
   margin: 25px 0;
-  
-  &__tab {
-    float: left;
-  }
   
   &__label {
     background: #eee; 
     padding: 5px 10px; 
     border: 1px solid #ccc; 
     margin-left: -1px; 
-    position: relative;
     left: 1px; 
+    float:left;
   }
   
   &__input {
     display: none;
     
-    &:checked ~ .c-tabs__label {
+    &:checked + .c-tabs__label {
       background: white;
       border-bottom: 1px solid white;
-      z-index: 2;
-    }
-    
-    &:checked ~ .c-tabs__label ~ .c-tabs__content {
-      z-index: 1;
     }
   }
   
   &__content {
-    position: absolute;
-    top: 32px;
-    left: 0;
-    background: white;
-    right: 0;
-    bottom: 0;
-    padding: 20px;
-    border: 1px solid #ccc;
+    display: none;
+    clear:both;
   }
   
+  @for $i from 0 through 30 {
+    .c-tabs__input--#{$i}:checked ~ .c-tabs__content--#{$i} {
+      @extend %display;
+      //display: block;
+    }
+  }
   
 }

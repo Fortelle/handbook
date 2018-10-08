@@ -26,9 +26,14 @@ $data: (
       
       &__item {
         width: 100% / $cols;
+        &:nth-child(#{$cols*2-1}n+#{$cols+1}){
+          margin-left: 50% / $cols;
+        }
       }
-      &__item:nth-child(#{$cols*2-1}n+#{$cols+1}){
-        margin-left: 50% / $cols;
+      
+      &__icon,
+      &__icon_hover {
+        font-size: #{$cols * 12}px;
       }
     }
   }
@@ -52,12 +57,9 @@ $data: (
     padding-bottom: 110.851%; /* =  width / sin(60) */
     margin:0 2%;
     overflow: hidden;
-    //visibility: hidden;
     outline:1px solid transparent; /* fix for jagged edges in FF on hover transition */
             transform: rotate3d(0,0,1,-60deg) skewY(30deg);
     * {
-      //position: absolute;
-      //visibility: visible;
       outline:1px solid transparent; /* fix for jagged edges in FF on hover transition */
     }
   }
@@ -75,23 +77,29 @@ $data: (
     &:hover {
       color: inherit !important;
       
-      .c-hexagon__image {
+      .c-hexagon__background {
         background-color:#2bbeff;
       }
-    /*
+      .c-hexagon__icon {
+        display:none;
+      }
+      .c-hexagon__icon_hover {
+        display:block;
+      }
+      /*
       .c-hexagon__title,
       .c-hexagon__text{
         transform:translate3d(0,0,0);
       }
       
-      .c-hexagon__image {
+      .c-hexagon__background {
         //background-color:white;
       }
-    */
+      */
     }
   }
   
-  &__image {
+  &__background {
     left: -100%;
     right: -100%;
     width: auto;
@@ -105,6 +113,14 @@ $data: (
       margin: auto;
     }
   }
+  
+  &__icon {
+    display:block;
+  }
+  &__icon_hover {
+    display:none;
+  }
+      
     
   
   &__title,

@@ -75,3 +75,27 @@ margin-bottom:1em;
     display: inline-block;
   }
 }
+
+
+.p-gametoc {
+  list-style-type: none;
+  padding-left: 0;
+  a:hover {
+    display: block;
+    text-decoration: none;
+  }
+  
+  &__header {
+    font-size: 24px;
+  }
+  
+  &__item {
+    font-size: 18px;
+    margin: 10px 0 10px 40px;
+    border-bottom: 1px dotted #ccc;
+    &:hover {
+      border-color: gray;
+    }
+  }
+  
+}

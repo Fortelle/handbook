@@ -85,11 +85,13 @@ let createFunctions = {
     let id = util.getUniqueID();
     let html = '<div class="c-tabs">';
     for ( let i=0;i<names.length;i++ ) {
-      html += `<div class="c-tabs__tab">
-                 <input type="radio" id="js-tabs-${id}-${i}" class="c-tabs__input" name="${id}" ${i===0?'checked':''}>
+      html += `
+                 <input type="radio" id="js-tabs-${id}-${i}" class="c-tabs__input c-tabs__input--${i}" name="${id}" ${i===0?'checked':''}>
                  <label class="c-tabs__label" for="js-tabs-${id}-${i}">${names[i]}</label>
-                 <div class="c-tabs__content">${contents[i]}</div> 
-             </div>`;
+      `;
+    }
+    for ( let i=0;i<names.length;i++ ) {
+      html += `<div class="c-tabs__content c-tabs__content--${i}">${contents[i]}</div>`;
     }
     html += '</div>';
     return html;

@@ -11,6 +11,24 @@ layout: page
     <hr>
   </div>
   <div class="l-page__body">
+    
+    {{ content }}
+    
+{% for item in site.data.nav[gameKey].nav %}
+  <ul class="p-gametoc">
+    <li class="p-gametoc__header">{{ item.group }}</li>
+    {% for entry in item.nav %}
+    <li class="p-gametoc__item">
+      <a href="{{ entry.url | relative_url }}">
+        <i class="nav-icon fas fa-{{ entry.icon | default: item.icon | default: 'tag' }}"></i>
+        {{ entry.name }}
+      </a>
+    </li>
+    {% endfor %}
+  </ul>
+{% endfor %}
+
+<!--
 {% for item in site.data.nav[gameKey].nav %}
   <div class="list-group m-2 mb-4" style="font-size:16px;">
       <div class="list-group-item list-group-item-info">{{ item.group }}</div>
@@ -22,8 +40,7 @@ layout: page
   {% endfor %}
   </div>
 {% endfor %}
-
-    {{ content }}
+-->
   </div>
   <div class="l-page__footer">
   </div>

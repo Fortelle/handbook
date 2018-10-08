@@ -1,24 +1,16 @@
 import core from './core.js';
 import itemDataArray from './data/items.js';
-//import textDict from './data/text.js';
 
 function init(){
-  let list=[];
-  itemDataArray.forEach( function( data, i ) {
-    let id = i.toString().padStart(3,0);
-    list.push( [
-      pmBase.sprite.get('item7',i ),
-      `#${id}`,
-      data.name,
-      data.nameja,
-      data.nameen,
-      data.desc,
-    ] );
-    /*
-      data.price * 10 || '-',
-      data.value || '-',
-    */
-  });
+  let list = itemDataArray.map( (data,i)=>[
+    pmBase.sprite.get('item7',i ),
+    `#${i.toString().padStart(3,0)}`,
+    data.name,
+    data.nameja,
+    data.nameen,
+    data.desc,
+  ]);
+  
   let header = [
     '图标',
     '编号',
@@ -27,7 +19,11 @@ function init(){
     '英文',
     '说明',
   ];
-  pmBase.content.setContent( pmBase.content.create('list',list,header), 0 );
+	pmBase.content.build({
+	  pages: [{
+	    content: pmBase.content.create('list',list,header),
+	  }]
+	});
 }
 
 pmBase.hook.on( 'init', init );

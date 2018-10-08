@@ -10,7 +10,14 @@ footer: 数据手册是一个口袋百科的附属项目，用于存放数据方
   <li class="c-hexagon__item">
     <div class="c-hexagon__inner">
       <a class="c-hexagon__link" href="{{ site.baseurl }}/{{game[0]}}/">
-        <div class="c-hexagon__image"><p><i class="nav-icon fa fa-book-open" style="font-size:80px;"></i><br>{{game[1].title}}</p></div>
+        <div class="c-hexagon__background">
+          <p>
+            <i class="c-hexagon__icon fa fa-book"></i>
+            <i class="c-hexagon__icon_hover fa fa-book-open"></i>
+            <br>
+            {{game[1].title}}
+          </p>
+        </div>
         <div class="c-hexagon__title">{{game[1].title}}</div>
         <div class="c-hexagon__text">Some sample text about the article this hexagon leads to</div>
       </a>

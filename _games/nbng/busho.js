@@ -31,7 +31,6 @@ function init(){
       bushoData.stats[3],
     ]);
     
-    
     html_select += `<option value="${bushoIndex}">${name}</option>`;
   });
   let listHead = [
@@ -46,10 +45,12 @@ function init(){
 	];
 	
   pmBase.content.build({
-    pages: 2,
-    content1: pmBase.content.create('sortlist',listData,listHead),
-    content2: showBusho,
-    control2: html_select
+    pages: [{
+      content: pmBase.content.create('sortlist',listData,listHead),
+    },{
+      content: showBusho,
+      control: html_select
+    }],
   });
 }
 

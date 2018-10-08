@@ -46,10 +46,12 @@ function init(){
     ];
   
   pmBase.content.build({
-    pages: 2,
-    content1: pmBase.content.create('sortlist',listData,listHead),
-    control2: html_select,
-    content2: showPokemon,
+    pages: [{
+      content: pmBase.content.create('sortlist',listData,listHead),
+    },{
+      content: showPokemon,
+      control: html_select
+    }],
   });
 }
 

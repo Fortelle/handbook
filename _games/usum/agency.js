@@ -19,10 +19,11 @@ function init(){
     htmlSelect += `<option value="${i}">${i}　${name}</option>`;
   });
   
-	pmBase.content.buildLayout({
-	  pages: 1,
-	  control1: htmlSelect,
-	  content1: change,
+	pmBase.content.build({
+	  pages: [{
+	    control: htmlSelect,
+	    content: change,
+	  }]
 	});
   
 }

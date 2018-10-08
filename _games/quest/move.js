@@ -19,12 +19,14 @@ function init() {
 	
 	let listHead = ['图标','招式','说明'];
 	
-	pmBase.content.buildLayout({
-	  pages: 2,
-	  content1: pmBase.content.create('list',listData, listHead, 'sortable'),
-	  control2: htmlSelect,
-	  content2: selectMove,
-	});
+  pmBase.content.build({
+    pages: [{
+      content: pmBase.content.create('list',listData, listHead, 'sortable'),
+    },{
+      content: selectMove,
+      control: htmlSelect
+    }],
+  });
 }
 
 function selectMove( moveIndex ){
