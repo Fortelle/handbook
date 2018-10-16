@@ -71,7 +71,8 @@ function showBusho( bushoIndex ){
   let power = textDict.powers[bushoData.power];
   let bestPokemon = '';
   
-  let listPokemonData = bushoLinkDataArray[bushoIndex].map( (maxLink, pkmnIndex) => {
+  let listPokemonData = bushoLinkDataArray[bushoIndex]
+    .map( (maxLink, pkmnIndex) => {
     let pkmnData = pokemonDataArray[pkmnIndex];
     let pkmnIcon = pmBase.sprite.get('pokemon',pkmnIndex);
     if ( maxLink == 100 ) bestPokemon += pkmnIcon;

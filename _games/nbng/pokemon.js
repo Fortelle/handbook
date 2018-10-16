@@ -84,7 +84,6 @@ function showPokemon( pkmnIndex ){
   }
   
   let listBushoData = bushoLinkDataArray
-    .filter( linkArray => linkArray[pkmnIndex] > 0 )
     .map( (linkArray, bushoIndex) => {
     let bushoData = bushoDataArray[bushoIndex];
     let icon = pmBase.sprite.get('busho_o',bushoData.icon);
