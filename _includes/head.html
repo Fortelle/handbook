@@ -7,8 +7,8 @@
   <script>
     let htmlClass = 'js-enabled js-loading';
     if ( typeof Symbol == "undefined" ) {
-      document.write('<script type="text/javascript" src="//unpkg.zhimg.com/babel-standalone@6.26.0/babel.min.js"><\/script>');
-      htmlClass += ' js-babel';
+      document.write('<script type="text/javascript" src="https://cdn.polyfill.io/v2/polyfill.js"><\/script>');
+      htmlClass += ' js-polyfill';
     } else {
       htmlClass += ' js-es6';
     }

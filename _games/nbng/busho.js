@@ -86,7 +86,7 @@ function showBusho( bushoIndex ){
       pkmnData.movement,
       textDict.moves[pkmnData.move],
       pkmnData.abilities.filter(a=>a>-1).map( a=> textDict.abilities[a] ).join('/'),
-      `<span style="color:rgb(${218},${165*maxLink/100},${32*maxLink/100});font-weight:bold;">${maxLink}%</span>`,
+      NBNG.getBestLinkText(maxLink),
     ];
   });
   let listPokemonHead=[

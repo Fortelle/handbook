@@ -16,6 +16,7 @@
   }
   
   &__list {
+    flex: 1;
     list-style: none;
     padding: 0;
     margin-left: 10px;
@@ -28,3 +29,18 @@
     }
   }
 }
+
+
+
+// js-marker
+.js-marker * {
+ display: none;
+}
+
+.js-enabled .js-marker__enabled,
+.js-disabled .js-marker__disabled,
+.js-es6 .js-marker__es6,
+.js-polyfill .js-marker__polyfill,
+.js-loading .js-marker__loading,
+.js-loaded .js-marker__loaded
+{ display: inline; }

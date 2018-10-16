@@ -96,6 +96,13 @@ let createFunctions = {
     html += '</div>';
     return html;
   },
+  
+  'stack' : function( x1, x2 ) {
+    return `<span class="fa-stack">
+      <i class="far fa-${x1} fa-stack-2x"></i>
+      <strong class="fa-stack-1x">${x2}</strong>
+    </span>`;
+  },
 }
 
 let create = function( key, ...args) {

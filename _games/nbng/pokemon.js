@@ -79,11 +79,13 @@ function showPokemon( pkmnIndex ){
       textDict.kuni[i],
       b1,
       b2,
-      ...scenarioDataArray.map((x,j)=>x.appearPokemon[pkmnIndex]?scenarioText[j]:'')
+      ...scenarioDataArray.map((x,j)=>x.appearPokemon[pkmnIndex]?pmBase.content.create('stack','circle',j):'')
     ]);
   }
   
-  let listBushoData = bushoLinkDataArray.map( (linkArray, bushoIndex) => {
+  let listBushoData = bushoLinkDataArray
+    .filter( linkArray => linkArray[pkmnIndex] > 0 )
+    .map( (linkArray, bushoIndex) => {
     let bushoData = bushoDataArray[bushoIndex];
     let icon = pmBase.sprite.get('busho_o',bushoData.icon);
     let name = textDict.warriors[bushoIndex];
@@ -99,7 +101,7 @@ function showPokemon( pkmnIndex ){
       bushoData.stats[1],
       bushoData.stats[2],
       bushoData.stats[3],
-      linkArray[pkmnIndex]
+      NBNG.getBestLinkText(linkArray[pkmnIndex]),
     ];
   });
   let listBushoHead = [
