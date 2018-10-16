@@ -1,6 +1,5 @@
 import hook from './core/hook.js';
 import util from './core/util.js';
-//import data from './core/data.js';
 import sprite from './core/sprite.js';
 import url from './core/url.js';
 import content from './core/content.js';
