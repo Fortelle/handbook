@@ -33,14 +33,15 @@
 
 
 // js-marker
-.js-marker * {
- display: none;
+.js-marker span::before {
+  font-family: "Font Awesome 5 Free";
+  font-weight:400;
+  content: "\f111";
 }
 
-.js-enabled .js-marker__enabled,
-.js-disabled .js-marker__disabled,
-.js-es6 .js-marker__es6,
-.js-polyfill .js-marker__polyfill,
-.js-loading .js-marker__loading,
-.js-loaded .js-marker__loaded
-{ display: inline; }
+.js-enabled .js-marker__icon--enabled::before,
+.js-es6 .js-marker__icon--es6::before,
+.js-module .js-marker__icon--module::before,
+.js-loaded .js-marker__icon--loaded::before {
+  font-weight:900;
+}
