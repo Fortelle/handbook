@@ -269,7 +269,7 @@ function createStageTable( stageIndex, level = 1 ) {
   html += `
   <div class="row"><div class="col-12">
   </div>
-  <div class="col-6">
+  <div class="col-12 col-lg-6">
   <h3>关卡数据</h3>
   ${pmBase.content.create('info',infoData,pkmnIcon)}
   <h3>初始布局</h3>
@@ -278,7 +278,7 @@ function createStageTable( stageIndex, level = 1 ) {
   ${pmBase.content.create('info',extendData)}
   
   </div>
-  <div class="col-6">
+  <div class="col-12 col-lg-6">
   ${createOjama(stageData)}
   </div>
   </div>
@@ -292,7 +292,7 @@ function createOjama( stageData ) {
   let html = '';
   stageData.ojama.forEach(function(row,index){
     let [ switchValue, moveCountdown, timeCountdown, instantFlag, useType, value2, useOrder, actIndexes, switchType] = row;
-    debug(useType);
+    debug(instantFlag);
     html += `<h3>干扰${index+1}</h3>`;
     if ( !switchValue && !actIndexes ) {
       html += `无。`;

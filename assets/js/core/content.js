@@ -225,9 +225,12 @@ let createSelector = function(html) {
       </div>
       <select class="form-control p-selector">${html}</select>
       <div class="input-group-append">
-        <button class="btn p-select-prev" type="button"><i class="fas fa-angle-left"></i></button>
-        <button class="btn p-select-next" type="button"><i class="fas fa-angle-right"></i></button>
+        <button class="btn p-select-prev d-none d-lg-block d-xl-block" type="button"><i class="fas fa-angle-left"></i></button>
+        <button class="btn p-select-next d-none d-lg-block d-xl-block" type="button"><i class="fas fa-angle-right"></i></button>
       </div>
+    </div><div class="input-group">
+        <button class="btn w-50 d-sm-block d-md-block d-lg-none p-select-prev" type="button"><i class="fas fa-angle-left"></i></button>
+        <button class="btn w-50 d-sm-block d-md-block d-lg-none p-select-next" type="button"><i class="fas fa-angle-right"></i></button>
     </div>`;
   }
   return html;
