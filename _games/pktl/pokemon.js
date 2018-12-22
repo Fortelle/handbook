@@ -39,20 +39,22 @@ function onHash( pkmnId ) {
     ['最大等级提升', pmBase.sprite.get( 'item', 10, 20 ) + pkmnData.rml ],
     ['攻击力', maxPowerArray[pkmnData.group][1] + ' - ' + maxPowerArray[pkmnData.group][pkmnData.rml+10] ],
   ];
+  let icon = poketoru.getPokemonIcon( pkmnData );
   html+='<h3>属性</h3>';
-  html+=pmBase.content.create('info', info);
+  html+=pmBase.content.create('info', info, icon);
   
   if ( pkmnId in megaEvolutionDict ) {
     html+='<h3>超级进化</h3>';
     megaEvolutionDict[pkmnData.id].forEach( function( megaID ) {
       let megaData = poketoru.getMegaData(megaID);
+      let megaIcon = poketoru.getPokemonIcon( megaData );
       let info2 = [
         ['宝可梦', poketoru.getPokemonFullname(megaData) ],
         ['属性', pmBase.content.create('type',megaData.type) ],
         ['超级进化效果', poketoru.getMegaEffect(megaData) ],
       ];
         
-      html+=pmBase.content.create('info', info2);
+      html+=pmBase.content.create('info', info2, megaIcon);
     });
   }
   

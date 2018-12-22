@@ -48,15 +48,7 @@ function init(){
     <th style="width:20%;">初始能力</th>
   </tr>`;
   let htmlMain = pmBase.content.create('list', [], htmlHead, 'p-result' );
-  /*
-  pmBase.content.build({
-    pages: 1,
-    control1: html,
-    content1: filter,
-    hashParser: hashParser,
-    trigger: '.p-selector'
-  });
-  */
+  
   pmBase.content.build({
     pages: [
       {

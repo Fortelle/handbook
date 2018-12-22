@@ -12,7 +12,7 @@ let rankTextArray   = 'SABC';
 let rankColorArray  = [ 'goldenrod', 'blue', 'green', 'red'];
 let weekTextArray   = ['星期一','星期二','星期三','星期四','星期五','星期六','星期日'];
 let itemDataArray   = [0,1,2,3,4,5,6,7,1,2,3,4,5,6,7];
-let dropRateArray   = [0,1,2,3,4,5,6,7].map( x=> x?1/Math.pow(2,x-1):0 );
+let dropRateArray   = [0,1,2,3,4,5,6,7,8].map( x=> x?1/Math.pow(2,x-1):0 );
 
 let stageDataArray, eventDataArray;
 
@@ -221,41 +221,49 @@ function createStageTable( stageIndex, level = 1 ) {
         : stageData.hp.toLocaleString()
           ;
   
-  let avgDamage = '';
-  if ( stageData.hp && stageData.moves ) {
-    avgDamage += parseInt(stageData.hp/stageData.moves) + '/步';
+  let avgDamage = false;
+  if ( stageData.hp > 1 && stageData.moves ) {
+    avgDamage = parseInt(stageData.hp/stageData.moves) + '/步';
     if ( mode === 0 && !stageData.hpLock ) avgDamage += `（UX：${parseInt(uxHP/stageData.moves)}/步）`;
   }
-  let rankText = [...new Set(stageData.ranks)].map( (v,i)=> `<span style="color:${rankColorArray[i]};font-weight:bold;">${rankTextArray[i]}：${v}</span>` ).join(' / ');
+  
+  let nameText = `<a href="${pmBase.url.getHref( 'pokemon', pkmnData.id )}">${poketoru.getPokemonFullname(pkmnData)}</a>`;
+  let rankText = stageData.stageType <=1 
+    ? [...new Set(stageData.ranks)].map( (v,i)=> `<span style="color:${rankColorArray[i]};font-weight:bold;">${rankTextArray[i]}：${v}</span>` ).join(' / ')
+    : false;
   let statusText = typeStatusArray[pkmnData.type].map( (x,i) => x ? `<i class="fas fa-check"></i> ${statusNameArray[i]}` : `<span style="color:gray;"><i class="fas fa-times"></i> ${ statusNameArray[i]}</span>` ).join('&nbsp;&nbsp;&nbsp;');
   let itemText = itemPatternArray[stageData.items].filter(x=>x>0).map( (x,i)=>poketoru.getItem(4,itemDataArray[x]) ).join('');
   let costText = `${pmBase.sprite.get('item',[23,24][stageData.costType],24)}×${stageData.cost}`;
-  let catchText = `${stageData.catchRate}%+${stageData.catchRate2}%/${stageData.isTime?'3秒':'步'}`;
+  let catchText = stageData.stageType == 0
+    ? `${stageData.catchRate}%+${stageData.catchRate2}%/${stageData.isTime?'3秒':'步'}`
+    : stageData.stageType == 4
+      ? '1%+1%/级'
+      : false;
   let dropText = '';
-  let hasDrops = stageData.drops[0] || stageData.drops[2] || stageData.drops[4];
-  if ( hasDrops ) {
+  if ( stageData.drops[0] || stageData.drops[2] || stageData.drops[4] ) {
     let sum = 0;
     for (let i=0;i<3;i++) {
       let dropIndex = stageData.drops[i*2+0];
       let dropRate = stageData.drops[i*2+1];
       if ( dropIndex ) {
         let dropItemData = dropItemArray[dropIndex];
-        let dropRateValue = dropItemArray[dropIndex];
         sum += dropRateArray[dropRate];
         dropText += `${poketoru.getItem( dropItemData[0], dropItemData[1], dropItemData[2] )} (${(dropRateArray[dropRate] * 100).toFixed(2)}%)<br>`;
       }
     }
     dropText += `平均每局掉落${sum.toFixed(1)}个道具。`;
+  } else {
+    dropText = false;
   }
   
   let infoData = [
-    ['宝可梦',poketoru.getPokemonFullname(pkmnData) ],
+    ['宝可梦', nameText],
     ['属性',pmBase.content.create('type', pkmnData.type )],
     ['HP',hpText],
     stageData.isTime ? ['限时',stageData.times + '秒'] : ['步数',stageData.moves + '步'],
     ['道具',itemText],
     ['默认落下',skyfallIcons],
-    ['评价',rankText],
+    stageData.stageType <=1 ? ['评价',rankText] : null,
     ['消耗',costText],
     ['捕捉率',catchText],
     ['掉落道具',dropText],
@@ -263,8 +271,8 @@ function createStageTable( stageIndex, level = 1 ) {
   
   let extendData = [
     ['异常状态', statusText ],
+    ['平均伤害', avgDamage ],
   ];
-  if ( avgDamage ) extendData.push([ '平均伤害', avgDamage ]);
   
   html += `
   <div class="row"><div class="col-12">
@@ -290,9 +298,9 @@ let emptyPattern = new Array(6).fill(null).map(x=>new Array(12).fill(0));
 
 function createOjama( stageData ) {
   let html = '';
+  debug(stageData.moves);
   stageData.ojama.forEach(function(row,index){
     let [ switchValue, moveCountdown, timeCountdown, instantFlag, useType, value2, useOrder, switchType, actIndexes] = row;
-    debug(actIndexes);
     html += `<h3>干扰${index+1}</h3>`;
     if ( !switchValue && (!actIndexes || actIndexes.length == 0 ) ) {
       html += `无。`;
@@ -348,6 +356,7 @@ function createOjama( stageData ) {
       actIndexes.forEach(actIndex => {
         if ( actIndex===0 ) return;
         let actData= actionDataArray[actIndex];
+        if ( !actData ) return;
         let s2='';
         let startPos = '';
         let area = '';
@@ -397,15 +406,16 @@ function createOjama( stageData ) {
             for( let j=0;j<12;j++ ){
               let ojamaIndex = actData.blocks[i][j];
               if ( ojamaIndex == 0 ) continue;
-              if ( ojamaIndex in ojamaGroups ) {
-                ojamaGroups[ojamaIndex] +=1;
+              let ojamaKey = layout.getBlockKey( layout.blockType.pattern, ojamaIndex, j<6 );
+              if ( ojamaKey in ojamaGroups ) {
+                ojamaGroups[ojamaKey] +=1;
               } else {
-                ojamaGroups[ojamaIndex] = 1
+                ojamaGroups[ojamaKey] = 1
               }
             }
           }
-          ojamaText = Object.keys(ojamaGroups).map(ojamaIndex=>`${ojamaGroups[ojamaIndex]}个${layout.getBlock(layout.blockType.pattern,ojamaIndex,24,true)}`).join('、');
-          
+          ojamaText = Object.keys(ojamaGroups).map(ojamaKey=>`${ojamaGroups[ojamaKey]}个${layout.getBlockByKey(ojamaKey,24,true)}`).join('、');
+          debug(ojamaGroups);
         } else if (actData.count==1){
           let figure = new Array(6).fill(null).map(x=>new Array(12).fill(0));
           for( let j=0;j<h;j++ ) {

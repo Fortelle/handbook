@@ -73,7 +73,8 @@ function change( key ) {
       stageIndex,
       `<a href="${pmBase.url.getHref('mainstage', stageIndex)}">${poketoru.getPokemonFullname(pkmnData)}</a>`,
       pmBase.content.create('type', pkmnData.type ),
-      stageData.hp.toLocaleString() + (stageData.hpLock ? '' : `<br><small>(UX:${(stageData.hp * 3).toLocaleString()})</small>`),
+      stageData.hp.toLocaleString(),
+      stageData.hpLock ? '-' : (stageData.hp * 3).toLocaleString(),
       `${stageData.moves}步`,
       `${stageData.ranks[0]}步`,
       stageData.layout ? layout.createLayout(stageData.layout.slice(0,6),12) : '',
@@ -82,14 +83,15 @@ function change( key ) {
   }
   
   let listHead = `<tr>
-    <th style="width:12%;">图标</th>
-    <th style="width:12%;">关卡</th>
-    <th style="width:12%;">宝可梦</th>
-    <th style="width:12%;">属性</th>
-    <th style="width:12%;">HP</th>
-    <th style="width:12%;">步数</th>
-    <th style="width:12%;">S评价</th>
-    <th style="width:12%;">初始盘面</th>
+    <th style="width:10%;">图标</th>
+    <th style="width:10%;">关卡</th>
+    <th>宝可梦</th>
+    <th style="width:10%;">属性</th>
+    <th style="width:10%;">HP</th>
+    <th style="width:10%;">UX HP</th>
+    <th style="width:10%;">步数</th>
+    <th style="width:10%;">S评价</th>
+    <th style="width:10%;">初始盘面</th>
   </tr>`;
   
   let html = pmBase.content.create('list',listData,listHead);

@@ -151,6 +151,24 @@ function getBlock( type, value, size, withName = false ) {
       + ( withName ? pkmn.name : '' );
   }
 }
+function getBlockByKey( blockKey, size, withName = false ) {
+  if ( blockKey === 'self' ) blockKey = pmBase.config.get('selfIndex');
+  if ( blockKey in blockIndexDict ) {
+    return pmBase.sprite.get('ojama', blockIndexDict[blockKey], size)
+      + ( withName ? blockNameDict[blockKey] : '' );
+  } else {
+    let pkmn = poketoru.getPokemonData( blockKey );
+    return pmBase.sprite.get('pokemon', pkmn.icon, size)
+      + ( withName ? pkmn.name : '' );
+  }
+}
+
+function getBlockKey( type, value, isCover = false ) {
+  let blockKey = isCover ? coverDict[type][value] : blockDict[type][value];
+  if ( blockKey === 'self' ) blockKey = pmBase.config.get('selfIndex');
+  if ( !blockKey ) blockKey = value;
+  return blockKey;
+}
 
 function createLayout( layoutArray, size=32 ) {
   let html = '', html2='';
@@ -198,11 +216,12 @@ function createPattern( layoutArray, size=12 ) {
 function init () {
     
   pmBase.util.addCSS(`
-    .p-layout td {
-      border-collapse: separate;
-    }
     .p-layout{
       position:relative;
+      margin: auto;
+    }
+    .p-layout td {
+      border-collapse: separate;
     }
     .p-layout td {
       width:32px;
@@ -248,6 +267,8 @@ pmBase.hook.on( 'init', init);
 export default {
   blockType,
   getBlock,
+  getBlockByKey,
+  getBlockKey,
   createLayout,
   createPattern,
   newRecord,

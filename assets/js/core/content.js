@@ -44,7 +44,7 @@ let createFunctions = {
   
   'info' : function( data, image ) {
     let imageTD = image ? `<div class="col-12 col-lg-3 order-xs-first order-first order-lg-last d-flex"><div class="align-self-center flex-grow-1 text-center">${image}<hr class="d-lg-none"></div></div>` : '';
-    if ( typeof data !== 'string' ) data = data.map( (x,i)=> `<tr><td>${x.join('</td><td>')}</td></tr>` ).join('');
+    if ( typeof data !== 'string' ) data = data.filter(x=>(x!==null)&&(x[1]!==false)).map( (x,i)=> `<tr><td>${x.join('</td><td>')}</td></tr>` ).join('');
     return `<div class="row">
       <div class="col-12 col-lg-${imageTD?9:12} order-lg-first">
         <table class="table table-sm p-infotable">
@@ -151,7 +151,6 @@ let build = function( options ) {
   }
   $('.l-page__body').html(html);
   
-  debug(buildingOptions);
   if ( listen ) {
   	$('.p-select-prev').click( function(){ url.setHash($(this).parents('.p-page__control').find('.p-selector option:selected').prev().val()); });
   	$('.p-select-next').click( function(){ url.setHash($(this).parents('.p-page__control').find('.p-selector option:selected').next().val()); });
@@ -169,6 +168,7 @@ let build = function( options ) {
 
   }
   
+  sortTable();
   $('.c-loading').remove();
 };
 
@@ -193,7 +193,11 @@ const hashParser = function( hashValue ) {
     output: html,
     value: hashValue,
   }
-}
+};
+
+const sortTable = function(){
+	$('.p-listtable.sortable').removeClass('sortable').tablesorter();
+};
 
 const onHashChange = function (){
   
@@ -205,8 +209,7 @@ const onHashChange = function (){
   let targetPage = result.page || 0;
   if ( result.output ) $(`.p-page--${targetPage} .p-page__content`).html( result.output );
   if ( result.value )  $(`.p-page--${targetPage} .p-selector`).val( result.value );
-  
-	$('.p-listtable.sortable').removeClass('sortable').tablesorter();
+  sortTable();
 	
 	changeTab( targetPage );
 	if ( targetPage > 0 ) {

@@ -1,0 +1,82 @@
+---
+title: 主线关卡掉落
+---
+<script type="module">
+import poketoru from '../core.js';
+import popover from '../popover.js';
+import layout from '../layout.js';
+import pokemonSetDataArray from '../data/pokemonset.js';
+import stageDataArray from '../data/stage.main.js';
+import skillDataArray from '../data/skills.js';
+const areaDataArray = [
+[ 1, 10, "纯白港口" ],
+[ 11, 20, "沙棕街市" ],
+[ 21, 30, "墨黑祭典" ],
+[ 31, 45, "碧蓝海滩" ],
+[ 46, 60, "彩虹公园" ],
+[ 61, 75, "胭红画廊" ],
+[ 76, 90, "糖果屋" ],
+[ 91, 105, "白银博物馆" ],
+[ 106, 120, "寒冬山" ],
+[ 121, 135, "暗夜城堡" ],
+[ 136, 150, "翠绿丛林" ],
+[ 151, 180, "玩具工厂" ],
+[ 181, 210, "岩石山谷" ],
+[ 211, 240, "洁白城镇" ],
+[ 241, 300, "玫瑰中心" ],
+[ 301, 350, "阴影沙漠" ],
+[ 351, 400, "紫罗兰宫殿" ],
+[ 401, 450, "蓝色沙龙" ],
+[ 451, 500, "灰色大厅" ],
+[ 501, 550, "午夜嘉年华" ],
+[ 551, 600, "绿树林" ],
+[ 601, 650, "蓝宝石海滨" ],
+[ 651, 700, "棕色小径" ],
+];
+
+let dropRateArray   = [0,1,2,3,4,5,6,7,8].map( x=> x?1/Math.pow(2,x-1):0 );
+
+function init(){
+  let listData = [];
+  for ( let stageIndex=1; stageIndex<=700; stageIndex++ ) {
+    let stageData = stageDataArray[stageIndex];
+    if ( ! ( stageData.drops[0] || stageData.drops[2] || stageData.drops[4] ) ) continue;
+    let pkmnData = poketoru.getPokemonData( stageData.pokemon );
+    let sum = 0;
+    for (let i=0;i<3;i++) {
+      let dropIndex = stageData.drops[i*2+0];
+      let dropRate = stageData.drops[i*2+1];
+      if ( dropIndex ) {
+        sum += dropRateArray[dropRate];
+      }
+    }
+    listData.push([
+      poketoru.getPokemonIcon( pkmnData ),
+      stageIndex,
+      `<a href="${pmBase.url.getHref('mainstage', stageIndex)}">${poketoru.getPokemonFullname(pkmnData)}</a>`,
+      pmBase.content.create('type', pkmnData.type ),
+      pkmnData.skills.filter(x=>x).map( s => skillDataArray[s].name + ' <small>(' + Math.ceil(skillDataArray[s].exp[3]/sum) + '局)</small>' ).join('<br>'),
+      sum.toFixed(1) + '/局'
+    ]);
+  }
+  
+  let listHead = [
+    '图标',
+    '关卡',
+    '宝可梦',
+    '属性',
+    '招式',
+    '掉率',
+  ];
+  
+  pmBase.content.build({
+    pages: [{
+      content: pmBase.content.create('sortlist', listData, listHead),
+    }],
+  });
+	popover.apply();
+}
+      //content: pmBase.content.create('',listData,listHead),
+
+pmBase.hook.on( 'load', init);
+</script>
