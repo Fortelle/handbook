@@ -208,7 +208,7 @@ function createStageTable( stageIndex, level = 1 ) {
   pmBase.config.set('selfIndex', stageData.pokemon);
   let pkmnData = poketoru.getPokemonData( stageData.pokemon );
   let pkmnIcon = poketoru.getPokemonIcon( pkmnData );
-  let skyfallIcons = pokemonSetDataArray[stageData.pkmnSet].slice(0,stageData.skyfallCount).map(x=>layout.getBlock(layout.blockType.pokemonset,x,24)).join('');
+  let skyfallIcons = pokemonSetDataArray[stageData.pokemonSetIndex].slice(0,stageData.skyfallCount).map(x=>layout.getBlock(layout.blockType.pokemonset,x,24)).join('');
   let html = '';
   uxHP = stageData.hpLock ? stageData.hp : stageData.hp * 3;
 
@@ -273,7 +273,7 @@ function createStageTable( stageIndex, level = 1 ) {
   <h3>关卡数据</h3>
   ${pmBase.content.create('info',infoData,pkmnIcon)}
   <h3>初始布局</h3>
-  ${stageData.layout ? layout.createLayout(stageData.layout) : '随机'}
+  ${stageData.layout.length>0 ? layout.createLayout(stageData.layout) : '随机'}
   <h3>参考参数</h3>
   ${pmBase.content.create('info',extendData)}
   
@@ -291,10 +291,10 @@ let emptyPattern = new Array(6).fill(null).map(x=>new Array(12).fill(0));
 function createOjama( stageData ) {
   let html = '';
   stageData.ojama.forEach(function(row,index){
-    let [ switchValue, moveCountdown, timeCountdown, instantFlag, useType, value2, useOrder, actIndexes, switchType] = row;
-    debug(instantFlag);
+    let [ switchValue, moveCountdown, timeCountdown, instantFlag, useType, value2, useOrder, switchType, actIndexes] = row;
+    debug(actIndexes);
     html += `<h3>干扰${index+1}</h3>`;
-    if ( !switchValue && !actIndexes ) {
+    if ( !switchValue && (!actIndexes || actIndexes.length == 0 ) ) {
       html += `无。`;
       return;
     }
@@ -355,6 +355,8 @@ function createOjama( stageData ) {
         let x=actData.x, y=actData.y;
         let x2=x==6?0:x, y2=y==6?0:y;
         let w=actData.width, h=actData.height;
+        if ( 6-x2 < w ) x2 = 6 - w;
+        if ( 6-y2 < h ) y2 = 6 - h;
         let count = actData.count == 25
           ? 36
           : actData.count >= 13
