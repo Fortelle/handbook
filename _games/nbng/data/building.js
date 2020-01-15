@@ -121,8 +121,8 @@ let buildingDataArray = [
 ];
 
 pmBase.util.arr2obj(
-	buildingDataArray,
-	["kuni","icon1","icon2","icon3","type"]
+  buildingDataArray,
+  ["kuni","icon1","icon2","icon3","type"]
 );
 
 let enc = [];

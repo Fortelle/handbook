@@ -4,13 +4,14 @@ layout: page
 <div class="l-page">
   <div class="l-page__header">
     <h1 class="mb-3 mt-1">
-      <a href="{{page.url}}">{{ page.title}}</a>
-      </h1>
+      <a class="l-page__title" href="{{page.url}}">{{ page.title}}</a>
+      <span class="l-page__subtitle" ></span>
+    </h1>
     <hr>
   </div>
   <div class="l-page__body">
-    {%- include loading.html -%}
-    {{ content }}
+    <div class="l-content">{{ content }}</div>
+    <div class="l-dynamic"></div>
   </div>
   <div class="l-page__footer">
   </div>

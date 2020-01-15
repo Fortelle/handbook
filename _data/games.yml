@@ -1,0 +1,35 @@
+
+swsh:
+  title: 数据手册：剑·盾
+  type: game
+  game: 宝可梦 剑·盾
+  home: /swsh/
+  
+usum:
+  title: 数据手册：究极之日·究极之月
+  type: game
+  game: 宝可梦 究极之日·究极之月
+  home: /usum/
+
+pktl:
+  title: 数据手册：消消乐
+  type: game
+  game: 宝可梦消消乐
+  home: /pktl/
+
+quest:
+  title: 数据手册：探险寻宝
+  type: game
+  game: 宝可梦探险寻宝
+  home: /quest/
+
+nbng:
+  title: 数据手册：信长之野望
+  type: game
+  game: 宝可梦+信长之野望
+  home: /nbng/
+
+learnsets:
+  title: 招式表
+  type: tool
+  home: /tools/learnsets/

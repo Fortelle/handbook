@@ -1,41 +1,36 @@
 import bushoDataArray from './data/busho.js';
 
 pmBase.sprite.add( 'busho_o', {
-	url : '/nbng/images/busho_o.min.png',
-	width: 64,
-	height:32,
-	col: 10
+  url : '/nbng/images/busho_o.min.png',
+  width: 64,
+  height:32,
+  col: 10
 });
-
 pmBase.sprite.add( 'busho_s', {
-	url : '/nbng/images/busho_s.min.png',
-	width: 31,
-	height:19,
-	col: 10
+  url : '/nbng/images/busho_s.min.png',
+  width: 31,
+  height:19,
+  col: 10
 });
-
 pmBase.sprite.add( 'pokemon', {
-	url : '/nbng/images/pokemon.min.png',
-	width: 32,
-	height:32,
-	col: 10
+  url : '/nbng/images/pokemon.min.png',
+  width: 32,
+  height:32,
+  col: 10
 });
-
 pmBase.sprite.add( 'kuni', {
-	url : '/nbng/images/castle.min.png',
-	width: 32,
-	height:40,
-	col: 6
+  url : '/nbng/images/castle.min.png',
+  width: 32,
+  height:40,
+  col: 6
 });
-
 pmBase.sprite.add( 'building', {
-	url : '/nbng/images/shisetsu.min.png',
-	width: 32,
-	height:32,
-	col: 10
+  url : '/nbng/images/shisetsu.min.png',
+  width: 32,
+  height:32,
+  col: 10
 });
 
-pmBase.config.set('typenames',["一般","火","水","电","草","冰","格斗","毒","地面","飞行","超能力","虫","岩石","幽灵","龙","恶","钢"]);
 
 const typeConverter = [0,9,10,12,11,14,1,3,4,2,13,6,5,7,15,16,8];
 const statLimit = [

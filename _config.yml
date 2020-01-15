@@ -5,15 +5,18 @@ baseurl:     ""
 url:         ""
 logo:        "assets/logo.png" 
 separater:   " - "
+copyright:   "2018-2020"
 
 collections:
   games:
     output: true
     permalink: :path/
+  tools:
+    output: true
   common:
     output: true
     permalink: common/:path/
-    
+
 defaults:
   -
     scope:
@@ -27,8 +30,14 @@ defaults:
       type: "common"
     values:
       layout: "page"
+  -
+    scope:
+      path: ""
+      type: "tools"
+    values:
+      layout: "gamepage"
 
-  
+
 # Build settings
 markdown: kramdown
 #theme: minima

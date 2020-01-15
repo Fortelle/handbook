@@ -74,7 +74,7 @@ quest:
       nav:
         - name: 招式石
           url: /quest/stone/
-          
+
 nbng:
   title: 信长之野望
   home: /nbng/
@@ -95,4 +95,3 @@ nbng:
           url: /nbng/buildings/
         - name: 剧情
           url: /nbng/scenario/
-          

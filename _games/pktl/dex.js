@@ -12,15 +12,15 @@ let sortedSkillList = skillDataArray.slice().sort( (a, b) => a.order - b.order )
 
 function init(){
   
-	for(var i=0;i<18;i++ ){
-		superEffects[i]=[];
-		typePokemonCount[i]=0;
-		sePokemonCount[i]=0;
-		for(var j=0;j<18;j++ ){
-			if( typeEffectArray[j][i]==2 ) superEffects[i].push(j);
-		}
-	}
-	
+  for(var i=0;i<18;i++ ){
+    superEffects[i]=[];
+    typePokemonCount[i]=0;
+    sePokemonCount[i]=0;
+    for(var j=0;j<18;j++ ){
+      if( typeEffectArray[j][i]==2 ) superEffects[i].push(j);
+    }
+  }
+  
   let htmlSelect = `
   <div class="form-row">
     <div class="col-6">
@@ -59,7 +59,7 @@ function init(){
     hashParser: hashParser,
   });
   
-	$('.p-result').tablesorter();
+  $('.p-result').tablesorter();
   $('.p-selector').change( filter );
   
 }
@@ -94,10 +94,10 @@ function filter() {
     } else {
       if ( selectedType >= 0 && pkmn.type != selectedType ) return;
     }
-		if ( selectedSkill > 0 && !pkmn.skills.includes(selectedSkill) ) return;
-		
-		let maxAttack = poketoru.getAttack( pkmn.group, pkmn.rml + 10 );
-		let basicAttack = poketoru.getAttack( pkmn.group, 1 );
+    if ( selectedSkill > 0 && !pkmn.skills.includes(selectedSkill) ) return;
+    
+    let maxAttack = poketoru.getAttack( pkmn.group, pkmn.rml + 10 );
+    let basicAttack = poketoru.getAttack( pkmn.group, 1 );
     tbody += `
       <tr>
         <td>${pmBase.sprite.get('pokemon',pkmn.icon,48)}</td>

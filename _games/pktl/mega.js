@@ -2,7 +2,7 @@ import poketoru from './core.js';
 import popover from './popover.js';
 
 function init() {
-	let tbody = '';
+  let tbody = '';
   let list = '';
   let sumMSU = 0;
   
@@ -15,7 +15,7 @@ function init() {
       let pkmnData = poketoru.getPokemonData(megaData.originID);
       sumMSU += megaData.msu;
       list += `<tr>
-  		  <td class="p-pkmn">${ poketoru.getPokemonIcon( pkmnData )}<i class="fas fa-arrow-right m-1"></i>${poketoru.getPokemonIcon( megaData ) }</td>
+        <td class="p-pkmn">${ poketoru.getPokemonIcon( pkmnData )}<i class="fas fa-arrow-right m-1"></i>${poketoru.getPokemonIcon( megaData ) }</td>
         <td>${ megaData.dex.toString().padStart(3,0) }</td>
         <td><a href="${pmBase.url.getHref( 'pokemon', megaData.id )}">${megaData.name}</a></td>
         <td>${ pmBase.content.create('type',megaData.type) }</td>
@@ -39,7 +39,7 @@ function init() {
         content: pmBase.content.create('sortlist',list,header),
     }],
   });
-	popover.apply();
+  popover.apply();
 };
 
 

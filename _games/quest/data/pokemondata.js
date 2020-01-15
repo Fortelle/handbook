@@ -154,12 +154,12 @@ let pokemonData = [
 ];
 
 pmBase.util.arr2obj(
-	pokemonData,
-	["hpBasis","attackBasis","type1","type2","isMelee","growType","slotTypeWeightHp","slotTypeWeightAttack","slotTypeWeightMulti","skillIDs"],
-	function( i, data ) {
-		data['monsterNo'] = i;
-		return data;
-	}
+  pokemonData,
+  ["hpBasis","attackBasis","type1","type2","isMelee","growType","slotTypeWeightHp","slotTypeWeightAttack","slotTypeWeightMulti","skillIDs"],
+  function( i, data ) {
+    data['monsterNo'] = i;
+    return data;
+  }
 );
 
 export default pokemonData;

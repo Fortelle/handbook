@@ -1,0 +1,23 @@
+
+.c-infotable {
+  margin-bottom: auto;
+
+  &__label {
+    font-weight: bold;
+    text-align: center;
+    padding-right: 1em;
+    vertical-align: top !important;
+  }
+  &__data {
+    vertical-align: top !important;
+  }
+
+}
+
+.c-listtable {
+  margin-bottom: auto;
+}
+
+.c-table {
+  margin-bottom: auto;
+}

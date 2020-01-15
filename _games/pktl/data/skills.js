@@ -167,8 +167,8 @@ let skillDataArray = [
 ];
 
 pmBase.util.arr2obj(
-	skillDataArray,
-	["name","desc","damage","rate","type","growth","exp","order"]
+  skillDataArray,
+  ["name","desc","damage","rate","type","growth","exp","order"]
 );
 
 export default skillDataArray;

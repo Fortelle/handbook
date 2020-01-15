@@ -148,7 +148,7 @@ function initEventSchedule(){
       content: change2,
     }],
   });
-	popover.apply();
+  popover.apply();
 }
 
 

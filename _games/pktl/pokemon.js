@@ -70,7 +70,7 @@ function onHash( pkmnId ) {
     } else {
       growthDamage = sData.growth.map( x => `<td>×${x}</td>` ).join('');
     };
-		let url = pmBase.url.getHref( 'dex', { skill: skillID } );
+    let url = pmBase.url.getHref( 'dex', { skill: skillID } );
     html += `<table class="table  table-sm  text-center" style="table-layout:fixed;">
       <thead>
         <th style="width:30%;"><a href="${url}">${sData.name}</a></th>

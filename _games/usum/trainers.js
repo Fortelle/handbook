@@ -28,18 +28,19 @@ function init(){
     ] );
   })
   
-	pmBase.content.build({
-	  pages: [{
-	    content: pmBase.content.create('list',listData),
-	  },{
-	    control: htmlSelect,
-	    content: change,
-	  }]
-	});
-	
+  pmBase.content.build({
+    pages: [{
+      content: pmBase.content.create('list',{list:listData}),
+    },{
+      selector: htmlSelect,
+      content: change,
+    }]
+  });
+  
 }
 
-function change( trIndex ) {
+function change( hash ) {
+  let trIndex = ~~hash.value;
   if ( !(trIndex in trainerDataArray) ) return;
   let trData = trainerDataArray[trIndex];
   let pmList = trainerPokemonDataArray[trIndex];
@@ -63,13 +64,13 @@ function change( trIndex ) {
   ];
   
   html += '<h3>训练家</h3>';
-  html += pmBase.content.create('info', infoData);
+  html += pmBase.content.create('info', {list:infoData});
   
 
   html += '<h3>宝可梦</h3><table class="table">';
   pmList.forEach( function(bmData){
     let pmID = pmBase.common.getPokemonID( bmData.number, bmData.form );
-    let pmInfo = pmBase.main.getNameInfo( bmData.number, bmData.form );
+    let pmInfo = pmBase.common.getNameInfo( bmData.number, bmData.form );
     let pmData = core.getPokemonData(pmID);
     let moves = bmData.moves ? bmData.moves.map( x => x == 0 ? '-' : textDict.moves[x] ).join('/') : '';
     let ability = bmData.ability

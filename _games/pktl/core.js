@@ -2,7 +2,7 @@ import pokemonDataArray from './data/pokemon.js';
 import textDict from './data/text.js';
 import { maxPowerArray, megaEvolutionDict } from './data/misc.js';
 
-pmBase.loader.load('common');
+pmBase.loader.load('pmcommon');
 
 let pokemonList = {};
 let megaList = {};
@@ -29,7 +29,7 @@ let init = function () {
   });
   /*
   pokemonListByDex = Object.values(pokemonList).sort(function(pkmn1, pkmn2) {
-  	return pkmn1.dex - pkmn2.dex || pkmn1.id - pkmn2.id;
+    return pkmn1.dex - pkmn2.dex || pkmn1.id - pkmn2.id;
   });
   */
 };
@@ -123,24 +123,24 @@ const getItem = function ( type, value, count = 0 ) {
 };
 
 pmBase.sprite.add( 'pokemon', {
-	url : '/pktl/images/pokemon.min.png',
-	width: 60,
-	height:60,
-	col: 30
+  url : '/pktl/images/pokemon.min.png',
+  width: 60,
+  height:60,
+  col: 30
 });
 
 pmBase.sprite.add( 'ojama', {
-	url : '/pktl/images/ojama.png',
-	width: 64,
-	height:64,
-	col: 1
+  url : '/pktl/images/ojama.png',
+  width: 64,
+  height:64,
+  col: 1
 });
 
 pmBase.sprite.add( 'item', {
-	url : '/pktl/images/items.min.png',
-	width: 64,
-	height:64,
-	col: 1
+  url : '/pktl/images/items.min.png',
+  width: 64,
+  height:64,
+  col: 1
 });
 
 pmBase.util.addCSS(`
@@ -154,13 +154,13 @@ pmBase.config.set('typenames',["一般","格斗","毒","地面","飞行","虫","
 pmBase.hook.on('load',init);
 
 export default {
-	getPokemonData,
-	getMegaData,
-	pokemonList,
-	megaList,
-	getPokemonIcon,
-	getAttack,
-	getMegaEffect,
-	getPokemonFullname,
-	getItem,
+  getPokemonData,
+  getMegaData,
+  pokemonList,
+  megaList,
+  getPokemonIcon,
+  getAttack,
+  getMegaEffect,
+  getPokemonFullname,
+  getItem,
 }

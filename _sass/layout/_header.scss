@@ -28,6 +28,19 @@
       max-height: 40px;
     }
   }
+
+  &__title {
+    height: 100%;
+    margin-left: 1em;
+    text-align: center;
+    align-items: center;
+    display: flex;
+    font-size: 140%;
+    color: #ddd;
+    font-family: "Microsoft YaHei2";
+    font-weight: bold;
+    letter-spacing: 2px;
+  }
 }
 
 .l-navbar {

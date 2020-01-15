@@ -1484,8 +1484,8 @@ for ( let i in scenarioDataArray ) {
   scenarioDataArray[i].appearPokemon = pmBase.NBNG.hex2bln( scenarioDataArray[i].appearPokemon, 200 );
   
   pmBase.util.arr2obj(
-  	scenarioDataArray[i].busho,
-  	["bushoIndex","type","kuni","seiryoku","pkmnIndex"]
+    scenarioDataArray[i].busho,
+    ["bushoIndex","type","kuni","seiryoku","pkmnIndex"]
   );
   
 }

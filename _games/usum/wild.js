@@ -22,20 +22,21 @@ function init(){
     `./data/encounter.us.js`,
   ], function( arr ) {
     [mapDataArray] = arr;
-    let list=[],htmlSelect='';
+    let list=[],select={};
     
     mapDataArray.forEach( function( data, i ) {
       let locName = Array.from(new Set(data[0].map( x=>getLocName(x) ))).join('，');
       if ( !data[1] ) return;
-      htmlSelect += `<option value="${i}">#${i.toString().padStart(3,0)}　${locName}</option>`;
+      //htmlSelect += `<option value="${i}">#${i.toString().padStart(3,0)}　${locName}</option>`;
+      select[i] = `#${i.toString().padStart(3,0)}　${locName}`;
     });
-    
-  	pmBase.content.build({
-  	  pages: [{
-  	    control: htmlSelect,
-  	    content: change,
-  	  }]
-  	});
+
+    pmBase.content.build({
+      pages: [{
+        selector: select,
+        content: change,
+      }]
+    });
     
   });
 }
@@ -47,9 +48,9 @@ function getLocName(locIndex) {
   return locName;
 }
 
-function change( mapIndex ) {
-  if ( ! (mapIndex in mapDataArray) ) return false;
-  let mapData = mapDataArray[mapIndex];
+function change( hash ) {
+  if ( ! (~~hash.value in mapDataArray) ) return false;
+  let mapData = mapDataArray[~~hash.value];
   let tableCount = ( mapData.length -1 );
   
   let html = '';

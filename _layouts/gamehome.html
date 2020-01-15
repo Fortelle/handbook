@@ -1,19 +1,41 @@
 ---
 layout: page
 ---
-{% assign gameKey = page.url | split: "/" | shift | first %}
+{%- assign gameKey = page.url | split: "/" | shift | first -%}
+{%- assign gameInfo = site.data.games[gameKey] -%}
+
+{%- assign pages = "" | split: "" -%}
+{%- for page in site.games -%}
+  {% if page.url contains gameKey and page.layout == "gamepage" and page.hide != true %}
+    {% assign pages = pages | push:page %}
+  {% endif %}
+{%- endfor -%}
 
 <div class="l-page">
   <div class="l-page__header">
     <h1 class="mb-3 mt-1">
-      <a href="{{page.url}}">{{ page.title}}</a>
-      </h1>
+      <a class="l-page__title" href="{{page.url}}">{{gameInfo.title | default: gameInfo.game }}</a>
+      <span class="l-page__subtitle" ></span>
+    </h1>
     <hr>
   </div>
   <div class="l-page__body">
-    
     {{ content }}
-    
+  <ul class="p-gametoc">
+{% for page in pages %}
+    <!--<li class="p-gametoc__header">{{ item.group }}</li>-->
+    <li class="p-gametoc__item">
+      <a href="{{ page.url | relative_url }}">
+        <i class="nav-icon fas fa-{{ page.icon | default: 'tag' }}"></i>
+        {{ page.title }}
+      </a>
+    </li>
+{% endfor %}
+  </ul>
+
+<!--
+
+
 {% for item in site.data.nav[gameKey].nav %}
   <ul class="p-gametoc">
     <li class="p-gametoc__header">{{ item.group }}</li>
@@ -28,7 +50,8 @@ layout: page
   </ul>
 {% endfor %}
 
-<!--
+
+
 {% for item in site.data.nav[gameKey].nav %}
   <div class="list-group m-2 mb-4" style="font-size:16px;">
       <div class="list-group-item list-group-item-info">{{ item.group }}</div>

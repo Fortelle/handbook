@@ -6,7 +6,7 @@ function toAbsoluteURL(url) {
   a.setAttribute("href", url);    // <a href="hoge.html">
   return a.cloneNode(false).href; // -> "http://example.com/hoge.html"
 }
-
+  
 export function importModule(url) {
   return new Promise((resolve, reject) => {
     const vector = "$importModule$" + Math.random().toString(32).slice(2);
@@ -39,7 +39,6 @@ export function importModule(url) {
 }
 
 function using(arr,callback) {
-  $('.c-loading').attr('class', 'c-loading c-loading--step-3');
   let gkey = `/${config.get( 'gameKey')}/`;
   let url = arr.map( x=>x.replace('./',gkey));
   debug(url);
@@ -55,6 +54,7 @@ function using(arr,callback) {
     });
   }
 }
+
 function load (...args){
   $('.c-loading').attr('class', 'c-loading c-loading--step-3');
   let url = args.map( x=>`/assets/js/modules/${x}.js`);
@@ -73,41 +73,13 @@ function load (...args){
 
 }
 
-
-/*
-function using(arr,callback) {
-  $('.c-loading').attr('class', 'c-loading c-loading--step-3');
-  let gkey = `/${config.get( 'gameKey')}/`;
-  let url = arr.map( x=>x.replace('./',gkey));
-  requirejs(args, function(util) {
-    callback();
+function getJson(urls, callback, cache = true){
+  var requests = urls.map( path => $.getJSON(path) );
+  $.when.apply($, requests).then(function(){
+    let ret = $.map(arguments, x => x);
+    callback(...ret);
   });
 }
-
-function load (...args){
-  $('.c-loading').attr('class', 'c-loading c-loading--step-3');
-  let url = args.map( x=>`/assets/js/modules/${x}.js`);
-  debug(url);
-  requirejs(url, function(util) {
-    hook.keepAlive('load');
-  });
-}
-*/
-/*
-function using(arr,callback) {
-  $('.c-loading').attr('class', 'c-loading c-loading--step-3');
-  let gkey = `/${config.get( 'gameKey')}/`;
-  Promise
-    .all( arr.map( x=>import(x.replace('./',gkey)) ) )
-    .then(x=>callback(x.map(y=>y.default)));
-}
-function load (...args){
-  $('.c-loading').attr('class', 'c-loading c-loading--step-3');
-  Promise
-    .all(args.map(x=>import(`../modules/${x}.js`)))
-    .then(()=>hook.keepAlive('load'));
-}
-*/
 
 hook.on( 'load', function(){
   $('.c-loading').attr('class', 'c-loading c-loading--step-4');
@@ -116,4 +88,5 @@ hook.on( 'load', function(){
 export default {
   using,
   load,
+  getJson,
 }

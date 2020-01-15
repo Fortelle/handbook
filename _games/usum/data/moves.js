@@ -730,8 +730,8 @@ let moveDataArray = [ [0,0,0,0,0],
 ];
 
 pmBase.util.arr2obj(
-	moveDataArray,
-	["type","category","power","acc","pp"]
+  moveDataArray,
+  ["type","category","power","acc","pp"]
 );
 
 export default moveDataArray;

@@ -9,18 +9,18 @@
           <i class="nav-icon fa fa-home"></i> Home
         </a>
       </li>
-			{% for item in site.data.nav[gameKey].nav %}
-      	<li class="nav-title">{{ item.group }}</li>
-		    {% for entry in item.nav %}
+      {% for item in site.data.nav[gameKey].nav %}
+        <li class="nav-title">{{ item.group }}</li>
+        {% for entry in item.nav %}
           <li class="nav-item">
             <a class="nav-link {% if page.url == entry.url %}active{% endif %}" href="{{ entry.url | relative_url }}">
               <i class="nav-icon fa fa-{{ entry.icon | default: item.icon | default: "file" }}"></i> {{ entry.name }}
             </a>
           </li>
-		    {% endfor %}
-			{% endfor %}
-  	</ul>
-	</nav>
+        {% endfor %}
+      {% endfor %}
+    </ul>
+  </nav>
   <button class="sidebar-minimizer brand-minimizer" type="button"></button>
 </div>
 {% endif %}

@@ -1,121 +1,121 @@
 ﻿:root {
-	--tint-1: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8LwkAAh0BGumlBj4AAAAASUVORK5CYII=);
-	--tint-2: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8bwwAAjcBNBRvLA0AAAAASUVORK5CYII=);
-	--tint-3: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP87wMAAlABTQluYBcAAAAASUVORK5CYII=);
-	--tint-4: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8nwYAAmoBZ0eMiB8AAAAASUVORK5CYII=);
-	--tint-5: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8Xw8AAoMBgDTD2qgAAAAASUVORK5CYII=);
-	
-	--shade-1: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkMAYAADkANVKH3ScAAAAASUVORK5CYII=);
-	--shade-2: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNk4AIAABAADApMaRMAAAAASUVORK5CYII=);
-	--shade-3: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNk4AcAABUAET9MVpIAAAAASUVORK5CYII=);
-	--shade-4: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkEAEAABoAFhhTXcgAAAAASUVORK5CYII=);
-	--shade-5: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkkAQAAB8AG7jymN8AAAAASUVORK5CYII=);
-		
-	--fade-1: rgba(255,255,255,0.9);
-	--fade-2: rgba(255,255,255,0.8);
-	--fade-3: rgba(255,255,255,0.7);
-	--fade-4: rgba(255,255,255,0.6);
-	--fade-5: rgba(255,255,255,0.5);
+  --tint-1: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8LwkAAh0BGumlBj4AAAAASUVORK5CYII=);
+  --tint-2: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8bwwAAjcBNBRvLA0AAAAASUVORK5CYII=);
+  --tint-3: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP87wMAAlABTQluYBcAAAAASUVORK5CYII=);
+  --tint-4: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8nwYAAmoBZ0eMiB8AAAAASUVORK5CYII=);
+  --tint-5: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8Xw8AAoMBgDTD2qgAAAAASUVORK5CYII=);
+  
+  --shade-1: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkMAYAADkANVKH3ScAAAAASUVORK5CYII=);
+  --shade-2: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNk4AIAABAADApMaRMAAAAASUVORK5CYII=);
+  --shade-3: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNk4AcAABUAET9MVpIAAAAASUVORK5CYII=);
+  --shade-4: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkEAEAABoAFhhTXcgAAAAASUVORK5CYII=);
+  --shade-5: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkkAQAAB8AG7jymN8AAAAASUVORK5CYII=);
+    
+  --fade-1: rgba(255,255,255,0.9);
+  --fade-2: rgba(255,255,255,0.8);
+  --fade-3: rgba(255,255,255,0.7);
+  --fade-4: rgba(255,255,255,0.6);
+  --fade-5: rgba(255,255,255,0.5);
 }
 
 .t- {
-	&origin-origin {
-		--light: #def;
-		--dark: #a7d7f9;
-	}
-	
-	&color--{
-		&red    { --light: #f85020; --dark: #D03000; }
-		&blue   { --light: #68b0e0; --dark: #4890C0; }
-		&yellow { --light: #f8e800; --dark: #E8B800; }
-		&green  { --light: #98d048; --dark: #70A830; }
-		&black  { --light: #585050; --dark: #403838; }
-		&brown  { --light: #b89850; --dark: #907030; }
-		&purple { --light: #e098d0; --dark: #B860B8; }
-		&gray   { --light: #b8b0b0; --dark: #807878; }
-		&white  { --light: #e0e0e0; --dark: #C0C0C0; }
-		&pink   { --light: #f8a8a8; --dark: #F07070; }
-	}
-	
-	&type--{
-		&normal,   &一般   { --light: #BBBBAA; --dark: #8A8A7B; }
-		&fighting, &格斗   { --light: #BB5544; --dark: #912E1E; }
-		&flying,   &飞行   { --light: #6699FF; --dark: #3678FF; }
-		&poison,   &毒     { --light: #AA5599; --dark: #792F6A; }
-		&ground,   &地面   { --light: #DDBB55; --dark: #B59226; }
-		&rock,     &岩石   { --light: #BBAA66; --dark: #88762C; }
-		&bug,      &虫     { --light: #AABB22; --dark: #849400; }
-		&ghost,    &幽灵   { --light: #6666BB; --dark: #42428E; }
-		&steel,    &钢     { --light: #AAAABB; --dark: #74747B; }
-		&fire,     &火     { --light: #FF4422; --dark: #BA1F00; }
-		&water,    &水     { --light: #3399FF; --dark: #0D6AC8; }
-		&grass,    &草     { --light: #77CC55; --dark: #40C60A; }
-		&electric, &电     { --light: #FFCC33; --dark: #BD8E00; }
-		&psychic,  &超能力 { --light: #FF5599; --dark: #D00053; }
-		&ice,      &冰     { --light: #77DDFF; --dark: #13A8D9; }
-		&dragon,   &龙     { --light: #7766EE; --dark: #31229D; }
-		&dark,     &恶     { --light: #775544; --dark: #442C21; }
-		&fairy,    &妖精   { --light: #FFAAFF; --dark: #EC67EA; }
-	}
+  &origin-origin {
+    --light: #def;
+    --dark: #a7d7f9;
+  }
+  
+  &color--{
+    &red    { --light: #f85020; --dark: #D03000; }
+    &blue   { --light: #68b0e0; --dark: #4890C0; }
+    &yellow { --light: #f8e800; --dark: #E8B800; }
+    &green  { --light: #98d048; --dark: #70A830; }
+    &black  { --light: #585050; --dark: #403838; }
+    &brown  { --light: #b89850; --dark: #907030; }
+    &purple { --light: #e098d0; --dark: #B860B8; }
+    &gray   { --light: #b8b0b0; --dark: #807878; }
+    &white  { --light: #e0e0e0; --dark: #C0C0C0; }
+    &pink   { --light: #f8a8a8; --dark: #F07070; }
+  }
+  
+  &type--{
+    &normal,   &一般   { --light: #BBBBAA; --dark: #8A8A7B; }
+    &fighting, &格斗   { --light: #BB5544; --dark: #912E1E; }
+    &flying,   &飞行   { --light: #6699FF; --dark: #3678FF; }
+    &poison,   &毒     { --light: #AA5599; --dark: #792F6A; }
+    &ground,   &地面   { --light: #DDBB55; --dark: #B59226; }
+    &rock,     &岩石   { --light: #BBAA66; --dark: #88762C; }
+    &bug,      &虫     { --light: #AABB22; --dark: #849400; }
+    &ghost,    &幽灵   { --light: #6666BB; --dark: #42428E; }
+    &steel,    &钢     { --light: #AAAABB; --dark: #74747B; }
+    &fire,     &火     { --light: #FF4422; --dark: #BA1F00; }
+    &water,    &水     { --light: #3399FF; --dark: #0D6AC8; }
+    &grass,    &草     { --light: #77CC55; --dark: #40C60A; }
+    &electric, &电     { --light: #FFCC33; --dark: #BD8E00; }
+    &psychic,  &超能力 { --light: #FF5599; --dark: #D00053; }
+    &ice,      &冰     { --light: #77DDFF; --dark: #13A8D9; }
+    &dragon,   &龙     { --light: #7766EE; --dark: #31229D; }
+    &dark,     &恶     { --light: #775544; --dark: #442C21; }
+    &fairy,    &妖精   { --light: #FFAAFF; --dark: #EC67EA; }
+  }
 
-	&game--{
-		&红         { --dark: #d04830; --light: #f8c058; --color: #d04830; }
-		&绿         { --dark: #68a878; --light: #c0e090; --color: #68a878; }
-		&蓝         { --dark: #38c0e0; --light: #bddcf5; --color: #38c0e0; }
-		&黄,&皮卡丘 { --dark: #e0b848; --light: #f8f898; --color: #e0b848; }
-		&金         { --dark: #c87818; --light: #f8a818; --color: #904830; }
-		&银         { --dark: #6283a4; --light: #bdcdff; --color: #101010; }
-		&水晶       { --dark: #4a83b4; --light: #5abdd5; --color: #294a7b; }
-		&红宝石     { --dark: #a82838; --light: #f87880; --color: #782028; }
-		&蓝宝石     { --dark: #3860b0; --light: #58a0f8; --color: #303870; }
-		&火红       { --dark: #d06850; --light: #f89040; --color: #a84000; }
-		&叶绿       { --dark: #40a018; --light: #68c840; --color: #206030; }
-		&绿宝石     { --dark: #488070; --light: #58b888; --color: #385038; }
-		&XD         { --dark: #d21e2a; --light: #21181b; --color: #d7eff9; }
-		&钻石       { --dark: #1f5993; --light: #69a3e6; --color: #1f4069; }
-		&珍珠       { --dark: #9b619b; --light: #eedeff; --color: #cd8ac4; }
-		&白金       { --dark: #3a3a4a; --light: #c5ced6; --color: #4a4a5a; }
-		&心金       { --dark: #734120; --light: #ffb410; --color: #ac6220; }
-		&魂银       { --dark: #0062bd; --light: #bdcdff; --color: #6283a4; }
-		&黑         { --dark: #101010; --light: #484848; --color: #c8c8d8; }
-		&白         { --dark: #686890; --light: #e8e8f8; --color: #181818; }
-		&黑2        { --dark: #101010; --light: #484848; --color: #20a0f0; }
-		&白2        { --dark: #686890; --light: #e8e8f8; --color: #c03848; }
-		&X          { --dark: #434EA6; --light: #6A7EF4; --color: #1B1F42; }
-		&Y          { --dark: #894149; --light: #FF4239; --color: #391B1E; }
-		&终极红宝石 { --dark: #5d1230; --light: #e9202a; --color: #fef8bc; }
-		&始源蓝宝石 { --dark: #08142c; --light: #006bb1; --color: #cfe9ea; }
-		&太阳       { --dark: #EE5324; --light: #FAE35B; --color: #EE5324; }
-		&月亮       { --dark: #574188; --light: #35BCE8; --color: #47357E; }
-		&究极之日   { --dark: #630;    --light: #FAE35B; --color: #630; }
-		&究极之月   { --dark: #036;    --light: #35BCE8; --color: #036; }
-		&LGP        { --dark: #d8a82c; --light: #eac12b; --color: #f8871f; }
-		&LGE        { --dark: #b3580f; --light: #d9842a; --color: #ad6125; }
-	}
+  &game--{
+    &红         { --dark: #d04830; --light: #f8c058; --color: #d04830; }
+    &绿         { --dark: #68a878; --light: #c0e090; --color: #68a878; }
+    &蓝         { --dark: #38c0e0; --light: #bddcf5; --color: #38c0e0; }
+    &黄,&皮卡丘 { --dark: #e0b848; --light: #f8f898; --color: #e0b848; }
+    &金         { --dark: #c87818; --light: #f8a818; --color: #904830; }
+    &银         { --dark: #6283a4; --light: #bdcdff; --color: #101010; }
+    &水晶       { --dark: #4a83b4; --light: #5abdd5; --color: #294a7b; }
+    &红宝石     { --dark: #a82838; --light: #f87880; --color: #782028; }
+    &蓝宝石     { --dark: #3860b0; --light: #58a0f8; --color: #303870; }
+    &火红       { --dark: #d06850; --light: #f89040; --color: #a84000; }
+    &叶绿       { --dark: #40a018; --light: #68c840; --color: #206030; }
+    &绿宝石     { --dark: #488070; --light: #58b888; --color: #385038; }
+    &XD         { --dark: #d21e2a; --light: #21181b; --color: #d7eff9; }
+    &钻石       { --dark: #1f5993; --light: #69a3e6; --color: #1f4069; }
+    &珍珠       { --dark: #9b619b; --light: #eedeff; --color: #cd8ac4; }
+    &白金       { --dark: #3a3a4a; --light: #c5ced6; --color: #4a4a5a; }
+    &心金       { --dark: #734120; --light: #ffb410; --color: #ac6220; }
+    &魂银       { --dark: #0062bd; --light: #bdcdff; --color: #6283a4; }
+    &黑         { --dark: #101010; --light: #484848; --color: #c8c8d8; }
+    &白         { --dark: #686890; --light: #e8e8f8; --color: #181818; }
+    &黑2        { --dark: #101010; --light: #484848; --color: #20a0f0; }
+    &白2        { --dark: #686890; --light: #e8e8f8; --color: #c03848; }
+    &X          { --dark: #434EA6; --light: #6A7EF4; --color: #1B1F42; }
+    &Y          { --dark: #894149; --light: #FF4239; --color: #391B1E; }
+    &终极红宝石 { --dark: #5d1230; --light: #e9202a; --color: #fef8bc; }
+    &始源蓝宝石 { --dark: #08142c; --light: #006bb1; --color: #cfe9ea; }
+    &太阳       { --dark: #EE5324; --light: #FAE35B; --color: #EE5324; }
+    &月亮       { --dark: #574188; --light: #35BCE8; --color: #47357E; }
+    &究极之日   { --dark: #630;    --light: #FAE35B; --color: #630; }
+    &究极之月   { --dark: #036;    --light: #35BCE8; --color: #036; }
+    &LGP        { --dark: #d8a82c; --light: #eac12b; --color: #f8871f; }
+    &LGE        { --dark: #b3580f; --light: #d9842a; --color: #ad6125; }
+  }
 
-	&gen--{
-		&1 { --light: #dd3b76; --dark: #c92e69; }
-		&2 { --light: #f2cb16; --dark: #ad8f0d; }
-		&3 { --light: #0EC730; --dark: #0B9122; }
-		&4 { --light: #008CD7; --dark: #005C8C; }
-		&5 { --light: #EE8C81; --dark: #e86354; }
-		&6 { --light: #8fa4ad; --dark: #6f8a96; }
-		&7 { --light: #5AC8FA; --dark: #10aff8; }
-	}
-	
-	&mc--{
-		&physical, &物理 { --light: #f05030; --dark: #702008; --color:#f8c030; }
-		&special,  &特殊 { --light: #5070a8; --dark: #483850; --color:#c0d8f8; }
-		&other,    &变化 { --light: #a8a090; --dark: #505050; --color:#f8f8f8; }
-	}
-	
-	&stat--{
-		&hp  { --dark:#03be3b; --light: #12fb58; }
-		&at  { --dark:#beb700; --light: #fff60c; }
-		&df  { --dark:#b45f00; --light: #ff8701; }
-		&sa  { --dark:#07b3b7; --light: #14f1f6; }
-		&sd  { --dark:#0236bb; --light: #0d50fc; }
-		&sp  { --dark:#a403b3; --light: #e608fb; }
-		&sum { --dark:#d463a1; }
-	}
+  &gen--{
+    &1 { --light: #dd3b76; --dark: #c92e69; }
+    &2 { --light: #f2cb16; --dark: #ad8f0d; }
+    &3 { --light: #0EC730; --dark: #0B9122; }
+    &4 { --light: #008CD7; --dark: #005C8C; }
+    &5 { --light: #EE8C81; --dark: #e86354; }
+    &6 { --light: #8fa4ad; --dark: #6f8a96; }
+    &7 { --light: #5AC8FA; --dark: #10aff8; }
+  }
+  
+  &mc--{
+    &physical, &物理 { --light: #f05030; --dark: #702008; --color:#f8c030; }
+    &special,  &特殊 { --light: #5070a8; --dark: #483850; --color:#c0d8f8; }
+    &other,    &变化 { --light: #a8a090; --dark: #505050; --color:#f8f8f8; }
+  }
+  
+  &stat--{
+    &hp  { --dark:#03be3b; --light: #12fb58; }
+    &at  { --dark:#beb700; --light: #fff60c; }
+    &df  { --dark:#b45f00; --light: #ff8701; }
+    &sa  { --dark:#07b3b7; --light: #14f1f6; }
+    &sd  { --dark:#0236bb; --light: #0d50fc; }
+    &sp  { --dark:#a403b3; --light: #e608fb; }
+    &sum { --dark:#d463a1; }
+  }
 }

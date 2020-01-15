@@ -2,7 +2,8 @@ let funcPool = {
   foo: [
     function bar(){
     },
-  ],
+  ],
+
 };
 let alivEvents = {};
 
@@ -16,10 +17,12 @@ const on = function ( eventName, func ) {
 };
 
 const trigger = function ( eventName ) {
+  console.log( 'hook: ' + eventName + ' on' );
   run( eventName );
 };
 
 const keepAlive = function ( eventName ) {
+  console.log( 'hook: ' + eventName + ' alive' );
   run( eventName, true );
   alivEvents[eventName] = true;
 };

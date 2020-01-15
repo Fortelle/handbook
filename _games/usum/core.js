@@ -12,35 +12,35 @@ let init = function () {
 };
 
 pmBase.sprite.add( 'pi7', {
-	url : '/usum/images/pi.min.png',
-	width: 40,
-	height:32,
-	col: 30,
-	toIndex: function(pid){
-	  let i = pokemoniconIndex.indexOf( pid );
-	  if ( i > -1 ) {
-	    return i;
-	  } else {
-	    return pokemoniconIndex.indexOf( pmBase.common.getPokemonID(pid,0) );
-	  }
-	}
+  url : '/usum/images/pi.min.png',
+  width: 40,
+  height:32,
+  col: 30,
+  toIndex: function(pid){
+    let i = pokemoniconIndex.indexOf( pid );
+    if ( i > -1 ) {
+      return i;
+    } else {
+      return pokemoniconIndex.indexOf( pmBase.common.getPokemonID(pid,0) );
+    }
+  }
 });
 
 pmBase.sprite.add( 'item7', {
-	url : '/usum/images/items.reindexed.min.png',
-	width: 32,
-	height: 32,
-	col: 30
+  url : '/usum/images/items.reindexed.min.png',
+  width: 32,
+  height: 32,
+  col: 30
 });
 
 pmBase.sprite.add( 'class', {
-	url : '/usum/images/classes.min.png',
-	width: 64,
-	height: 64,
-	col: 10
+  url : '/usum/images/classes.min.png',
+  width: 64,
+  height: 64,
+  col: 10
 });
 
-pmBase.loader.load('common','main');
+pmBase.loader.load('pmcommon');
 
 export default {
   getPokemonData,

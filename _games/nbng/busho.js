@@ -42,8 +42,8 @@ function init(){
     '智力',
     '魅力',
     '才量',
-	];
-	
+  ];
+  
   pmBase.content.build({
     pages: [{
       content: pmBase.content.create('sortlist',listData,listHead),
@@ -91,17 +91,17 @@ function showBusho( bushoIndex ){
     ];
   });
   let listPokemonHead=[
-		'图标',
-		'宝可梦',
-		'属性',
-		'HP',
-		'攻击力',
-		'防御力',
-		'速度',
-		'移动',
-		'招式',
-		'特性',
-		'最大连接',
+    '图标',
+    '宝可梦',
+    '属性',
+    'HP',
+    '攻击力',
+    '防御力',
+    '速度',
+    '移动',
+    '招式',
+    '特性',
+    '最大连接',
   ];
   
   let infoData = [
@@ -147,15 +147,15 @@ function showBusho( bushoIndex ){
   });
   
   let listHabitatHead=[
-		'剧本',
-		'',
-		'势力',
-		'类型',
-		'',
-		'城池',
-		'',
-		'搭档宝可梦',
-		'默认连接',
+    '剧本',
+    '',
+    '势力',
+    '类型',
+    '',
+    '城池',
+    '',
+    '搭档宝可梦',
+    '默认连接',
   ];
   
   let html = `

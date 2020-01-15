@@ -250,8 +250,8 @@ let moveData = [
 ];
 
 pmBase.util.arr2obj(
-	moveData,
-	["name","desc","icon","type","damage","charge"]
+  moveData,
+  ["name","desc","icon","type","damage","charge"]
 );
 
 export default moveData;

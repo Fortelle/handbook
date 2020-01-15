@@ -4,7 +4,7 @@
     width : 0,
     height : 0,
     col : 0,
-    indexList : [],
+    keys : [],
   }
 }
 
@@ -16,8 +16,8 @@ function get ( key, value, displayWidth ) {
   let opt = modules[key];
   if ( !opt ) return '';
   let index  = value;
-  if ( opt.indexList ) {
-    index = opt.indexList.indexOf( value );
+  if ( opt.keys ) {
+    index = opt.keys.indexOf( value );
   } else if ( opt.toIndex ) {
     index = opt.toIndex( value );
   }
@@ -27,13 +27,32 @@ function get ( key, value, displayWidth ) {
   let x      = width * ( index % opt.col );
   let y      = height * Math.floor( index / opt.col );
   let bgWidth = opt.width * scale * opt.col;
-  
-  let html = `<div class="p-sprite" style="display:inline-block;vertical-align:bottom;
-    background:url(${opt.url}) no-repeat -${x}px -${y}px;
-    background-size: ${bgWidth}px auto;
+  let wrapperStyle = `
     height: ${height}px;
     width: ${width}px;
-    " data-value="${value}" title="${value}"></div>`;
+  `;
+  let iconStyle = `
+      background:url(${opt.url}) no-repeat -${x}px -${y}px;
+      background-size: ${bgWidth}px auto;
+      height: ${height}px;
+      width: ${width}px;
+    `;
+
+  if( opt.crop ) {
+    wrapperStyle = `
+      height: ${opt.crop[2]}px;
+      width: ${opt.crop[3]}px;
+    `;
+    iconStyle += `
+      position: relative;
+      left: -${opt.crop[0]}px;
+      top: -${opt.crop[1]}px;
+    `;
+  }
+
+  let html = `<div class="p-sprite" data-value="${value}" title="${value}" style="display: inline-block; vertical-align:bottom; ${wrapperStyle}">
+    <div class="p-sprite__icon" style="${iconStyle}"></div></div>`;
+
   return html;
   //return create( opt.url, opt.width, opt.height, opt.col, index, scale, value );
 }

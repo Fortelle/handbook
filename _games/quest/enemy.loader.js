@@ -4,17 +4,17 @@ import enemyData from './data/enemydata.js';
 import moveData from './data/movedata.js';
 
 pmBase.util.arr2obj(
-	enemyData,
-	["hpBasis","attackBasis","dropType","skillIDs","skillStoneIDs","passiveStoneIDs"],
-	function( key, data ) {
-		data['monsterNo'] = key.split('.')[0];
-		return data;
-	}
+  enemyData,
+  ["hpBasis","attackBasis","dropType","skillIDs","skillStoneIDs","passiveStoneIDs"],
+  function( key, data ) {
+    data['monsterNo'] = key.split('.')[0];
+    return data;
+  }
 );
 
 export {
-	stoneData,
-	enemyData,
-	enemyPack,
-	moveData,
+  stoneData,
+  enemyData,
+  enemyPack,
+  moveData,
 };

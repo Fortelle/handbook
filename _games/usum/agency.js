@@ -19,16 +19,17 @@ function init(){
     htmlSelect += `<option value="${i}">${i}　${name}</option>`;
   });
   
-	pmBase.content.build({
-	  pages: [{
-	    control: htmlSelect,
-	    content: change,
-	  }]
-	});
+  pmBase.content.build({
+    pages: [{
+      selector: htmlSelect,
+      content: change,
+    }]
+  });
   
 }
 
-function change( number ) {
+function change( hash ) {
+  let number = ~~hash.value;
   if ( !(number in partymonGroup ) ) return;
   
   let html = '';

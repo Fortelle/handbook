@@ -31,20 +31,21 @@ function init(){
       ] );
     });
       
-  	pmBase.content.build({
-  	  pages: [{
-  	    content: pmBase.content.create('list',listData),
-  	  },{
-  	    control: htmlSelect,
-  	    content: change,
-  	  }]
-  	});
-	
-  	
+    pmBase.content.build({
+      pages: [{
+        content: pmBase.content.create('list',{list:listData}),
+      },{
+        selector: htmlSelect,
+        content: change,
+      }]
+    });
+  
+    
   });
 }
 
-function change( trIndex ) {
+function change( hash ) {
+  let trIndex = ~~hash.value;
   if ( ! (trIndex in npcDataArray) ) return false;
   let trPokemonList = npcDataArray[trIndex].pokemon;
   

@@ -6,12 +6,12 @@ import poketoru from '../core.js';
 import popover from '../popover.js';
 
 function init() {
-	let tbody = '';
+  let tbody = '';
   let sumMSU = 0;
   
-	let hash = window.location.hash.slice(1);
-	let binArray = ( hash.length > 0 ) ? pmBase.util.base64ToBin(hash).split('').reverse() : [];
-	debug(binArray);
+  let hash = window.location.hash.slice(1);
+  let binArray = ( hash.length > 0 ) ? pmBase.util.base64ToBin(hash).split('').reverse() : [];
+  debug(binArray);
   let html = `
   <div class="card">
   <div class="card-body p-text"></div>
@@ -28,8 +28,8 @@ function init() {
       sumMSU += megaData.msu;
       html += `<div class="col-4 col-md-2 col-lg-1 small"><label style="display:block;">
       <div class="card m-1  ${binArray[i]==='1'?'bg-primary':''}  p-pkmn"><div class="card-body p-1 text-center">
-  		  ${ poketoru.getPokemonIcon( megaData ) }
-  		  <input type="checkbox" name="msu" value="${megaData.msu}" style="display:none;"  ${binArray[i]==='1'?'checked':''}/>
+        ${ poketoru.getPokemonIcon( megaData ) }
+        <input type="checkbox" name="msu" value="${megaData.msu}" style="display:none;"  ${binArray[i]==='1'?'checked':''}/>
         <br>${megaData.ms} - ${megaData.msu} = ${megaData.ms - megaData.msu}
       </div></div>
       </label></div>`;
@@ -42,10 +42,10 @@ function init() {
     }]
   });
   
-	popover.apply();
-	calc();
-	
-	$('input[name=msu]').change( calc );
+  popover.apply();
+  calc();
+  
+  $('input[name=msu]').change( calc );
 };
 
 function calc(){

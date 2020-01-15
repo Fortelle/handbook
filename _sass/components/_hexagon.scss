@@ -1,13 +1,13 @@
 ﻿// https://github.com/web-tiki/responsive-grid-of-hexagons
 
-$data: (
-  ( 10000px,       6 ),
-  ( $break-large,  4 ),
-  ( $break-medium, 3 ),
-  ( $break-small,  2 ),
+$data: ((10000px, 6),
+  ($break-large, 4),
+  ($break-medium, 3),
+  ($break-small, 2),
 );
 
 .c-hexagon {
+
   display: flex;
   flex-wrap: wrap;
   margin: 0 auto;
@@ -16,21 +16,22 @@ $data: (
   list-style-type: none;
   width: 80%;
   padding: 0;
-  
+
   @each $d in $data {
-    $breakpoint: nth($d,1);
-    $cols: nth($d,2);
-    
-    @media ( max-width: $breakpoint ) {
+    $breakpoint: nth($d, 1);
+    $cols: nth($d, 2);
+
+    @media (max-width: $breakpoint) {
       padding-bottom: 25% / $cols;
-      
+
       &__item {
         width: 100% / $cols;
-        &:nth-child(#{$cols*2-1}n+#{$cols+1}){
+
+        &:nth-child(#{$cols*2-1}n+#{$cols+1}) {
           margin-left: 50% / $cols;
         }
       }
-      
+
       &__icon,
       &__icon_hover {
         font-size: #{$cols * 12}px;
@@ -40,65 +41,64 @@ $data: (
 
   &__item {
     position: relative;
-    visibility:hidden;
-    outline:1px solid transparent; /* fix for jagged edges in FF on hover transition */
+    visibility: hidden;
+    outline: 1px solid transparent;
+    /* fix for jagged edges in FF on hover transition */
     color: #fff;
-    
-    &::after{
-      content:'';
-      display:block;
-      padding-bottom: 86.602%;  /* =  100 / tan(60) * 1.5 */
+
+    &::after {
+      content: '';
+      display: block;
+      padding-bottom: 86.602%;
+      /* =  100 / tan(60) * 1.5 */
     }
   }
-  
+
   &__inner {
     position: absolute;
-    width:96%;
-    padding-bottom: 110.851%; /* =  width / sin(60) */
-    margin:0 2%;
+    width: 96%;
+    padding-bottom: 110.851%;
+    /* =  width / sin(60) */
+    margin: 0 2%;
     overflow: hidden;
-    outline:1px solid transparent; /* fix for jagged edges in FF on hover transition */
-            transform: rotate3d(0,0,1,-60deg) skewY(30deg);
+    outline: 1px solid transparent;
+    /* fix for jagged edges in FF on hover transition */
+    transform: rotate3d(0, 0, 1, -60deg) skewY(30deg);
+
     * {
-      outline:1px solid transparent; /* fix for jagged edges in FF on hover transition */
+      outline: 1px solid transparent;
+      /* fix for jagged edges in FF on hover transition */
     }
   }
-  
+
   &__link {
-    display:block;
+    display: block;
     width: 100%;
     height: 100%;
     text-align: center;
     color: #fff;
     overflow: hidden;
-    transform: skewY(-30deg) rotate3d(0,0,1,60deg);
+    transform: skewY(-30deg) rotate3d(0, 0, 1, 60deg);
     position: absolute;
     visibility: visible;
+
     &:hover {
       color: inherit !important;
-      
+
       .c-hexagon__background {
-        background-color:#2bbeff;
+        background-color: var(--hexagon-light--default);
       }
+
       .c-hexagon__icon {
-        display:none;
+        display: none;
       }
+
       .c-hexagon__icon_hover {
-        display:block;
+        display: block;
       }
-      /*
-      .c-hexagon__title,
-      .c-hexagon__text{
-        transform:translate3d(0,0,0);
-      }
-      
-      .c-hexagon__background {
-        //background-color:white;
-      }
-      */
     }
   }
-  
+
   &__background {
     left: -100%;
     right: -100%;
@@ -106,43 +106,43 @@ $data: (
     height: 100%;
     margin: 0 auto;
     position: absolute;
-    transform: rotate3d(0,0,0,0deg);
-    background-color: #09d;
+    transform: rotate3d(0, 0, 0, 0deg);
+    background-color: var(--hexagon-dark--default);
     display: flex;
+
     p {
       margin: auto;
     }
   }
-  
+
   &__icon {
-    display:block;
+    display: block;
   }
+
   &__icon_hover {
-    display:none;
+    display: none;
   }
-      
-    
-  
+
   &__title,
   &__text {
     width: 100%;
     padding: 5%;
-    box-sizing:border-box;
-    background-color: #f2f2f2;    //, 0.8
+    box-sizing: border-box;
+    background-color: #f2f2f2; //, 0.8
     //background-color: rgb(0, 128, 128);    //, 0.8
     font-weight: 300;
-    color:gray;
+    color: gray;
     position: absolute;
-     transition:          transform .2s ease-out, opacity .3s ease-out;
+    transition: transform .2s ease-out, opacity .3s ease-out;
   }
-  
+
   &__title {
     bottom: 50%;
-    padding-top:50%;
+    padding-top: 50%;
     font-size: 1.3em;
     z-index: 1;
-    transform:translate3d(0,-100%,0);
-            
+    transform: translate3d(0, -100%, 0);
+
     &::after {
       content: '';
       position: absolute;
@@ -153,10 +153,21 @@ $data: (
       border-bottom: 1px solid #fff;
     }
   }
-    &__text {
-      top: 50%;
-      padding-bottom:50%;
-              transform:translate3d(0,100%,0);
-    }
 
+  &__text {
+    top: 50%;
+    padding-bottom: 50%;
+    transform: translate3d(0, 100%, 0);
+  }
+
+}
+
+
+.c-hexagon{
+  --hexagon-dark--default: #09d;
+  --hexagon-light--default: #2bbeff;
+  &--tool {
+    --hexagon-dark--default: #d90;
+    --hexagon-light--default: #ffbe2b;
+  }
 }
