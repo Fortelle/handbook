@@ -122,7 +122,6 @@ function init() {
         }
       }
     }
-    console.log(Families);
 
     let selector = Object.keys(Learnsets)
       .map( key => { return {
@@ -388,7 +387,6 @@ function findEggRoutes(pid, partners, mi) {
   else {
     families = families.map(x=>x.replace('.','.0'));
   }
-  console.log(families);
 
   partners.forEach( pid2=> {
     if( families.includes(pid2) )return;

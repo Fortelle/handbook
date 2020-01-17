@@ -1,4 +1,4 @@
-﻿let modules = {
+﻿const modules = {
   default : {
     url : '',
     width : 0,
@@ -17,7 +17,7 @@ function get ( key, value, displayWidth ) {
   if ( !opt ) return '';
   let index  = value;
   if ( opt.keys ) {
-    index = opt.keys.indexOf( value );
+    index = opt.keys.indexOf( value ) || 0;
   } else if ( opt.toIndex ) {
     index = opt.toIndex( value );
   }
@@ -37,6 +37,7 @@ function get ( key, value, displayWidth ) {
       height: ${height}px;
       width: ${width}px;
     `;
+  
 
   if( opt.crop ) {
     wrapperStyle = `
@@ -50,6 +51,9 @@ function get ( key, value, displayWidth ) {
     `;
   }
 
+  if( opt.style ) {
+    wrapperStyle += opt.style;
+  }
   let html = `<div class="p-sprite" data-value="${value}" title="${value}" style="display: inline-block; vertical-align:bottom; ${wrapperStyle}">
     <div class="p-sprite__icon" style="${iconStyle}"></div></div>`;
 

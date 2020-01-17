@@ -41,7 +41,6 @@ export function importModule(url) {
 function using(arr,callback) {
   let gkey = `/${config.get( 'gameKey')}/`;
   let url = arr.map( x=>x.replace('./',gkey));
-  debug(url);
   if ( url.length == 1 ) {
     importModule(url[0]).then( a => {
       callback([a.default]);
