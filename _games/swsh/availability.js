@@ -17,6 +17,7 @@ function getEntry(pid) {
       hasRaid: false,
       random: [],
       symbol: [],
+      special: [],
       raid: [],
     };
     PokemonList[pid] = entry;
@@ -28,6 +29,7 @@ function init() {
   pmBase.data.add('encounters', '../data/encounters.json');
   pmBase.data.add('nesthole', '../data/nesthole.json');
   pmBase.data.add('misc', '../data/encounter_misc.json');
+  pmBase.data.add('event_encount_data', '../data/event_encount_data.json');
   pmBase.data.add('dexindexes', '../data/dexindexes.json');
 
   pmBase.data.add('monsname', '../text/monsname.json');
@@ -57,10 +59,17 @@ function init() {
         let entry = getEntry(pmId);
         entry.raid.push([tableIndex, slot.Weights]);
         entry.hasRaid |= version;
-        entry.hasHiddenAbility |= slot.Ability >= 3;
+        entry.hasHiddenAbility |= slot.Ability == 2 || slot.Ability == 4;
       }
     });
 
+    pmBase.data.get('event_encount_data').forEach( (pkmn, pkmnIndex) => {
+      let version = 3;
+      let pmId = pmCommon.getPokemonID(pkmn.Pokemon, pkmn.Form);
+      let entry = getEntry(pmId);
+      entry.special.push(pkmnIndex);
+      entry.hasWild |= version;
+    });
 
     let pokemonArray = Object.values(PokemonList).sort((a, b) => a.sort - b.sort);
     let html = '';
@@ -138,6 +147,21 @@ function show(hash) {
     }
   }
 
+  let specialList = [];
+  for( let pindex of entry.special ) {
+    misc.SpecialSymbolList.forEach(x=>{
+      if (!x[2].includes(pindex)) return;
+      let nestName = `${misc.WildAreaNames[x[0]]}-${x[1]}`;
+      specialList.push([
+        nestName,
+        '剑盾',
+        ...x[2].map(y=>y==pindex?'100%':'-'),
+        '-',
+        '-'
+      ]);
+    });
+  }
+
   let nestList = [];
   for( let row of entry.raid ) {
     let tableIndex = ~~(row[0]/2);
@@ -175,13 +199,27 @@ function show(hash) {
     type: 'list',
     sortable: true,
     card: true,
-    title: '固定单位',
+    title: '地图遇敌',
     columns: [
       {header:'地图',width:'20%'},
       {header:'版本',width:'10%'},
       ...misc.WeatherNames
     ],
     list: symbolList,
+  });
+
+  if (specialList.length>0)
+  content += pmBase.content.create({
+    type: 'list',
+    sortable: true,
+    card: true,
+    title: '固定位置',
+    columns: [
+      {header:'地图',width:'20%'},
+      {header:'版本',width:'10%'},
+      ...misc.WeatherNames
+    ],
+    list: specialList,
   });
 
   if (nestList.length>0)
