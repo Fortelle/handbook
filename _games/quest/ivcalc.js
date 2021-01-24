@@ -1,13 +1,19 @@
 import pokemonData from './data/pokemondata.js';
 
 function init(){
-  var html = ''
-  $.each( pokemonData, function( i, pData) {
-    html += '<option value="'+i+'">'+String('00').concat(i).slice(-3) + ' ' + pmBase.util.getPokemonName(i)+'</option>';
-  });
-  $('.calc__pokemon').html(html);
+  pmBase.data.add('monsname', '../../swsh/text/monsname.json');
   
-  $('.calc__ok').click(calc);
+  pmBase.data.load(function() {
+
+    var html = ''
+    $.each( pokemonData, function( i, pData) {
+      html += '<option value="'+i+'">'+String('00').concat(i).slice(-3) + ' ' + pmBase.data.get("monsname",i)+'</option>';
+    });
+    $('.calc__pokemon').html(html);
+    
+    $('.calc__ok').click(calc);
+
+  });
 }
 
 function calc(){

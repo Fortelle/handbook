@@ -2,23 +2,33 @@ import './core.js';
 import {stoneData, enemyData, moveData} from './enemy.loader.js';
 
 function init(){
-  let html = '';
-  $.each( enemyData, function( key, data ){
-    var name = pmBase.common.getPokemonName(data.monsterNo);
-    html += `<option value="${key}">${data.monsterNo} ${name} (${data.hpBasis})</option>`;
-  });
-  
-  pmBase.content.build({
-    pages: [{
-      control: html,
-      content: selectenemy,
-    }],
+  pmBase.data.add('monsname', '../../swsh/text/monsname.json');
+  pmBase.data.add('typename', '../../swsh/text/typename.json');
+
+  pmBase.data.load(function() {
+
+    let selector = {};
+    console.log(enemyData);
+    $.each( enemyData, function( key, data ){
+      let name = pmBase.data.get("monsname",~~data.monsterNo);
+      selector[key] = `${data.monsterNo} ${name} (${data.hpBasis})`;
+    });
+    
+    pmBase.content.build({
+      pages: [{
+        selector: selector,
+        content: selectenemy,
+      }],
+    });
+
   });
 }
 
-function selectenemy( key ){
+function selectenemy( hash ){
+  if ( hash.isEmpty ) return;
+  let key = hash.value;
   let data = enemyData[key];
-  let name = pmBase.util.getPokemonName(data.monsterNo);
+  let name = pmBase.data.get("monsname",~~data.monsterNo);
   
   $('.c-enemyData__icon').html( pmBase.sprite.get('pokemon',data.monsterNo) );
   $('.c-enemyData__name').html( name );
